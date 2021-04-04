@@ -1,2 +1,3 @@
 # pwned-shop
-GDipSA52 Team9 ASP.NET assignment
+
+Pwned Shop is an online shopping website which sells Steam games.
