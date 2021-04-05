@@ -5,8 +5,4 @@
     <RootNamespace>pwned_shop</RootNamespace>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="ViewModels\" />
-  </ItemGroup>
-
 </Project>
