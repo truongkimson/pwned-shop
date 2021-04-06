@@ -9,7 +9,7 @@ namespace pwned_shop.Utils
 {
     public class PasswordHasher
     {
-        public static string Hash(string password)
+        public static string[] CreateHash(string password)
         {
             // generate a 128-bit salt using a secure PRNG (pseudo-random number generator)
             byte[] salt = new byte[128 / 8]; // 128 bits / 8 bits per byte = 16 byte-long array
@@ -25,7 +25,7 @@ namespace pwned_shop.Utils
                 prf: KeyDerivationPrf.HMACSHA256,
                 iterationCount: 10000,
                 numBytesRequested: 256 / 8));
-            return hashed;
+            return new string[] { hashed, Convert.ToBase64String(salt) };
         }
     }
 }
