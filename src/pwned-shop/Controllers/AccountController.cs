@@ -8,7 +8,7 @@ using pwned_shop.BindingModels;
 
 namespace pwned_shop.Controllers
 {
-    public class SessionController : Controller
+    public class AccountController : Controller
     {
         public IActionResult Login()
         {
@@ -18,7 +18,9 @@ namespace pwned_shop.Controllers
         [HttpPost]
         public IActionResult Login([FromForm] LoginDetails login)
         {
-            return Content($"Password hash is: {PasswordHasher.Hash(login.Password)}");
+            var result = PasswordHasher.CreateHash(login.Password);
+            return Content($"Password hash is: {result[0]}\n" +
+                $"Salt is: {result[1]}");
         }
     }
 }
