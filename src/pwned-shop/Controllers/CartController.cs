@@ -11,7 +11,7 @@ namespace pwned_shop.Controllers
         public IActionResult Index()
         {
             // TODO: Retrieve cart from session data or wherever cart data is stored
-            return Content("Not implemented yet");
+            return View();
         }
 
         public IActionResult UpdateCart(string productId, int qty)

@@ -7,9 +7,17 @@ namespace pwned_shop.Utils
 {
     public class ActivationCodeGenerator
     {
-        public static string GetCode()
+        public static Guid[] GetCode()
         {
-            throw new NotImplementedException();
+            // mock up code to simulate code generation for each product
+            // in the final implementation, GetCode() should take in a list
+            // of Product objects and return a list of corresponding activation codes
+            Guid[] codeList = new Guid[3];
+            for (int i = 0; i < 3; i++)
+            {
+                codeList[i] = Guid.NewGuid();
+            }
+            return codeList;
         }
     }
 }
