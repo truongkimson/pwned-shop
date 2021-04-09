@@ -9,15 +9,18 @@ namespace pwned_shop.Models
     public class Order
     {
         [Required]
-        public string OrderId { get; set; }
+        public int OrderId { get; set; }
         [Required]
-        public string UserId { get; set; }
+        public int UserId { get; set; }
         [Required]
         public DateTime Timestamp { get; set; }
-        public bool CheckoutStatus { get; set; }
         [MaxLength(8)]
         public string PromoCode { get; set; }
+        public bool CheckoutStatus { get; set; }
 
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+        public virtual Discount Discount { get; set; }
+        public virtual User User { get; set; }
+
     }
 }

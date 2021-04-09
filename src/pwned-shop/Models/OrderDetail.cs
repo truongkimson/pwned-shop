@@ -9,13 +9,16 @@ namespace pwned_shop.Models
     public class OrderDetail
     {
         [Required]
-        public string OrderId { get; set; }
+        public int OrderId { get; set; }
         [Required]
-        public string ProductId { get; set; }
+        public int ProductId { get; set; }
         [Required]
+        [MaxLength(36)]
         public string ActivationCode { get; set; }
-        public string ReceiverEmail { get; set; }
+        [MaxLength(25)]
+        public string GiftTo { get; set; }
 
         public virtual Product Product { get; set; }
+        public virtual Order Order { get; set; }
     }
 }

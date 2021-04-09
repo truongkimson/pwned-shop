@@ -9,21 +9,25 @@ namespace pwned_shop.Models
     public class Product
     {
         [Required]
-        [MaxLength(5)]
-        public string ProductId { get; set; }
+        public int ProductId { get; set; }
         [Required]
-        public string Description { get; set; }
+        [MaxLength(30)]
+        public string ProductName { get; set; }
         [Required]
-        public string Category { get; set; }
+        [MaxLength(100)]
+        public string ProductDesc { get; set; }
         [Required]
-        public double Price { get; set; }
+        [MaxLength(15)]
+        public string ProductCat { get; set; }
+        [Required]
+        public float UnitPrice { get; set; }
+        [Required]
         public string RatingESRB { get; set; }
-        public float UserRating { get; set; }
         [Required]
         public string ImgURL { get; set; }
         public string SteamLink { get; set; }
-        public float Discount { get; set; }
 
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+        public virtual Rating Rating { get; set; }
     }
 }
