@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
-
+using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -11,8 +11,10 @@ namespace pwned_shop.Models
 {
     public class User
     {
+        [Key]
         [Required]
-        public int UserId { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public int Id { get; set; }
         [Required]
         [MaxLength(30)]
         public string FirstName { get; set; }

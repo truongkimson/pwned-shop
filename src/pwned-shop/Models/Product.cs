@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace pwned_shop.Models
 {
     public class Product
     {
+        [Key]
         [Required]
-        public int ProductId { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public int Id { get; set; }
         [Required]
         [MaxLength(30)]
         public string ProductName { get; set; }
@@ -22,7 +25,7 @@ namespace pwned_shop.Models
         [Required]
         public float UnitPrice { get; set; }
         [Required]
-        public string RatingESRB { get; set; }
+        public string ESRBRating { get; set; }
         [Required]
         public string ImgURL { get; set; }
         public string SteamLink { get; set; }

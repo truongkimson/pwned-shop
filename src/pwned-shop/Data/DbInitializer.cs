@@ -1,6 +1,9 @@
 ﻿using System;
-using System.Linq;  
+using System.Linq;
+using System.IO;
+using System.Collections.Generic;
 using pwned_shop.Models;
+using System.Diagnostics;
 
 namespace pwned_shop.Data
 {
@@ -15,19 +18,45 @@ namespace pwned_shop.Data
                 return;
             }
 
-            var u = new User
+            // populate Users table
+            var rows = ReadCsv("Data/csv/UserProfile.csv");
+            Debug.WriteLine(rows.Count);
+            for (int i = 1; i < rows.Count; i++)
             {
-                FirstName = "Alfreds",
-                LastName = "Futterkiste",
-                PasswordHash = "NNVgyjH2Fodc/EP8O9D65CX15E48/vyIIHuHKSiH6z8=",
-                Salt = "P83Nl8w1ASxSfp1rR5Oi2Q==",
-                DOB = new DateTime(1988, 7, 6),
-                Email = "dprice@msn.com",
-                Address = "Obere Str. 57"
-            };
+                string format = "dd/mm/yyyy";
+                var row = rows[i];
+                User u = new User()
+                {
+                    Id = Convert.ToInt32(row[0]),
+                    FirstName = row[1],
+                    LastName = row[2],
+                    PasswordHash = row[3],
+                    Salt = row[4],
+                    DOB = DateTime.ParseExact(row[5], format, null),
+                    Email = row[6],
+                    Address = row[7]
+                };
 
-            db.Users.Add(u);
-            db.SaveChanges();
+                db.Users.Add(u);
+                db.SaveChanges();
+            }
+        }
+
+        public static List<string[]> ReadCsv(string path)
+        {
+            List<string[]> rows = new List<string[]>();
+            using (var reader = new StreamReader(path))
+            {
+                while (!reader.EndOfStream)
+                {
+                    var row = reader.ReadLine();
+                    var values = row.Split(',');
+
+                    rows.Add(values);
+                }
+            }
+
+            return rows;
         }
     }
 }

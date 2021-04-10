@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace pwned_shop.Models
 {
     public class Order
     {
+        [Key]
         [Required]
-        public int OrderId { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public int Id { get; set; }
         [Required]
         public int UserId { get; set; }
         [Required]

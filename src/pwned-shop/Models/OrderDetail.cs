@@ -12,6 +12,7 @@ namespace pwned_shop.Models
         public int OrderId { get; set; }
         [Required]
         public int ProductId { get; set; }
+        [Key]
         [Required]
         [MaxLength(36)]
         public string ActivationCode { get; set; }

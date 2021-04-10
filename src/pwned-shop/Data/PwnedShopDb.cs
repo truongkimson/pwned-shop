@@ -21,7 +21,7 @@ namespace pwned_shop.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<OrderDetail>().HasKey(o => new { o.OrderId, o.ActivationCode });
+            modelBuilder.Entity<Review>().HasKey(r => new { r.UserId, r.ProductId });
         }
     }
 }
