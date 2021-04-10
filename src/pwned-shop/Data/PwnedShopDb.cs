@@ -29,6 +29,11 @@ namespace pwned_shop.Data
                         .HasOne(p => p.Rating)
                         .WithMany(r => r.Products)
                         .HasForeignKey(p => p.ESRBRating);
+            modelBuilder.Entity<Order>()
+                        .HasOne(o => o.Discount)
+                        .WithMany(d => d.Orders)
+                        .HasForeignKey(o => o.PromoCode)
+                        .IsRequired(false);
         }
     }
 }

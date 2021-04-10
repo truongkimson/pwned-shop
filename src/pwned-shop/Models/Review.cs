@@ -10,15 +10,15 @@ namespace pwned_shop.Models
     {
         [Required]
         [MaxLength(5)]
-        public string UserId { get; set; }
+        public int UserId { get; set; }
         [Required]
         [MaxLength(5)]
-        public string ProductId { get; set; }
+        public int ProductId { get; set; }
         [Required]
         public DateTime ReviewDate { get; set; }
         [Required]
         [MaxLength(200)]
-        public string ReviewContent { get; set; }
+        public string Content { get; set; }
         [Required]
         public int StarAssigned { get; set; }
 

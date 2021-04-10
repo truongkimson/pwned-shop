@@ -14,8 +14,11 @@ namespace pwned_shop.Models
         [MaxLength(8)]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public string PromoCode { get; set; }
+        [Required]
         public float DiscountPercent { get; set; }
+        [Required]
         public DateTime StartDate { get; set; }
+        [Required]
         public DateTime EndDate { get; set; }
         [MaxLength(20)]
         public string Remarks { get; set; }

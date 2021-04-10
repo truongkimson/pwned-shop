@@ -75,6 +75,73 @@ namespace pwned_shop.Data
                 db.Products.Add(p);
             }
             db.SaveChanges();
+
+            // populate Discounts table using data from csv/Discount.csv
+            rows = ReadCsv("Data/csv/Discount.csv");
+            for (int i = 1; i < rows.Count; i++)
+            {
+                var row = rows[i];
+                Discount d = new Discount()
+                {
+                    PromoCode = row[0],
+                    StartDate = DateTime.ParseExact(row[1], dateFormat, null),
+                    EndDate = DateTime.ParseExact(row[2], dateFormat, null),
+                    Remarks = row[3],
+                    DiscountPercent = (float)Convert.ToDouble(row[4])
+                };
+
+                db.Discounts.Add(d);
+            }
+
+            // populate Orders table using data from csv/Orders.csv
+            rows = ReadCsv("Data/csv/Orders.csv");
+            for (int i = 1; i < rows.Count; i++)
+            {
+                var row = rows[i];
+                Order o = new Order()
+                {
+                    Id = Convert.ToInt32(row[0]),
+                    UserId = Convert.ToInt32(row[1]),
+                    Timestamp = DateTime.Parse(row[2]),
+                    PromoCode = row[3] == "" ? null : row[3]
+                };
+                Debug.WriteLine($"{o.PromoCode == null}");
+                db.Orders.Add(o);
+            }
+
+            // populate OrderDetails table using data from csv/OrderDetails.csv
+            rows = ReadCsv("Data/csv/OrderDetails.csv");
+            for (int i = 1; i < rows.Count; i++)
+            {
+                var row = rows[i];
+                OrderDetail od = new OrderDetail()
+                {
+                    OrderId = Convert.ToInt32(row[0]),
+                    ProductId = Convert.ToInt32(row[1]),
+                    ActivationCode = row[2],
+                    GiftTo = row[3]
+                };
+
+                db.OrderDetails.Add(od);
+            }
+
+            // populate Reviews table using data from csv/UserReviews.csv
+            rows = ReadCsv("Data/csv/UserReviews.csv");
+            for (int i = 1; i < rows.Count; i++)
+            {
+                var row = rows[i];
+                Review r = new Review()
+                {
+                    UserId = Convert.ToInt32(row[0]),
+                    ProductId = Convert.ToInt32(row[1]),
+                    ReviewDate = DateTime.ParseExact(row[2], dateFormat, null),
+                    Content = row[3],
+                    StarAssigned = Convert.ToInt32(row[4])
+                };
+
+                db.Reviews.Add(r);
+            }
+            db.SaveChanges();
         }
 
         public static List<string[]> ReadCsv(string path)

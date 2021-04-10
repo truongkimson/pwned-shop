@@ -21,7 +21,9 @@ namespace pwned_shop.Models
         public string PromoCode { get; set; }
 
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+
         public virtual Discount Discount { get; set; }
+
         public virtual User User { get; set; }
 
     }
