@@ -14,19 +14,21 @@ namespace pwned_shop.Models
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
         [Required]
-        [MaxLength(30)]
+        [MaxLength(80)]
         public string ProductName { get; set; }
         [Required]
-        [MaxLength(100)]
+        [MaxLength(200)]
         public string ProductDesc { get; set; }
         [Required]
-        [MaxLength(15)]
-        public string ProductCat { get; set; }
+        [MaxLength(60)]
+        public string CatTags { get; set; }
         [Required]
         public float UnitPrice { get; set; }
         [Required]
+        [MaxLength(5)]
         public string ESRBRating { get; set; }
         [Required]
+        [MaxLength(80)]
         public string ImgURL { get; set; }
         public string SteamLink { get; set; }
 

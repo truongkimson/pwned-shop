@@ -12,9 +12,12 @@ namespace pwned_shop.Models
         [Key]
         [Required]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [MaxLength(5)]
         public string ESRBRating { get; set; }
         [Required]
+        [MaxLength(110)]
         public string RatingDesc { get; set; }
+        [MaxLength(5)]
         public string AgeGroup { get; set; }
 
         public virtual ICollection<Product> Products { get; set; }

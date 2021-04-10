@@ -19,7 +19,6 @@ namespace pwned_shop.Models
         public DateTime Timestamp { get; set; }
         [MaxLength(8)]
         public string PromoCode { get; set; }
-        public bool CheckoutStatus { get; set; }
 
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
         public virtual Discount Discount { get; set; }

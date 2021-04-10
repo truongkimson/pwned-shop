@@ -16,7 +16,7 @@ namespace pwned_shop.Models
         [Required]
         [MaxLength(36)]
         public string ActivationCode { get; set; }
-        [MaxLength(25)]
+        [MaxLength(40)]
         public string GiftTo { get; set; }
 
         public virtual Product Product { get; set; }

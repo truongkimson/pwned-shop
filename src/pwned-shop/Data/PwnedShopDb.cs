@@ -18,10 +18,17 @@ namespace pwned_shop.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
+        public DbSet<Rating> Ratings { get; set; }
+        public DbSet<Discount> Discounts { get; set; }
+        public DbSet<Review> Reviews { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Review>().HasKey(r => new { r.UserId, r.ProductId });
+            modelBuilder.Entity<Product>()
+                        .HasOne(p => p.Rating)
+                        .WithMany(r => r.Products)
+                        .HasForeignKey(p => p.ESRBRating);
         }
     }
 }
