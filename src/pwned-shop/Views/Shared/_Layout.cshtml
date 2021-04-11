@@ -16,13 +16,15 @@
 <body>
     <header>
         <nav class="topnav">
-            <img class="imageshoplogo"><img src="~/bannerImg/pwnedshoplogo.png" style="height: 100%" ; />
+            <a asp-area="" asp-controller="Product" asp-action="Index">
+                <img class="imageshoplogo"><img src="~/bannerImg/pwnedshopicon.png" style="height: 100%" />
+            </a>
             <ul class="nav">
                 <li class="nav-item">
                     <a class="nav-link" asp-area="" asp-controller="" asp-action="">Homepage</a>
                 </li>
                 <li>
-                    <a class="nav-link" asp-area="" asp-controller="Game" asp-action="Index">All Games</a>
+                    <a class="nav-link" asp-area="" asp-controller="Product" asp-action="Index">All Games</a>
                 </li>
                 <li>
                     <a class="nav-link" asp-area="" asp-controller="" asp-action=""><span style="color:#C10000">Hot Deals</span></a>
@@ -31,16 +33,31 @@
         </nav>
 
         <div class="bottomnav">
-            <a class="helloname">Hello, </a>
+            @if (ViewData["userName"] != null)
+            {
+                <a class="helloname">Hello, @ViewData["userName"]</a>
+            }
+            else
+            {
+                <a class="helloname">Hello, Guest</a>
+            }
             <ul class="navbottom">
                 <li class="bottomitem">
-                    <a class="nav-link" asp-area="" asp-controller="" asp-action=""><i class="fas fa-cart-plus"></i></a>
+                    <a class="nav-link" asp-area="" asp-controller="Cart" asp-action="Index">Cart <i class="fas fa-cart-plus"></i></a>
                 </li>
                 <li>
-                    <a class="nav-link" asp-area="" asp-controller="" asp-action="">My Purchases <i class="fas fa-shopping-bag"></i></a>
+                    <a class="nav-link" asp-area="" asp-controller="Order" asp-action="Checkout">My Purchases <i class="fas fa-shopping-bag"></i></a>
                 </li>
                 <li>
-                    <a class="nav-link" asp-area="" asp-controller="" asp-action=""> Logout<i class="fas fa-sign-out-alt" style="float: left"></i></a>
+                    @if (ViewData["userName"] != null)
+                    {
+                        <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Logout">Log Out <i class="fas fa-sign-out-alt" style="vertical-align: middle;"></i></a>
+                    }
+                    else
+                    {
+                        <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Login">Log In <i class="fas fa-sign-in-alt" style="vertical-align: middle;"></i></a>
+                    }
+
                 </li>
             </ul>
         </div>

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,21 +22,38 @@ namespace pwned_shop.Controllers
 
         public IActionResult Login()
         {
-            return View(); 
+            return View();
         }
 
         [HttpPost]
-        public IActionResult Login([FromForm] LoginDetails login, string salt)
+        public IActionResult Login([FromForm] LoginDetails login)
         {
-            var result = PasswordHasher.Hash(login.Password, salt);
-            // TODO: verify against db if credentials provided are valid and redirect to "next" page
-            return Content($"Password hash is: {result}");
+            var user = db.Users.FirstOrDefault(u => u.Email == login.Email);
+            if (user != null)
+            {
+                string pwdHash = PasswordHasher.Hash(login.Password, user.Salt);
+                if (pwdHash == user.PasswordHash)
+                {
+                    HttpContext.Session.SetString("UserId", user.Id.ToString());
+                    return RedirectToAction("Index", "Product");
+                }
+                else
+                {
+                    TempData["error"] = "Incorrect password";
+                    return RedirectToAction("Login");
+                }
+            }
+            else
+            {
+                TempData["error"] = "Account not found";
+                return RedirectToAction("Login");
+            }
         }
 
         public IActionResult Logout()
         {
-            // TODO: Log out action, clear session, redirect to landing page
-            return Content("Not yet implemented");
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index", "Product");
         }
 
         public IActionResult Register()

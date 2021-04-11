@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +21,13 @@ namespace pwned_shop.Controllers
 
         public IActionResult Index()
         {
-            // TODO: gallery page
+            string userId = HttpContext.Session.GetString("UserId");
+
+            if (userId != null)
+            {
+                var user = db.Users.FirstOrDefault(u => u.Id == Convert.ToInt32(userId));
+                ViewData["userName"] = user.FirstName + user.LastName;
+            }
             ViewData["penis"] = db.Products.ToList();
             return View();
         }

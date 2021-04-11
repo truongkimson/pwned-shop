@@ -25,15 +25,9 @@ namespace pwned_shop.Controllers
         {
             // TODO: convert current shopping cart to a successful order
             // Show activation codes
-            var codeList = ActivationCodeGenerator.GetCode();
-
-            var output = "";
-            foreach (Guid code in codeList)
-            {
-                output += code + "\n";
-            }
+            ViewData["codes"] = ActivationCodeGenerator.GetCode();
             
-            return Content($"Activation code:\n{output}");
+            return View();
         }
     }
 }
