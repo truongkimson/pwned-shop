@@ -1,71 +1,185 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 
-a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
+.topnav {
+    background-color: #FFF0F0;
+    width: 100%;
+    height: 70px;
 }
 
-/* Provide sufficient contrast against white background */
+.bottomnav {
+    background-color: #FFFFFF;
+    width: 100%;
+    height: 50px;
+}
+
+ul {
+    list-style-type: none;
+    margin: 10px;
+    float: right;
+}
+
+    ul.navbottom {
+        margin: 5px;
+    }
+
+li {
+    float: left;
+}
+
 a {
-  color: #0366d6;
+    color: #333333;
+    font-family: Arial;
+    font-weight: bold;
 }
 
-.btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+    a.nav-link {
+        font-size: 24px;
+    }
+
+ul.navbottom a.nav-link {
+    font-size: 18px;
 }
 
-.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+a.helloname {
+    font-size: 18px;
+    margin: 12px 0px 0px 10px;
+    float: left;
 }
 
-/* Sticky footer styles
--------------------------------------------------- */
-html {
-  font-size: 14px;
+ul.nav a.nav-link:hover {
+    color: #FFFFFF;
 }
-@media (min-width: 768px) {
-  html {
+
+ul.navbottom a.nav-link:hover {
+    color: #333333;
+}
+
+.row {
+    padding-bottom: 50px;
+    margin: 0 auto;
+    display: flex;
+}
+
+.product-card {
+    box-shadow: 0px 2px 2px 2px rgba(0, 0, 0, 0.15);
+    width: 350px;
+    max-width: 350px;
+    height: 470px;
+    max-height: 470px;
+    text-align: center;
+    font-family: arial;
+    padding: 2%;
+    flex-grow: 1;
+    flex-basis: 25%;
+}
+
+.product-images {
+    padding: 15px 10px 0px 12px;
+    height: 160px;
+    width: 200px;
+    display: flex;
+    flex-flow: nowrap;
+    object-fit: contain;
+}
+
+.gamename {
+    color: #000000;
+    font-weight: bold;
+    font-size: 24px;
+    text-align: center;
+    padding: 8px;
+    margin: 6px;
+}
+
+.gamedes {
+    color: #000000;
+    font-size: 18px;
+    text-align: center;
+    height: 115px;
+    max-height: 115px;
+    line-height: normal;
+    margin: -10px 10px 0px 10px;
+}
+
+.price {
+    color: #000000;
+    font-weight: bold;
+    font-size: 24px;
+    text-align: center;
+}
+
+.cancelPrice {
+    color: #8C8C8C;
+    font-weight: bold;
     font-size: 16px;
-  }
+    text-align: center;
 }
 
-.border-top {
-  border-top: 1px solid #e5e5e5;
-}
-.border-bottom {
-  border-bottom: 1px solid #e5e5e5;
-}
-
-.box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+.newPrice {
+    color: #C10000;
+    font-weight: bold;
+    font-size: 24px;
+    text-align: center;
 }
 
-button.accept-policy {
-  font-size: 1rem;
-  line-height: inherit;
+.product-info {
+    height: 215px;
+    max-height: 215px;
 }
 
-/* Sticky footer styles
--------------------------------------------------- */
-html {
-  position: relative;
-  min-height: 100%;
+.addcart-button {
+    color: white;
+    border: none;
+    background-color: #C10000;
+    text-align: center;
+    cursor: pointer;
+    width: 80%;
+    height: 66px;
+    font-size: 24px;
+    font-family: Arial;
+    color: #FFFFFF;
+    font-weight: bold;
+    outline: none;
 }
 
-body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
-}
+    .addcart-button:hover {
+        opacity: 0.5;
+        border: none;
+        outline: none;
+    }
+
 .footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  line-height: 60px; /* Vertically center the text there */
+    background-color: #FFF0F0;
+    color: #C10000;
+    height: 60px;
+    line-height: 60px;
+    left: 0px;
+    right: 0px;
+    margin-bottom: 0px;
+    font-family: Arial;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    position: relative;
+    width: 100%;
+}
+
+input[class="searchInput"] {
+    width: 95%;
+    border: 3px solid #000000;
+    height: 60px;
+    border-radius: 80px;
+    outline: 0px;
+}
+
+input[placeholder="Search title..."] {
+    text-align: left;
+    font-family: Arial;
+    font-size: 24px;
+    padding: 14px 70px;
+    color: #000000;
+    background-image: url(/bannerImg/searchicon.png);
+    background-repeat: no-repeat;
+    background-position: 30px 14px;
 }

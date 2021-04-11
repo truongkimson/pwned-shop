@@ -5,11 +5,20 @@ using System.Linq;
 using System.Threading.Tasks;
 using pwned_shop.Utils;
 using pwned_shop.BindingModels;
+using pwned_shop.Data;
 
 namespace pwned_shop.Controllers
 {
     public class AccountController : Controller
     {
+        private readonly PwnedShopDb db;
+
+        public AccountController(PwnedShopDb db)
+        {
+            this.db = db;
+        }
+
+
         public IActionResult Login()
         {
             return View(); 

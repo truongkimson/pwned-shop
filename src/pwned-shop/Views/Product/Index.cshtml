@@ -1,6 +1,44 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+
 *@
 @{
+
+    var products = (List<Product>)ViewData["penis"];
 }
-<p>Not implemented yet</p>
+
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="gallerybanner"><img src="~/bannerImg/gallerybanner.png" style="width: 100%"></div>
+<br>
+<br>
+<center>
+    <input class="searchInput" type="text" id="searchText" onkeyup="myFunction()" placeholder="Search title..." />
+</center>
+<br>
+<br>
+<div class="row">
+    @foreach (var game in products)
+    {
+        <div class="row">
+            <div class="col">
+                <div class="product-card">
+                    <div class="product-images"><img src=@game.ImgURL></div>
+                    <div class="product-info">
+                        <h1 class="gamename">@game.ProductName</h1>
+                        <h2 class="gamedes">@game.ProductDesc</h2>
+                        <h3 class="price">S$@game.UnitPrice</h3>
+                    </div>
+                    <h4><input type="button" class="addcart-button" value="Add to Cart"></h4>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
+
+

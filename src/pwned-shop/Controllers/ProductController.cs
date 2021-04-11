@@ -3,14 +3,25 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using pwned_shop.Data;
 
 namespace pwned_shop.Controllers
 {
+
+
+
     public class ProductController : Controller
     {
+        private readonly PwnedShopDb db;
+        public ProductController(PwnedShopDb db)
+        {
+            this.db = db;
+        }
+
         public IActionResult Index()
         {
             // TODO: gallery page
+            ViewData["penis"] = db.Products.ToList();
             return View();
         }
 
