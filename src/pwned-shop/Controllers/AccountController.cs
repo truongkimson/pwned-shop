@@ -12,13 +12,34 @@ namespace pwned_shop.Controllers
     {
         public IActionResult Login()
         {
+            return View(); 
+        }
+
+        [HttpPost]
+        public IActionResult Login([FromForm] LoginDetails login, string salt)
+        {
+            var result = PasswordHasher.Hash(login.Password, salt);
+            // TODO: verify against db if credentials provided are valid and redirect to "next" page
+            return Content($"Password hash is: {result}");
+        }
+
+        public IActionResult Logout()
+        {
+            // TODO: Log out action, clear session, redirect to landing page
+            return Content("Not yet implemented");
+        }
+
+        public IActionResult Register()
+        {
             return View();
         }
 
         [HttpPost]
-        public IActionResult Login([FromForm] LoginDetails login)
+        public IActionResult Register([FromForm] UserRegDetails user)
         {
-            var result = PasswordHasher.CreateHash(login.Password);
+            var result = PasswordHasher.CreateHash(user.Password);
+            // TODO: Register action, validate credentials data and persist in db
+            // redirect to account create successful page
             return Content($"Password hash is: {result[0]}\n" +
                 $"Salt is: {result[1]}");
         }

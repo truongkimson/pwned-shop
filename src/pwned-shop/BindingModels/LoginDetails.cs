@@ -7,7 +7,7 @@ namespace pwned_shop.BindingModels
 {
     public class LoginDetails
     {
-        public string Username { get; set; }
+        public string UserId { get; set; }
         public string Password { get; set; }
     }
 }
