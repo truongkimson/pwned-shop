@@ -55,8 +55,7 @@ namespace pwned_shop.Controllers
                         new ClaimsIdentity(claims, "Cookies", "username", "role")),
                             authProperties);
 
-                    HttpContext.Session.SetInt32("UserId", user.Id);
-                    return Redirect(returnUrl);
+                    return Redirect(returnUrl == null ? "/" : returnUrl);
                 }
                 else
                 {
@@ -73,7 +72,6 @@ namespace pwned_shop.Controllers
 
         public async Task<IActionResult> Logout()
         {
-            HttpContext.Session.Clear();
             await HttpContext.SignOutAsync();
             return RedirectToAction("Index", "Product");
         }
