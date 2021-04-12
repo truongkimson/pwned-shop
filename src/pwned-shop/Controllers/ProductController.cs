@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Security.Claims;
 using pwned_shop.Data;
 
 namespace pwned_shop.Controllers
@@ -20,7 +22,6 @@ namespace pwned_shop.Controllers
 
         public IActionResult Index()
         {
-            // TODO: gallery page
             ViewData["penis"] = db.Products.ToList();
             return View();
         }
