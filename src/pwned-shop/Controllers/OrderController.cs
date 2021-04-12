@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,7 @@ namespace pwned_shop.Controllers
             return Content("Not implemented yet");
         }
 
+        [Authorize]
         public IActionResult Checkout()
         {
             // TODO: convert current shopping cart to a successful order

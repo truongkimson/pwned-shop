@@ -21,11 +21,11 @@ namespace pwned_shop.Controllers
 
         public IActionResult Index()
         {
-            string userId = HttpContext.Session.GetString("UserId");
+            int? userId = HttpContext.Session.GetInt32("userId");
 
             if (userId != null)
             {
-                var user = db.Users.FirstOrDefault(u => u.Id == Convert.ToInt32(userId));
+                var user = db.Users.FirstOrDefault(u => u.Id == userId);
                 ViewData["userName"] = user.FirstName + user.LastName;
             }
             ViewData["penis"] = db.Products.ToList();

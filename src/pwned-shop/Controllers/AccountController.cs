@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authentication;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Security.Claims;
+using System.Diagnostics;
 using pwned_shop.Utils;
 using pwned_shop.BindingModels;
 using pwned_shop.Data;
@@ -20,13 +23,14 @@ namespace pwned_shop.Controllers
         }
 
 
-        public IActionResult Login()
+        public IActionResult Login(string returnUrl)
         {
+            ViewData["returnUrl"] = returnUrl;
             return View();
         }
 
         [HttpPost]
-        public IActionResult Login([FromForm] LoginDetails login)
+        public async Task<IActionResult> Login([FromForm] LoginDetails login, string returnUrl)
         {
             var user = db.Users.FirstOrDefault(u => u.Email == login.Email);
             if (user != null)
@@ -34,25 +38,43 @@ namespace pwned_shop.Controllers
                 string pwdHash = PasswordHasher.Hash(login.Password, user.Salt);
                 if (pwdHash == user.PasswordHash)
                 {
-                    HttpContext.Session.SetString("UserId", user.Id.ToString());
-                    return RedirectToAction("Index", "Product");
+                    var claims = new List<Claim>
+                    {
+                        new Claim("username", user.Email),
+                        new Claim("role", "Member"),
+                        new Claim("fullname", user.FirstName + user.LastName)
+                    };
+
+                    var authProperties = new AuthenticationProperties
+                    {
+                        IsPersistent = false,
+                        ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(1) // authentication ticket expiry
+                    };
+
+                    await HttpContext.SignInAsync(new ClaimsPrincipal(
+                        new ClaimsIdentity(claims, "Cookies", "username", "role")),
+                            authProperties);
+
+                    HttpContext.Session.SetInt32("UserId", user.Id);
+                    return Redirect(returnUrl);
                 }
                 else
                 {
-                    TempData["error"] = "Incorrect password";
+                    TempData["error"] = "Invalid password";
                     return RedirectToAction("Login");
                 }
             }
             else
             {
-                TempData["error"] = "Account not found";
+                TempData["error"] = "Invalid account";
                 return RedirectToAction("Login");
             }
         }
 
-        public IActionResult Logout()
+        public async Task<IActionResult> Logout()
         {
             HttpContext.Session.Clear();
+            await HttpContext.SignOutAsync();
             return RedirectToAction("Index", "Product");
         }
 
@@ -69,6 +91,11 @@ namespace pwned_shop.Controllers
             // redirect to account create successful page
             return Content($"Password hash is: {result[0]}\n" +
                 $"Salt is: {result[1]}");
+        }
+
+        public IActionResult Denied()
+        {
+            return Content("Not implemented yet");
         }
     }
 }

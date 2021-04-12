@@ -33,6 +33,12 @@ namespace pwned_shop
             services.AddDbContext<PwnedShopDb>(opt => opt.UseLazyLoadingProxies()
                     .UseSqlServer(Configuration.GetConnectionString("DbConn")));
 
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.AccessDeniedPath = "/Account/Denied";
+                    options.LoginPath = "/Account/Login";
+                });
             services.AddSession();
         }
 
@@ -54,6 +60,7 @@ namespace pwned_shop
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
             app.UseSession();
 
