@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Security.Claims;
 using pwned_shop.Data;
 
 namespace pwned_shop.Controllers
@@ -21,13 +22,6 @@ namespace pwned_shop.Controllers
 
         public IActionResult Index()
         {
-            int? userId = HttpContext.Session.GetInt32("userId");
-
-            if (userId != null)
-            {
-                var user = db.Users.FirstOrDefault(u => u.Id == userId);
-                ViewData["userName"] = user.FirstName + user.LastName;
-            }
             ViewData["penis"] = db.Products.ToList();
             return View();
         }

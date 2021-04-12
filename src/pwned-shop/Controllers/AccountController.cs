@@ -40,9 +40,10 @@ namespace pwned_shop.Controllers
                 {
                     var claims = new List<Claim>
                     {
-                        new Claim("username", user.Email),
+                        new Claim("email", user.Email),
                         new Claim("role", "Member"),
-                        new Claim("fullname", user.FirstName + user.LastName)
+                        new Claim("fullName", user.FirstName + user.LastName),
+                        new Claim("userId", user.Id.ToString())
                     };
 
                     var authProperties = new AuthenticationProperties
