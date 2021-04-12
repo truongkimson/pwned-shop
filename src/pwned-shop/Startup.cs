@@ -27,6 +27,7 @@ namespace pwned_shop
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddRazorPages();
 
             // add PwnedShopDb DbContext into DI container
             services.AddDbContext<PwnedShopDb>(opt => opt.UseLazyLoadingProxies()
@@ -50,7 +51,7 @@ namespace pwned_shop
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -58,6 +59,7 @@ namespace pwned_shop
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
             });   
         }
     }
