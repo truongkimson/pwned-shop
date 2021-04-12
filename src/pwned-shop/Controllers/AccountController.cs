@@ -48,8 +48,9 @@ namespace pwned_shop.Controllers
 
                     var authProperties = new AuthenticationProperties
                     {
-                        IsPersistent = false,
-                        ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(1) // authentication ticket expiry
+                        IsPersistent = true,
+                        AllowRefresh = true,
+                        ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(5) // authentication ticket expiry
                     };
 
                     await HttpContext.SignInAsync(new ClaimsPrincipal(
