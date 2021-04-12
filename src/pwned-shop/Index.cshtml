@@ -1,0 +1,88 @@
+﻿@model ShoppingCart
+<script src="~/js/site.js"></script>
+<div><img src="~/Images/offersbanner.png" style="width:100%;"></div>
+<br>
+<a class="continue-shopping" style="float:right;" asp-area="" asp-controller="Game" asp-action="Index">Continue Shopping</a>
+<h1 class="sc-heading">Shopping Cart</h1>
+
+<br>
+
+<div class="container-fluid">
+    <div>
+        <div class="row">
+            <table>
+                <thead class="cart-table-heading">
+                    <tr class="cart-table-heading-row">
+                        <th>Product Details</th>
+                        <th></th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td><div class="cart-body-padding"></div></td>
+                    </tr>
+
+                    @foreach (var game in Model.Games)
+                    {
+                        <tr>
+                            <td class="cart-product-images">
+                                <div><img src=@ImgUrl></div>
+                            </td>
+                            
+                            <td style="text-align: left; vertical-align: middle">
+                                <p class="cart-product-name">@ProductName</p>
+                                <p class="cart-product-des">@ProductDes</p>
+                                <br />
+                                <div>
+                                    <button class="remove-item" productId="cart[i].pro-id"><i class="fa fa-trash"></i> Remove item</button>
+                                </div>
+                            </td>
+                            
+                            <td class="cart-unit-price">S$@UnitPrice</td>
+                            
+                            <td>
+                                <div>
+                                    <input class="qty" min="1" name="" value="" type="number" productid="" placeholder="1">
+                                </div>
+                            </td>
+                            
+                            <td class="cart-subtotal">S$@subTotal</td>
+                        </tr>
+
+                        <tr>
+                            <td><div class="cart-body-padding"></div></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        
+        <div>
+            <div class="text-right">
+                <p class="cart-total-amt">Please pay: S$@totalAmt</p>
+                <a asp-area="" asp-controller="" asp-action=""><input type="button" class="checkout-button" value="CHECKOUT"></a>
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+ 
+
+
+
+
