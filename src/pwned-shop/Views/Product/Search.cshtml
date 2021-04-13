@@ -1,25 +1,20 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
-*@
-@{
-
-    var products = (List<Product>)ViewData["products"];
-    
+﻿@{
+    var products = (List<Product>)ViewData["Trial"];
+    var searched = (string)ViewData["Searched"];
 }
 
-@{
-    ViewData["Title"] = "Index";
-}
 
 <div class="gallerybanner"><img src="~/bannerImg/gallerybanner.png" style="width: 100%"></div>
 <br>
 <br>
 <center>
-    <form action="Product/Search" method="post">
+    <form action="Search" method="post">
         <input class="searchInput" type="text" name="searchText" onkeyup="myFunction()" placeholder="Search title..." />
     </form>
 </center>
+<h1 align-left>
+       You have searched for <b>"@searched" </b> 
+</h1>
 <br>
 <br>
 <div class="row">

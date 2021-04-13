@@ -4,6 +4,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
+using System.Globalization;
 using pwned_shop.Models;
 
 namespace pwned_shop.Data
@@ -18,6 +19,7 @@ namespace pwned_shop.Data
             {
                 return;
             }
+            
 
             // populate Users table using data from csv/UserProfile.csv
             var rows = ReadCsv("Data/csv/UserProfile.csv");
@@ -102,10 +104,9 @@ namespace pwned_shop.Data
                 {
                     Id = Convert.ToInt32(row[0]),
                     UserId = Convert.ToInt32(row[1]),
-                    Timestamp = DateTime.Parse(row[2]),
+                    Timestamp = DateTime.Parse(row[2], new CultureInfo("en-SG")),
                     PromoCode = row[3] == "" ? null : row[3]
                 };
-                Debug.WriteLine($"{o.PromoCode == null}");
                 db.Orders.Add(o);
             }
 
