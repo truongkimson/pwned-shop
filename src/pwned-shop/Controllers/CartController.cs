@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Diagnostics;
 using pwned_shop.Utils;
 using pwned_shop.BindingModels;
 using pwned_shop.Data;
@@ -25,9 +26,11 @@ namespace pwned_shop.Controllers
             return View();
         }
 
-        public IActionResult UpdateCart(int productId, int qty)
+        [HttpPost]
+        public IActionResult UpdateCart([FromBody] CartUpdate cu)
         {
-            Dictionary<int, int> outputDict = new Dictionary<int, int>();
+            int productId = cu.ProductId; int qty = cu.Qty;
+            int cartCount;
             // if user is not logged in, update cart data in Session State as a Jsonified dict
             if (!User.Identity.IsAuthenticated)
             {
@@ -51,9 +54,15 @@ namespace pwned_shop.Controllers
                 }
 
                 HttpContext.Session.SetJson("cart", cartList);
-                // for debugging
-                outputDict = cartList;
-                return Content("200 Success. " + String.Join(Environment.NewLine, outputDict));
+                cartCount = GetCartCount(cartList);
+                HttpContext.Session.SetInt32("cartCount", cartCount);
+                // to delete
+                foreach (KeyValuePair<int, int> c in cartList)
+                {
+                    Debug.WriteLine($"Prod: {c.Key} - {c.Value}");
+                }
+                Debug.WriteLine("Cart count: " + cartCount);
+                return Json(new { success = true, cartCount = cartCount });
             }
 
             // else user is logged in, update cart data in SQL db Cart table
@@ -73,7 +82,13 @@ namespace pwned_shop.Controllers
                 }
             }
             db.SaveChanges();
-            return Content($"200 Success. {cart.UserId}, {cart.ProductId}, {cart.Qty}");
+
+            cartCount = db.Users.FirstOrDefault(u => u.Id == userId).Carts.Sum(c => c.Qty);
+            HttpContext.Session.SetInt32("cartCount", cartCount);
+            // to delete
+            Debug.WriteLine("Cart count: " + cartCount);
+
+            return Json(new { success = true, cartCount = cartCount });
         }
 
         public IActionResult AddToCart(string productId)
@@ -94,6 +109,16 @@ namespace pwned_shop.Controllers
                 result += k + " ";
             }
             return Content($"Not implemented yet {result}");
+        }
+
+        protected int GetCartCount(Dictionary<int,int> cartList)
+        {
+            int count = 0;
+            foreach (KeyValuePair<int, int> cart in cartList)
+            {
+                count += cart.Value;
+            }
+            return count;
         }
     }
 }

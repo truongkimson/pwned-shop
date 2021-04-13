@@ -26,6 +26,7 @@ namespace pwned_shop.Controllers
         public IActionResult Login(string returnUrl)
         {
             ViewData["returnUrl"] = returnUrl;
+            
             return View();
         }
 
@@ -57,6 +58,10 @@ namespace pwned_shop.Controllers
                         new ClaimsIdentity(claims, "Cookies", "username", "role")),
                             authProperties);
 
+                    // get cartCount from user's cart data
+                    int cartCount = user.Carts.Sum(c => c.Qty);
+                    HttpContext.Session.SetInt32("cartCount", cartCount);
+
                     return Redirect(returnUrl == null ? "/" : returnUrl);
                 }
                 else
@@ -75,6 +80,7 @@ namespace pwned_shop.Controllers
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync();
+            HttpContext.Session.Clear();
             return RedirectToAction("Index", "Product");
         }
 
