@@ -1,0 +1,326 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+.topnav {
+    background-color: #FFF0F0;
+    width: 100%;
+    height: 70px;
+}
+
+.bottomnav {
+    background-color: #FFFFFF;
+    width: 100%;
+    height: 50px;
+}
+
+ul {
+    list-style-type: none;
+    margin: 10px;
+    float: right;
+}
+
+ul.navbottom a.nav-link {
+    font-size: 18px;
+}
+
+ul.navbottom {
+    margin: 5px;
+}
+
+ul.nav a.nav-link:hover {
+    color: #FFFFFF;
+}
+
+ul.navbottom a.nav-link:hover {
+    color: #333333;
+}
+
+li {
+    float: left;
+}
+
+a {
+    color: #333333;
+    font-family: Arial;
+    font-weight: bold;
+}
+
+a.nav-link {
+    font-size: 24px;
+}
+
+a.helloname {
+    font-size: 18px;
+    margin: 12px 0px 0px 10px;
+    float: left;
+}
+
+.row {
+    padding-bottom: 50px;
+    margin: 0 auto;
+    display: flex;
+}
+
+.row-right {
+    justify-content: flex-end;
+}
+
+.product-card {
+    box-shadow: 0px 2px 2px 2px rgba(0, 0, 0, 0.15);
+    width: 350px;
+    max-width: 350px;
+    height: 470px;
+    max-height: 470px;
+    text-align: center;
+    font-family: arial;
+    padding: 2%;
+    flex-grow: 1;
+    flex-basis: 25%;
+}
+
+.product-images {
+    padding: 15px 10px 0px 12px ;
+    height: 160px;
+    width: 200px;
+    display: flex;
+    flex-flow: nowrap;
+    object-fit: contain;
+}
+
+.product-info {
+    height: 180px;
+    max-height: 180px;
+}
+
+.gamename {
+    color: #000000;
+    font-weight: bold;
+    font-size: 24px;
+    text-align: center;
+    padding: 8px;
+    margin: 6px;
+}
+
+.gamedes {
+    color: #000000;
+    font-size: 18px;
+    text-align: center;
+    height: 115px;
+    max-height: 115px;
+    line-height: normal;
+    margin: -10px 10px 0px 10px;
+}
+
+.price {
+    color: #000000;
+    font-weight: bold;
+    font-size: 24px;
+    text-align: center;
+}
+
+.addcart-button, .checkout-button {
+    color: white;
+    border: none;
+    background-color: #C10000;
+    text-align: center;
+    cursor: pointer;
+    font-family: Arial;
+    color: #FFFFFF;
+    font-weight: bold;
+    outline: none;
+}
+
+.addcart-button {
+    width: 80%;
+    height: 66px;
+    font-size: 24px;
+}
+
+.checkout-button {
+    width: 20%;
+    height: 60px;
+    font-size: 18px;
+}
+
+.qty {
+    width: 40%;
+    margin: 0 20px;
+    border: 2px solid;
+    border-color: #8c8c8c;
+
+}
+
+.addcart-button:hover, .submitpromocode-button:hover, .checkout-button:hover, .remove-item:hover {
+    opacity: 0.5;
+    border: none;
+    outline: none;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+    font-size: 16px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+button.accept-policy {
+    font-size: 1rem;
+    line-height: inherit;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+}
+
+.footer {
+    font-family: Arial;
+    font-size: 18px;
+    color: #333333;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    border: none;
+    outline: none;
+    white-space: nowrap;
+    line-height: 60px; /* Vertically center the text there */
+}
+
+input[class="searchInput"] {
+    width: 95%;
+    border: 3px solid #000000;
+    height: 60px;
+    border-radius: 80px;
+    outline: 0px;
+}
+
+input[placeholder="Search title..."] {
+    text-align: left;
+    font-family: Arial;
+    font-size: 24px;
+    padding: 14px 70px;
+    color: #000000;
+    background-image: url(searchicon.png);
+    background-repeat: no-repeat;
+    background-position: 30px 14px;
+}
+
+.sc-heading {
+    color: #000000;
+    font-weight: bold;
+    font-size: 36px;
+    font-family: Arial;
+    margin: 30px 0px 0px 10px;
+}
+
+a.continue-shopping {
+    color: #000000;
+    font-weight: bold;
+    font-size: 18px;
+    font-family: Arial;
+    text-decoration: underline;
+    padding-right: 30px;
+}
+
+.continue-shopping:hover {
+    color: #000000;
+    opacity: 0.5;
+}
+
+.cart-table-heading {
+    color: #767676;
+    font-weight: bold;
+    font-size: 24px;
+    font-family: Arial;
+}
+.cart-table-heading-row {
+    border-bottom: 3px solid;
+    border-color: #000000;
+}
+
+.cart-body-padding {
+    padding: 8px;
+}
+
+.cart-product-name {
+    color: #767676;
+    font-weight: bold;
+    font-size: 24px;
+    font-family: Arial;
+}
+
+.cart-product-name {
+    font-weight: bold;
+}
+
+.cart-product-images {
+    width: 400px;
+    height: 220px;
+    object-fit: contain;
+}
+
+.cart-product-name {
+    font-size: 18px;
+    margin: 0 0 0 10px;
+}
+
+.cart-product-des {
+    color: #767676;
+    font-size: 18px;
+    font-family: Arial;
+    margin: 0 0 0 10px;
+}
+
+.remove-item {
+    margin: 0 0 0 10px;
+    border: none;
+    background-color: #ffffff;
+}
+
+.cart-subtotal, .cart-unit-price {
+    font-size: 18px;
+    font-weight: bold;
+    font-family: Arial;
+    color: #000000;
+}
+
+table {
+    border-collapse: collapse;
+    /*width: 80%;*/
+}
+
+th {
+    padding-right: 50px;
+    height: 70px;
+}
+
+.cart-total-amt {
+    color: #000000;
+    font-weight: bold;
+    font-size: 24px;
+    font-family: Arial;
+    margin-right: 75px;
+}
+
+.circle {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 15px;
+    border: 3px solid #000;
+    margin: -5px 0 0 5px;
+    background-color: #ECECEC;
+}
