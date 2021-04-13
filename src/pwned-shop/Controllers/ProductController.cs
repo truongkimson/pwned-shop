@@ -22,7 +22,7 @@ namespace pwned_shop.Controllers
 
         public IActionResult Index()
         {
-            ViewData["penis"] = db.Products.ToList();
+            ViewData["products"] = db.Products.ToList();
             return View();
         }
 
