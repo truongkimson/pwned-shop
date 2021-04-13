@@ -9,9 +9,6 @@ using pwned_shop.Data;
 
 namespace pwned_shop.Controllers
 {
-
-
-
     public class ProductController : Controller
     {
         private readonly PwnedShopDb db;

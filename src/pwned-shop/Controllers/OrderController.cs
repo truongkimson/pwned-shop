@@ -1,14 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Diagnostics;
 using pwned_shop.Utils;
 using pwned_shop.Data;
 using pwned_shop.Models;
-using System.Diagnostics;
-using Microsoft.AspNetCore.Http;
+
 
 namespace pwned_shop.Controllers
 {
@@ -19,6 +20,7 @@ namespace pwned_shop.Controllers
         {
             this.db = db;
         }
+
         [Authorize]
         public IActionResult Index()
         {

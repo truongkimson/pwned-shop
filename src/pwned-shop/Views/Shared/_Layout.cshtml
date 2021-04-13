@@ -1,4 +1,7 @@
-@using System.Security.Claims;
+﻿@using System.Security.Claims;
+@using Microsoft.AspNetCore.Http;
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -36,7 +39,7 @@
         <div class="bottomnav">
             @if (User.Identity.IsAuthenticated)
             {
-                <a class="helloname">Hello, @(User.FindFirst("fullName").Value)</a>
+                <a class="helloname">Hello, @User.FindFirst("fullName").Value</a>
             }
             else
             {
@@ -44,7 +47,9 @@
             }
             <ul class="navbottom">
                 <li class="bottomitem">
-                    <a class="nav-link" asp-area="" asp-controller="Cart" asp-action="Index"><i class="fa" style="font-size:24px"><i class="fa fa-cart-plus" aria-hidden="true"></i></i> <span class='badge badge-dark' id='lblCartCount'>5</span></a>
+                    <a class="nav-link" asp-area="" asp-controller="Cart" asp-action="Index">
+                        <i class="fa" style="font-size:24px"><i class="fa fa-cart-plus"></i></i>
+                            <span class="badge badge-dark" id="lblCartCount">@Context.Session.GetInt32("cartCount")</span></a>
                 </li>
                 <li>
                     <a class="nav-link" asp-area="" asp-controller="Order" asp-action="Index">My Purchases <i class="fas fa-shopping-bag"></i></a>
