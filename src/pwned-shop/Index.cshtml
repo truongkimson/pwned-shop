@@ -1,8 +1,5 @@
-﻿@using pwned_shop.Models
-@{
-    var totalPrice = (double)ViewData["totalPrice"];
-}
-
+﻿@model ShoppingCart
+<script src="~/js/site.js"></script>
 <div><img src="~/Images/offersbanner.png" style="width:100%;"></div>
 <br>
 <a class="continue-shopping" style="float:right;" asp-area="" asp-controller="Game" asp-action="Index">Continue Shopping</a>
@@ -29,31 +26,31 @@
                         <td><div class="cart-body-padding"></div></td>
                     </tr>
 
-                    @foreach (var items in Model.cartItems)
+                    @foreach (var game in Model.Games)
                     {
                         <tr>
                             <td class="cart-product-images">
-                                <div><img src=@items.ImgURL></div>
+                                <div><img src=@ImgUrl></div>
                             </td>
-
+                            
                             <td style="text-align: left; vertical-align: middle">
-                                <p class="cart-product-name">@items.ProductName</p>
-                                <p class="cart-product-des">@items.ProductDesc</p>
+                                <p class="cart-product-name">@ProductName</p>
+                                <p class="cart-product-des">@ProductDes</p>
                                 <br />
                                 <div>
-                                    <button class="remove-item" productId="items.Id"><i class="fa fa-trash"></i> Remove item</button>
+                                    <button class="remove-item" productId="cart[i].pro-id"><i class="fa fa-trash"></i> Remove item</button>
                                 </div>
                             </td>
-
-                            <td class="cart-unit-price">S$@items.UnitPrice</td>
-
+                            
+                            <td class="cart-unit-price">S$@UnitPrice</td>
+                            
                             <td>
                                 <div>
-                                    <input class="qty" min="1" name="@items.cart-quantity" value="@items.quantity" type="number" productid="@items.Id">
+                                    <input class="qty" min="1" name="" value="" type="number" productid="" placeholder="1">
                                 </div>
                             </td>
-
-                            <td class="cart-subtotal">$@((items.quantity * items.UnitPrice).ToString("c"))</td>
+                            
+                            <td class="cart-subtotal">S$@subTotal</td>
                         </tr>
 
                         <tr>
@@ -63,11 +60,11 @@
                 </tbody>
             </table>
         </div>
-
+        
         <div>
             <div class="text-right">
-                <p class="cart-total-amt">Please pay: S$@totalPrice</p>
-                <a asp-area="" asp-controller="Order" asp-action="Index"><input type="button" class="checkout-button" value="CHECKOUT"></a>
+                <p class="cart-total-amt">Please pay: S$@totalAmt</p>
+                <a asp-area="" asp-controller="" asp-action=""><input type="button" class="checkout-button" value="CHECKOUT"></a>
                 <br />
                 <br />
                 <br />
@@ -80,3 +77,12 @@
         </div>
     </div>
 </div>
+
+
+
+
+ 
+
+
+
+
