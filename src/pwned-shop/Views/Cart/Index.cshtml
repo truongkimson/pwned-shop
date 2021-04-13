@@ -1,11 +1,11 @@
-﻿@using pwned_shop.Models
-@{
+﻿@{
+    var cartList = (List<Cart>)ViewData["cartList"];
     var totalPrice = (double)ViewData["totalPrice"];
 }
 
-<div><img src="~/Images/offersbanner.png" style="width:100%;"></div>
+<div><img src="~/bannerImg/offersbanner.png" style="width:100%;"></div>
 <br>
-<a class="continue-shopping" style="float:right;" asp-area="" asp-controller="Game" asp-action="Index">Continue Shopping</a>
+<a class="continue-shopping" style="float:right;" asp-area="" asp-controller="Product" asp-action="Index">Continue Shopping</a>
 <h1 class="sc-heading">Shopping Cart</h1>
 
 <br>
@@ -29,31 +29,31 @@
                         <td><div class="cart-body-padding"></div></td>
                     </tr>
 
-                    @foreach (var items in Model.cartItems)
+                    @foreach (var item in cartList)
                     {
                         <tr>
                             <td class="cart-product-images">
-                                <div><img src=@items.ImgURL></div>
+                                <div><img src=@item.Product.ImgURL></div>
                             </td>
 
                             <td style="text-align: left; vertical-align: middle">
-                                <p class="cart-product-name">@items.ProductName</p>
-                                <p class="cart-product-des">@items.ProductDesc</p>
+                                <p class="cart-product-name">@item.Product.ProductName</p>
+                                <p class="cart-product-des">@item.Product.ProductDesc</p>
                                 <br />
                                 <div>
                                     <button class="remove-item" productId="items.Id"><i class="fa fa-trash"></i> Remove item</button>
                                 </div>
                             </td>
 
-                            <td class="cart-unit-price">S$@items.UnitPrice</td>
+                            <td class="cart-unit-price">S$@item.Product.UnitPrice</td>
 
                             <td>
                                 <div>
-                                    <input class="qty" min="1" name="@items.cart-quantity" value="@items.quantity" type="number" productid="@items.Id">
+                                    <input class="qty" min="1" name="@item.ProductId-quantity" value="@item.Qty" type="number" productid="@item.ProductId">
                                 </div>
                             </td>
 
-                            <td class="cart-subtotal">$@((items.quantity * items.UnitPrice).ToString("c"))</td>
+                            <td class="cart-subtotal">$@((item.Qty * item.Product.UnitPrice).ToString("c"))</td>
                         </tr>
 
                         <tr>
