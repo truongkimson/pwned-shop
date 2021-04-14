@@ -27,43 +27,40 @@
 
     @foreach (var dud in c)
     {
+  
 
+    <tr>
+    <td class="listing" style="padding-bottom: 1%;">
+        <img src=@dud.Key.ImgURL class="image" />
+        <div id="pdt-name">@dud.Key.ProductName</div>
+        <div id="pdt-descr">@dud.Key.ProductDesc</div>
+        <input type="button" name="button" class="button" value="Download" />
+    </td>
+
+    <td style="width: 60%;">
+
+        <table>
             <tr>
-                <td class="listing" style="padding-bottom: 1%;">
-                    <img src=@dud.Key.ImgURL class="image" />
-                    <div id="pdt-name">@dud.Key.ProductName</div>
-                    <div id="pdt-descr">@dud.Key.ProductDesc</div>
-                    <input type="button" name="button" class="button" value="Download" />
-                </td>
-
-                <td style="width: 60%;">
-
-                    <table>
-                        <tr>
-                            <td>Purchased On:&nbsp;</td>
-                            <td>@dud.Key.Timestamp.ToLongDateString()</td>
-                        </tr>
-                        <tr>
-                            <td>Quantity:&nbsp;</td>
-                            <td>@dud.Count()</td>
-                        </tr>
-                        <tr>
-                            <td>Activation Code:&nbsp;</td>
-                            <select id="activation">
-                                @foreach (var activationCode in dud)
-                                {
-                                    <option>@activationCode.ActivationCode</option>
-                                }
-                            </select>
-                        </tr>
-                    </table>
-                </td>
-                <td class="td-filler"></td>
+                <td>Purchased On:&nbsp;</td>
+                <td>@dud.Key.Timestamp.ToLongDateString()</td>
             </tr>
-
-
-        }
-
+            <tr>
+                <td>Quantity:&nbsp;</td>
+                <td>@dud.Count()</td>
+            </tr>
+            <tr>
+                <td>Activation Code:&nbsp;</td>
+                <select id="activation">
+                    @foreach (var activationCode in dud)
+                    {
+    <option>@activationCode.ActivationCode</option>}
+                </select>
+            </tr>
+        </table>
+    </td>
+    <td class="td-filler"></td>
+</tr>
+    
     }
 
 </table>   

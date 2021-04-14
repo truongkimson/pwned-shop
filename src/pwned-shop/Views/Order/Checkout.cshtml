@@ -2,10 +2,27 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
-    var codes = (string[])ViewData["codes"];
+    var reciept = (List<CheckOutViewModel>)ViewData["RecieptView"];
+    var c = reciept.GroupBy(o => new
+    {
+        o.ImgURL,
+        o.ProductName,
+        o.ProductDesc,
+        o.Qty,
+        o.UnitPrice,
+
+    });
+    ;
 }
 
-@foreach (string c in codes)
-{
-    <p>Activation code: @c</p>
-}
+
+@foreach(var dud in c)
+            {
+                <span>@dud.Key.ImgURL</span><span> @dud.Key.ProductName</span><span>  @dud.Key.ProductDesc</span><span>  @dud.Key.Qty</span> <span>  @dud.Key.UnitPrice</span>
+                                                                                                                                             <select>
+                                                                                                                                                 @foreach(var x in dud)
+                                                                                                                                                 {
+                                                                                                                                                 <option> @x.ActivationCode</option>
+                                                                                                                                                 }
+                                                                                                                                             </select>
+            }
