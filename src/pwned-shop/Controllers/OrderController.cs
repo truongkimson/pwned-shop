@@ -44,9 +44,9 @@ namespace pwned_shop.Controllers
            
             Debug.WriteLine("Test for mock data" + mockCart1.ProductId);
 
-            db.Carts.Add(mockCart1);
-            db.Carts.Add(mockCart2);
-            db.SaveChanges();
+            //db.Carts.Add(mockCart1);
+            //db.Carts.Add(mockCart2);
+            //db.SaveChanges();
             
             foreach (var test1 in db.Carts)
             {
