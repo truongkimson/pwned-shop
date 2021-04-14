@@ -7,14 +7,52 @@
 
 function onClick(event) {
     let elem = event.currentTarget;
-    let productId = elem.getAttribute("id");
 
-    sendCartUpdate(productId, 1);
+    addToCart(elem);
 }
 
-function sendCartUpdate(productId, qty) {
-    let xhr = new XMLHttpRequest();
+// trigger by pressing Add to Cart button on Product page
+function addToCart(elem) {
     let cartBadge = document.getElementById("lblCartCount");
+    let productId = elem.getAttribute("product-id");
+
+    let xhr = new XMLHttpRequest();
+
+    xhr.open("POST", `/Cart/AddToCart?productId=${productId}`);
+    //xhr.setRequestHeader("Content-Type", "multipart/form-data");
+
+    xhr.onreadystatechange = function () {
+        if (this.readyState === XMLHttpRequest.DONE) {
+            if (this.status == 200) {
+                let data = JSON.parse(this.responseText);
+                // for debugging
+
+                console.log("Add to cart status: " + data.success);
+
+                if (data.success) {
+                    cartBadge.innerHTML = data.cartCount;
+                }
+            }
+        }
+    }
+
+    // send cart update to server
+
+    //xhr.send(`productId: "${productId}"`);
+    xhr.send();
+}
+
+function updateCart(elem) {
+    let productId = elem.getAttribute("product-id");
+    let qty = elem.value;
+    let cartBadge = document.getElementById("lblCartCount");
+    let cartSubTotal = document.getElementById(`cart-subtotal-${productId}`);
+
+    // for debugging
+
+    console.log(qty);
+
+    let xhr = new XMLHttpRequest();
 
     xhr.open("POST", "/Cart/UpdateCart");
     xhr.setRequestHeader("Content-Type", "application/json; charset=utf-8");
@@ -23,8 +61,12 @@ function sendCartUpdate(productId, qty) {
             if (this.status == 200) {
                 let data = JSON.parse(this.responseText);
                 // for debugging
-                console.log("Operation Status: " + data.success);
-                cartBadge.innerHTML = data.cartCount;
+
+                console.log("Cart update status: " + data.success);
+                if (data.success) {
+                    cartBadge.innerHTML = data.cartCount;
+                    cartSubTotal.innerHTML = "$" + data.subTotal;
+                }
             }
         }
     }
@@ -32,6 +74,6 @@ function sendCartUpdate(productId, qty) {
     // send cart update to server
     xhr.send(JSON.stringify({
         productId: parseInt(productId),
-        qty: qty
+        qty: parseInt(qty)
     }));
 }

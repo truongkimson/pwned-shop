@@ -1,6 +1,6 @@
 ﻿@{
     var cartList = (List<Cart>)ViewData["cartList"];
-    var totalPrice = (double)ViewData["totalPrice"];
+    var totalPrice = cartList.Sum(c => c.Product.UnitPrice * c.Qty);
 }
 
 <div><img src="~/bannerImg/offersbanner.png" style="width:100%;"></div>
@@ -40,20 +40,20 @@
                                 <p class="cart-product-name">@item.Product.ProductName</p>
                                 <p class="cart-product-des">@item.Product.ProductDesc</p>
                                 <br />
-                                <div>
-                                    <button class="remove-item" productId="items.Id"><i class="fa fa-trash"></i> Remove item</button>
-                                </div>
+                                <form asp-action="RemoveFromCart" asp-controller="Cart" asp-route-productid="@item.ProductId">
+                                    <button class="remove-item" product-id="@item.ProductId"><i class="fa fa-trash"></i>Remove item</button>
+                                </form>
                             </td>
 
                             <td class="cart-unit-price">S$@item.Product.UnitPrice</td>
 
                             <td>
                                 <div>
-                                    <input class="qty" min="1" name="@item.ProductId-quantity" value="@item.Qty" type="number" productid="@item.ProductId">
+                                    <input class="qty" min="1" name="" value="@item.Qty" type="number" product-id="@item.ProductId" onchange="updateCart(this)">
                                 </div>
                             </td>
 
-                            <td class="cart-subtotal">$@((item.Qty * item.Product.UnitPrice).ToString("c"))</td>
+                            <td class="cart-subtotal" id="cart-subtotal-@item.ProductId">$@((item.Qty * item.Product.UnitPrice))</td>
                         </tr>
 
                         <tr>
@@ -67,7 +67,7 @@
         <div>
             <div class="text-right">
                 <p class="cart-total-amt">Please pay: S$@totalPrice</p>
-                <a asp-area="" asp-controller="Order" asp-action="Index"><input type="button" class="checkout-button" value="CHECKOUT"></a>
+                <a asp-area="" asp-controller="Order" asp-action="Checkout"><input type="button" class="checkout-button" value="CHECKOUT"></a>
                 <br />
                 <br />
                 <br />
