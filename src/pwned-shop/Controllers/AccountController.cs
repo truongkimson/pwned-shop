@@ -11,6 +11,7 @@ using pwned_shop.Utils;
 using pwned_shop.BindingModels;
 using pwned_shop.Data;
 using pwned_shop.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace pwned_shop.Controllers
 {
@@ -102,6 +103,7 @@ namespace pwned_shop.Controllers
                 newUser.DOB = Convert.ToDateTime(user.DOB);
                 newUser.Address = user.Address;
                 db.Users.Add(newUser);
+                db.Users.Attach(newUser);
                 db.SaveChanges();
                 return View("Success");
             }
