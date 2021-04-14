@@ -101,7 +101,7 @@ namespace pwned_shop.Controllers
                 newUser.Salt = result[1];
                 newUser.DOB = Convert.ToDateTime(user.DOB);
                 newUser.Address = user.Address;
-                db.Add(newUser);
+                db.Users.Add(newUser);
                 db.SaveChanges();
                 return View("Success");
             }
