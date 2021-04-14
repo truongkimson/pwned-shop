@@ -47,6 +47,8 @@ function updateCart(elem) {
     let qty = elem.value;
     let cartBadge = document.getElementById("lblCartCount");
     let cartSubTotal = document.getElementById(`cart-subtotal-${productId}`);
+    let cartTotal = document.getElementById("cart-total");
+    console.log(cartSubTotal.value);
 
     // for debugging
 
@@ -65,7 +67,8 @@ function updateCart(elem) {
                 console.log("Cart update status: " + data.success);
                 if (data.success) {
                     cartBadge.innerHTML = data.cartCount;
-                    cartSubTotal.innerHTML = "$" + data.subTotal;
+                    cartSubTotal.innerHTML = `$${data.subTotal}`;
+                    cartTotal.innerHTML = `$${data.total}`;
                 }
             }
         }

@@ -62,8 +62,9 @@ namespace pwned_shop.Controllers
                     success = false
                 });
 
-            int cartCount;
-            float subTotal;
+            int cartCount = 0;
+            float subTotal = 0;
+            float total = 0;
             // if user is not logged in, update cart data in Session State as a Jsonified dict
             if (!User.Identity.IsAuthenticated)
             {
@@ -100,9 +101,15 @@ namespace pwned_shop.Controllers
                 }
                 Debug.WriteLine("Cart count: " + cartCount);
 
-                subTotal = db.Products.FirstOrDefault(p => p.Id == productId).UnitPrice;
-
-                return Json(new { success = true, cartCount = cartCount, subTotal = subTotal });
+                subTotal = db.Products.FirstOrDefault(p => p.Id == productId).UnitPrice * qty;
+                total = GetTotal(cartList);
+                return Json(new
+                {
+                    success = true,
+                    cartCount = cartCount,
+                    subTotal = subTotal,
+                    total = total
+                });
             }
 
             // else user is logged in, update cart data in SQL db Cart table
@@ -126,13 +133,25 @@ namespace pwned_shop.Controllers
             HttpContext.Session.SetInt32("cartCount", cartCount);
 
             // for debugging, to delete
-            foreach (var c in db.Users.FirstOrDefault(u => u.Id == userId).Carts)
+            foreach (Cart c in db.Users.FirstOrDefault(u => u.Id == userId).Carts)
             {
                 Debug.WriteLine($"Prod: {c.ProductId} - {c.Qty}");
             }
             Debug.WriteLine("Cart count: " + cartCount);
 
-            return Json(new { success = true, cartCount = cartCount });
+            subTotal = cart.Product.UnitPrice * qty;
+            foreach (Cart c in db.Users.FirstOrDefault(u => u.Id == userId).Carts)
+            {
+                total += c.Product.UnitPrice * c.Qty;
+            }
+
+            return Json(new
+            {
+                success = true,
+                cartCount = cartCount,
+                subTotal = subTotal,
+                total = total
+            });
         }
 
         [HttpPost]
@@ -253,6 +272,17 @@ namespace pwned_shop.Controllers
                 count += cart.Value;
             }
             return count;
+        }
+
+        protected float GetTotal(Dictionary<int,int> cartList)
+        {
+            float total = 0;
+            foreach (KeyValuePair<int,int> cart in cartList)
+            {
+                float unitPrice = db.Products.FirstOrDefault(p => p.Id == cart.Key).UnitPrice;
+                total += cart.Value * unitPrice;
+            }
+            return total;
         }
     }
 }
