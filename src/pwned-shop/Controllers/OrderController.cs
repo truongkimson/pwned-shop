@@ -163,7 +163,9 @@ namespace pwned_shop.Controllers
             }
             db.SaveChanges();
 
-            
+            //Remove cart session data
+            HttpContext.Session.Remove("cart");
+            HttpContext.Session.Remove("cartCount");
 
 
 
