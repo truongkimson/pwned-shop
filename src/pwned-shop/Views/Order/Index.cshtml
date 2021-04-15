@@ -1,52 +1,66 @@
-﻿@using pwned_shop.Models
-
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
 @{
     ViewData["Title"] = "Purchase History";
-    List<OrderDetail> pastPurchases = (List<OrderDetail>)ViewData["pastPurchases"];
-    IEnumerable<int> orderIds = pastPurchases.Select(x => x.OrderId).Distinct();
+    /* List<OrderDetail> pastPurchases = (List<OrderDetail>)ViewData["pastPurchases"];
+    IEnumerable<int> orderIds = pastPurchases.Select(x => x.OrderId).Distinct();*/
+
+    var orders = (List<OrderViewModel>)ViewData["OVMList"];
+    var c = orders.GroupBy(o => new
+    {
+        o.ImgURL,
+        o.ProductName,
+        o.ProductDesc,
+        o.Timestamp
+    });
+
+
 }
 
+<h2>Purchase History</h2>
+
+
 <table id="mainframe">
-    @foreach (int orderId in orderIds)
+
+
+
+    @foreach (var dud in c)
     {
+  
 
-        List<OrderDetail> listing = pastPurchases.FindAll(x => x.OrderId == orderId).ToList();
+    <tr>
+    <td class="listing" style="padding-bottom: 1%;">
+        <img src=@dud.Key.ImgURL class="image" />
+        <div id="pdt-name">@dud.Key.ProductName</div>
+        <div id="pdt-descr">@dud.Key.ProductDesc</div>
+        <input type="button" name="button" class="button" value="Download" />
+    </td>
 
-        <tr>
-            <td class="listing" style="padding-bottom: 1%;">
-                <img src=@listing[0].Product.ImgURL class="image" />
-                <div id="pdt-name">@listing[0].Product.ProductName</div>
-                <div id="pdt-descr">@listing[0].Product.ProductDesc</div>
-                <input type="button" name="button" class="button" value="Download" />
-            </td>
+    <td style="width: 60%;">
 
-            <td style="width: 60%;">
-
-                <table>
-                    <tr>
-                        <td>Purchased On:&nbsp;</td>
-                        <td>@listing[0].Order.Timestamp.ToLongDateString()</td>
-                    </tr>
-                    <tr>
-                        <td>Quantity:&nbsp;</td>
-                        <td>@listing.Count()</td>
-                    </tr>
-                    <tr>
-                        <td>Activation Code:&nbsp;</td>
-                        <td>
-                            <form>
-                                <select id="select">
-                                    @foreach (OrderDetail item in listing)
-                                    {
-                                        <option value="@item.ActivationCode">@item.ActivationCode</option>
-                                    }
-                                </select>
-                            </form>
-                        </td>
-                    </tr>
-                </table>
-            </td>
-            <td class="td-filler"></td>
-        </tr>
+        <table>
+            <tr>
+                <td>Purchased On:&nbsp;</td>
+                <td>@dud.Key.Timestamp.ToLongDateString()</td>
+            </tr>
+            <tr>
+                <td>Quantity:&nbsp;</td>
+                <td>@dud.Count()</td>
+            </tr>
+            <tr>
+                <td>Activation Code:&nbsp;</td>
+                <select id="activation">
+                    @foreach (var activationCode in dud)
+                    {
+    <option>@activationCode.ActivationCode</option>}
+                </select>
+            </tr>
+        </table>
+    </td>
+    <td class="td-filler"></td>
+</tr>
+    
     }
-</table>
+
+</table>   

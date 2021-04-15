@@ -17,10 +17,7 @@ namespace pwned_shop.Data
             db.Database.EnsureCreated();
 
             if (db.Users.Any())
-            {
                 return;
-            }
-            
 
             // populate Users table using data from csv/UserProfile.csv
             var rows = ReadCsv("Data/csv/UserProfile.csv");

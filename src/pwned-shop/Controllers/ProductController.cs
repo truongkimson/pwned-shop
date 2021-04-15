@@ -9,9 +9,6 @@ using pwned_shop.Data;
 
 namespace pwned_shop.Controllers
 {
-
-
-
     public class ProductController : Controller
     {
         private readonly PwnedShopDb db;
@@ -22,7 +19,7 @@ namespace pwned_shop.Controllers
 
         public IActionResult Index()
         {
-            ViewData["products"] = db.Products.ToList();
+            ViewData["Products"] = db.Products.ToList();
             return View();
         }
 

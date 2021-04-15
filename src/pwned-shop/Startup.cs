@@ -69,7 +69,7 @@ namespace pwned_shop
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Product}/{action=Index}/{id?}");
-            });   
+            });
         }
     }
 }
