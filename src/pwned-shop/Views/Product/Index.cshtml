@@ -5,7 +5,7 @@
 @{
 
     var products = (List<Product>)ViewData["Products"];
-
+    var searched = (string)ViewData["Searched"];
 }
 
 @{
@@ -14,15 +14,24 @@
 
 <div><img src="~/bannerImg/offersbanner.png" style="width:100%;"></div>
 <br />
-<div><img src="~/bannerImg/gallerybanner.png" style="width: 100%"></div>
+@if (searched == null)
+{
+    <div><img src="~/bannerImg/gallerybanner.png" style="width: 100%"></div>
+}
 <br>
 <br>
 <center>
-    <form action="Product/Search" method="post">
+    <form asp-action="Search" asp-controller="Product" method="post">
         <input class="searchInput" type="text" name="searchText" placeholder="Search title..." />
     </form>
 </center>
 <br>
+@if (searched != null)
+{
+    <h3 style="margin: 5px 0 0 60px ;">
+        You have searched for <b>"@searched" </b>
+    </h3>
+}
 <br>
 <div class="row">
     @foreach (var game in products)
