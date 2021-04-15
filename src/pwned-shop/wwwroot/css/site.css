@@ -65,17 +65,27 @@ a.helloname {
     justify-content: flex-end;
 }
 
+.product-card, .emptycart {
+    text-align: center;
+    font-family: arial;
+    padding: 2%;
+    flex-grow: 1;
+    flex-basis: 25%;
+}
+
 .product-card {
     box-shadow: 0px 2px 2px 2px rgba(0, 0, 0, 0.15);
     width: 350px;
     max-width: 350px;
     height: 470px;
     max-height: 470px;
-    text-align: center;
-    font-family: arial;
-    padding: 2%;
-    flex-grow: 1;
-    flex-basis: 25%;
+}
+
+.emptycart {
+    width: 450px;
+    max-width: 450px;
+    height: 500px;
+    max-height: 550px;
 }
 
 .product-images {
@@ -101,13 +111,16 @@ a.helloname {
     margin: 6px;
 }
 
-.gamedes {
+.gamedes, .empty-sc-text {
     color: #000000;
     font-size: 18px;
     text-align: center;
+    line-height: normal;
+}
+
+.gamedes {
     height: 115px;
     max-height: 115px;
-    line-height: normal;
     margin: -10px 10px 0px 10px;
 }
 
@@ -147,6 +160,7 @@ a.helloname {
     margin: 0 20px;
     border: 2px solid;
     border-color: #8c8c8c;
+    text-align: center;
 
 }
 
@@ -217,9 +231,6 @@ input[placeholder="Search title..."] {
     background-position: 30px 14px;
 }
 
-.qty {
-    text-align: center;
-}
 
 .sc-heading {
     color: #000000;
