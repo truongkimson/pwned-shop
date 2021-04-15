@@ -27,6 +27,9 @@ namespace pwned_shop.Controllers
                 var cartList = new List<Cart>(); 
                 var cartDict = HttpContext.Session.GetJson<Dictionary<int, int>>("cart");
 
+                if (cartDict == null || cartDict.Count == 0)
+                    return View("EmptyCart");
+
                 // seems like extra work, consider storing List<Cart> in Session State instead
                 foreach (KeyValuePair<int,int> c in cartDict)
                 {
@@ -47,8 +50,12 @@ namespace pwned_shop.Controllers
 
                 List<Cart> cartList = user.Carts.ToList();
 
+                if (cartList.Count == 0)
+                    return View("EmptyCart");
+
                 ViewData["cartList"] = cartList;
             }
+
             return View();
         }
 
