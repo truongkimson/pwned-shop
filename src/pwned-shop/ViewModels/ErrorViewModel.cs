@@ -1,6 +1,6 @@
 using System;
 
-namespace pwned_shop.Models
+namespace pwned_shop.ViewModels
 {
     public class ErrorViewModel
     {

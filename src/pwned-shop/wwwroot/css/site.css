@@ -139,7 +139,7 @@ a.helloname {
 .checkout-button {
     width: 20%;
     height: 60px;
-    font-size: 18px;
+    font-size: 24px;
 }
 
 .qty {
@@ -150,7 +150,7 @@ a.helloname {
 
 }
 
-.addcart-button:hover, .submitpromocode-button:hover, .checkout-button:hover, .remove-item:hover {
+.addcart-button:hover, .submitpromocode-button:hover, .checkout-button:hover {
     opacity: 0.5;
     border: none;
     outline: none;
@@ -212,9 +212,13 @@ input[placeholder="Search title..."] {
     font-size: 24px;
     padding: 14px 70px;
     color: #000000;
-    background-image: url(searchicon.png);
+    background-image: url(/bannerImg/searchicon.png);
     background-repeat: no-repeat;
     background-position: 30px 14px;
+}
+
+.qty {
+    text-align: center;
 }
 
 .sc-heading {
@@ -239,53 +243,57 @@ a.continue-shopping {
     opacity: 0.5;
 }
 
-.cart-table-heading {
-    color: #767676;
+.cart-table-heading-row {
+    border-bottom: 3px solid;
+    border-top: 3px solid;
+    border-color: #000000;
+    color: #000000;
     font-weight: bold;
     font-size: 24px;
     font-family: Arial;
-}
-.cart-table-heading-row {
-    border-bottom: 3px solid;
-    border-color: #000000;
 }
 
 .cart-body-padding {
-    padding: 8px;
+    padding: 12px;
 }
 
 .cart-product-name {
-    color: #767676;
+    color: #000000;
     font-weight: bold;
-    font-size: 24px;
+    font-size: 18px;
     font-family: Arial;
-}
-
-.cart-product-name {
-    font-weight: bold;
+    margin: 0 0 0 10px;
 }
 
 .cart-product-images {
     width: 400px;
     height: 220px;
     object-fit: contain;
-}
-
-.cart-product-name {
-    font-size: 18px;
-    margin: 0 0 0 10px;
+    padding: 20px 20px 20px 20px;
 }
 
 .cart-product-des {
-    color: #767676;
+    color: #000000;
     font-size: 18px;
     font-family: Arial;
     margin: 0 0 0 10px;
 }
 
-.remove-item {
-    border: none;
-    background-color: #ffffff;
+.cart-pro-details {
+    height:160px;
+}
+
+.remove-item, .remove-item:hover {
+    border: 1px solid;
+    background-color: #FFFFFF;
+    margin: 0 0 0 5px;
+    border-radius: 80px;
+    width: 20%;
+    margin-bottom: -20px;
+}
+
+.remove-item:hover {
+    opacity: 0.5;
 }
 
 .cart-subtotal, .cart-unit-price {
@@ -293,6 +301,10 @@ a.continue-shopping {
     font-weight: bold;
     font-family: Arial;
     color: #000000;
+}
+
+.cart-unit-price {
+    margin: 0 0 0 10px;
 }
 
 table {
