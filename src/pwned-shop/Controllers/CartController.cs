@@ -103,8 +103,8 @@ namespace pwned_shop.Controllers
 
                 foreach(Cart c in cartList.List)
                 {
-                    var unitPrice = db.Products.FirstOrDefault(p => p.Id == productId).UnitPrice;
-                    total = unitPrice * c.Qty;
+                    var unitPrice = db.Products.FirstOrDefault(p => p.Id == c.ProductId).UnitPrice;
+                    total += unitPrice * c.Qty;
                 }
             }
             // else user is logged in, update cart data in SQL db Cart table
@@ -149,8 +149,8 @@ namespace pwned_shop.Controllers
             {
                 success = true,
                 cartCount = cartCount,
-                subTotal = subTotal,
-                total = total
+                subTotal = subTotal.ToString("C"),
+                total = total.ToString("C")
             });
         }
 

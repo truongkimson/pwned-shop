@@ -1,6 +1,6 @@
 ﻿@{
     var cartList = (List<Cart>)ViewData["cartList"];
-    var totalPrice = cartList.Sum(c => c.Product.UnitPrice * c.Qty);
+    var totalPrice = cartList.Sum(c => c.Product.UnitPrice * c.Qty).ToString("C");
 }
 
 <div><img src="~/bannerImg/offersbanner.png" style="width:100%;"></div>
@@ -47,7 +47,7 @@
                                 </form>
                             </td>
 
-                            <td class="cart-unit-price">S$@item.Product.UnitPrice</td>
+                            <td class="cart-unit-price">S @item.Product.UnitPrice.ToString("C")</td>
 
                             <td>
                                 <div>
@@ -55,7 +55,7 @@
                                 </div>
                             </td>
 
-                            <td class="cart-subtotal" id="cart-subtotal-@item.ProductId">$@((item.Qty * item.Product.UnitPrice))</td>
+                            <td class="cart-subtotal" id="cart-subtotal-@item.ProductId">S @((item.Qty * item.Product.UnitPrice).ToString("C"))</td>
                         </tr>
 
                         <tr>
@@ -71,7 +71,7 @@
 
         <div>
             <div class="text-right">
-                <p class="cart-total-amt" id="cart-total">Please pay: S$@totalPrice</p>
+                <p class="cart-total-amt" id="cart-total">Please pay: S @totalPrice</p>
                 <a asp-area="" asp-controller="Order" asp-action="Checkout"><input type="button" class="checkout-button" value="CHECKOUT"></a>
                 <br />
                 <br />
