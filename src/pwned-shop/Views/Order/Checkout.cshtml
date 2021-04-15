@@ -1,4 +1,4 @@
-﻿@using pwned_shop.ViewModels
+@using pwned_shop.ViewModels
 
 @{
     var reciept = (List<CheckOutViewModel>)ViewData["RecieptView"];
@@ -9,19 +9,93 @@
         o.ProductDesc,
         o.Qty,
         o.UnitPrice,
-
     });
-    ;
+
+    float totalPrice = 0;
+
+    foreach (var r in c)
+    {
+        totalPrice = totalPrice + r.Key.UnitPrice;
+    }
 }
 
+<div><img src="~/bannerImg/offersbanner.png" style="width:100%;"></div>
+<br>
+<a class="continue-shopping" style="float:right;" asp-area="" asp-controller="Product" asp-action="Index">Continue Shopping</a>
+<br>
+<br>
+<center>
+    <h1 class="sc-heading">
+        Thank you for your purchase!
+        <br />
+        Enjoy Gaming <img src="~/img/video-game-resize.png" style="height: 100%"; />
+    </h1>
+</center>
+<br>
+<br>
+<div class="container-fluid">
+    <div>
+        <div>
+            <table>
+                <thead class="cart-table-heading-row">
+                    <tr>
+                        <th width="25%">Product Details</th>
+                        <th></th>
+                        <th width="5%">Price</th>
+                        <th width="8%">Quantity</th>
+                        <th width="5%">Sub-Total</th>
+                    </tr>
+                </thead>
 
-@foreach(var dud in c)
-            {
-                <span>@dud.Key.ImgURL</span><span> @dud.Key.ProductName</span><span>  @dud.Key.ProductDesc</span><span>  @dud.Key.Qty</span> <span>  @dud.Key.UnitPrice</span>
-                                                                                                                                             <select>
-                                                                                                                                                 @foreach(var x in dud)
-                                                                                                                                                 {
-                                                                                                                                                 <option> @x.ActivationCode</option>
-                                                                                                                                                 }
-                                                                                                                                             </select>
-            }
+                <tbody>
+                    <tr>
+                        <td><div class="cart-body-padding"></div></td>
+                    </tr>
+
+                    @foreach (var item in c)
+
+                    {
+                        <tr style="background-color:#f2f2f2;">
+                            <td class="cart-product-images">
+                                <div><img src=@item.Key.ImgURL></div>
+                            </td>
+
+                            <td style="text-align: left; vertical-align: middle">
+                                <div class="cart-pro-details">
+                                    <p class="cart-product-name">@item.Key.ProductName</p>
+                                    <p class="cart-product-des">@item.Key.ProductDesc</p>
+                                    <br />
+                                    <p class="cart-product-des">Activation Code:&nbsp;
+                                    <select id="activation">
+                                        @foreach (var activationCode in item)
+                                        {
+                                            <option>@activationCode.ActivationCode</option>
+                                            }
+                                    </select></p>
+                                </div>
+                            </td>
+
+                            <td class="cart-unit-price">S$@item.Key.UnitPrice</td>
+
+                            <td class="cart-subtotal text-center">@item.Key.Qty</td>
+
+                            <td class="cart-subtotal">S$@((item.Key.Qty * item.Key.UnitPrice))</td>
+                        </tr>
+
+                        <tr>
+                            <td><div class="cart-body-padding"></div></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <br />
+        <div>
+            <div class="text-right">
+                <p class="cart-total-amt" id="cart-total">Total Amount: S$@totalPrice</p>
+                <br />
+                <br />
+            </div>
+        </div>
+    </div>
+</div>
