@@ -94,7 +94,7 @@ namespace pwned_shop.Controllers
             {
                 var result = PasswordHasher.CreateHash(user.Password);
                 User newUser = new User();
-                newUser.Id = 9999;
+                newUser.Id = Guid.NewGuid().ToString();
                 newUser.FirstName = user.FirstName;
                 newUser.LastName = user.LastName;
                 newUser.Email = user.Email;
