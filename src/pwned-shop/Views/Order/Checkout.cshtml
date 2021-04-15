@@ -1,6 +1,8 @@
 @using pwned_shop.ViewModels
 
 @{
+    ViewData["Title"] = "Checkout";
+
     var reciept = (List<CheckOutViewModel>)ViewData["RecieptView"];
     var c = reciept.GroupBy(o => o.ProductName);
 
