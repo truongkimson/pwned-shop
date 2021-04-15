@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,10 +17,12 @@ namespace pwned_shop.Controllers
     public class CartController : Controller
     {
         private readonly PwnedShopDb db;
+        private readonly ILogger<CartController> _logger;
 
-        public CartController(PwnedShopDb db)
+        public CartController(PwnedShopDb db, ILogger<CartController> logger)
         {
             this.db = db;
+            _logger = logger;
         }
         public IActionResult Index()
         {
@@ -244,7 +247,9 @@ namespace pwned_shop.Controllers
                 var cartList = HttpContext.Session.GetJson<CartListViewModel>("cart");
 
                 // for debugging, to delete
-                Debug.WriteLine(cartList.RemoveFromCart(new Cart { ProductId = productId }));
+                int remove = cartList.RemoveFromCart(new Cart { ProductId = productId });
+                Debug.WriteLine(remove);
+                _logger.LogInformation(remove.ToString());
 
                 // update "cart" Session data
                 HttpContext.Session.SetJson("cart", cartList);
