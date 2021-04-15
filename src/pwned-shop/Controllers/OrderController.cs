@@ -9,6 +9,7 @@ using System.Diagnostics;
 using pwned_shop.Utils;
 using pwned_shop.Data;
 using pwned_shop.Models;
+using pwned_shop.ViewModels;
 using System.Data.Entity;
 
 namespace pwned_shop.Controllers

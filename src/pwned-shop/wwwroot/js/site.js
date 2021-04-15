@@ -68,7 +68,7 @@ function updateCart(elem) {
                 if (data.success) {
                     cartBadge.innerHTML = data.cartCount;
                     cartSubTotal.innerHTML = `$${data.subTotal}`;
-                    cartTotal.innerHTML = `$${data.total}`;
+                    cartTotal.innerHTML = `Please pay: S$${data.total}`;
                 }
             }
         }
@@ -79,4 +79,8 @@ function updateCart(elem) {
         productId: parseInt(productId),
         qty: parseInt(qty)
     }));
+}
+
+function calculateSum(item, index) {
+
 }
