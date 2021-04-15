@@ -6,6 +6,11 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@if (ViewData["Error"] != null)
+{ 
+    <p id="error"></p>
+}
+
 <form asp-controller="Account" class="col-sm-4 mx-auto" onsubmit="return ValidateForm()" name="myForm" asp-action="Register" method="POST">
     <div class="form-group">
         <label for="InputEmail1">Email address</label>
