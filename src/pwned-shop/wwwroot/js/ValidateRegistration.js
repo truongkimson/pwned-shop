@@ -1,5 +1,13 @@
-﻿window.onload = function () { }
+﻿window.onload = function ()
+{
+    if (document.getElementById("error") != null)
+    { AccountCreationFail()}
+}
 
+function AccountCreationFail()
+{
+    alert("Account creation failed because the email has already been used.");
+}
 function ValidateForm()
 {
     if ((ValidateEmail() == false) || (ValidatePassword() == false) || (ValidateFirstName() == false) || (ValidateLastName() == false) || (ValidateDOB() == false))
