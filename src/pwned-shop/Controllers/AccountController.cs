@@ -103,7 +103,7 @@ namespace pwned_shop.Controllers
                 newUser.DOB = Convert.ToDateTime(user.DOB);
                 newUser.Address = user.Address;
                 db.Users.Add(newUser);
-                db.Users.Attach(newUser);
+                //db.Users.Attach(newUser);
                 db.SaveChanges();
                 return View("Success");
             }
