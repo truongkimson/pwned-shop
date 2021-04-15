@@ -15,7 +15,7 @@
 
     foreach (var r in c)
     {
-        totalPrice = totalPrice + r.Key.UnitPrice;
+        totalPrice = totalPrice + (r.Key.Qty * r.Key.UnitPrice);
     }
 }
 
