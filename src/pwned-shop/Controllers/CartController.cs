@@ -56,8 +56,21 @@ namespace pwned_shop.Controllers
         [HttpPost]
         public IActionResult UpdateCart([FromBody] CartUpdate cu)
         {
-            int productId = cu.ProductId; int qty = cu.Qty;
-            if (qty < 0)
+            int productId; int qty;
+            try
+            {
+                productId = cu.ProductId; qty = cu.Qty;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                return Json( new
+                {
+                    success = false
+                });
+            }
+
+            if (qty <= 0)
                 return Json(new
                 {
                     success = false
