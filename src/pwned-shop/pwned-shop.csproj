@@ -26,6 +26,5 @@
   <ItemGroup>
     <Folder Include="Data\" />
     <Folder Include="Data\csv\" />
-    <Folder Include="wwwroot\img\" />
   </ItemGroup>
 </Project>
