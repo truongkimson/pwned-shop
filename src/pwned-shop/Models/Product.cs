@@ -24,6 +24,7 @@ namespace pwned_shop.Models
         public string CatTags { get; set; }
         [Required]
         public float UnitPrice { get; set; }
+        public float Discount { get; set; }
         [Required]
         [MaxLength(5)]
         public string ESRBRating { get; set; }
