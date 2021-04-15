@@ -13,6 +13,7 @@ namespace pwned_shop.Data
     {
         public static void Initialize(PwnedShopDb db)
         {
+            db.Database.EnsureDeleted();
             db.Database.EnsureCreated();
 
             if (db.Users.Any())
@@ -23,7 +24,7 @@ namespace pwned_shop.Data
 
             // populate Users table using data from csv/UserProfile.csv
             var rows = ReadCsv("Data/csv/UserProfile.csv");
-            string dateFormat = "dd/mm/yyyy";
+            string dateFormat = "d/M/yyyy";
             for (int i = 1; i < rows.Count; i++)
             {
                 var row = rows[i];
