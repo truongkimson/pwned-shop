@@ -8,7 +8,7 @@ namespace pwned_shop.Utils
     public class ShortGuid
     {
         // shorten Guid and make it url friendly
-        public string ShortenGuid(Guid guid)
+        public static string Shorten(Guid guid)
         {
             var shortGuid = Convert.ToBase64String(guid.ToByteArray());
 

@@ -120,7 +120,7 @@ namespace pwned_shop.Controllers
             {
                 var result = PasswordHasher.CreateHash(user.Password);
                 User newUser = new User();
-                newUser.Id = Guid.NewGuid().ToString();
+                newUser.Id = ShortGuid.Shorten(Guid.NewGuid());
                 newUser.FirstName = user.FirstName;
                 newUser.LastName = user.LastName;
                 newUser.Email = user.Email;
