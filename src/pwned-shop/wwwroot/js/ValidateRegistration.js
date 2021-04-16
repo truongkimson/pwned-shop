@@ -48,11 +48,11 @@ function ValidateForm()
     function ValidateEmail() {
         var z = document.forms["myForm"]["Email"].value;
         if (z == "") {
-    alert("Email must be filled out");
+            alert("Email must be filled out");
             return false;
         }
         else if (z.length > 25) {
-    alert("Email exceeded the character limit");
+            alert("Email exceeded the character limit");
             return false;
         }
     }
