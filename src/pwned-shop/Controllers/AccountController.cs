@@ -12,6 +12,8 @@ using pwned_shop.BindingModels;
 using pwned_shop.ViewModels;
 using pwned_shop.Models;
 using pwned_shop.Data;
+using pwned_shop.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace pwned_shop.Controllers
 {
@@ -112,12 +114,32 @@ namespace pwned_shop.Controllers
 
         [HttpPost]
         public IActionResult Register([FromForm] UserRegDetails user)
-        {
-            var result = PasswordHasher.CreateHash(user.Password);
-            // TODO: Register action, validate credentials data and persist in db
-            // redirect to account create successful page
-            return Content($"Password hash is: {result[0]}\n" +
-                $"Salt is: {result[1]}");
+        {   //If there are no existing users with same email address, create new user object and add to database.
+            //Returns success page. Otherwise redirect to home.
+            User test = db.Users.FirstOrDefault(x => x.Email==user.Email);
+            if (test == null)
+            {
+                var result = PasswordHasher.CreateHash(user.Password);
+                User newUser = new User();
+                newUser.Id = Guid.NewGuid().ToString();
+                newUser.FirstName = user.FirstName;
+                newUser.LastName = user.LastName;
+                newUser.Email = user.Email;
+                newUser.PasswordHash = result[0];
+                newUser.Salt = result[1];
+                newUser.DOB = Convert.ToDateTime(user.DOB);
+                newUser.Address = user.Address;
+                db.Users.Add(newUser);
+                db.SaveChanges();
+                return View("Success");
+
+            }
+            else
+            {   
+                ViewData["Error"] = "AccountCreationFail()";
+                return View("Register");
+            }
+            
         }
 
         public IActionResult Denied()
