@@ -36,12 +36,15 @@ namespace pwned_shop.Controllers
         [HttpPost]
         public async Task<IActionResult> Login([FromForm] LoginDetails login, string returnUrl)
         {
+            // find user by email
             var user = db.Users.FirstOrDefault(u => u.Email == login.Email);
             if (user != null)
             {
+                // check password hash if matched
                 string pwdHash = PasswordHasher.Hash(login.Password, user.Salt);
                 if (pwdHash == user.PasswordHash)
                 {
+                    // declare claims
                     var claims = new List<Claim>
                     {
                         new Claim("email", user.Email),
@@ -50,6 +53,7 @@ namespace pwned_shop.Controllers
                         new Claim("userId", user.Id.ToString())
                     };
 
+                    // configure authentication
                     var authProperties = new AuthenticationProperties
                     {
                         IsPersistent = true,
@@ -57,13 +61,15 @@ namespace pwned_shop.Controllers
                         ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(5) // authentication ticket expiry
                     };
 
+                    // sign in with new Identity, authentication name: "Cookies", User.Identity.Name is "fullName"
                     await HttpContext.SignInAsync(new ClaimsPrincipal(
-                        new ClaimsIdentity(claims, "Cookies", "username", "role")),
+                        new ClaimsIdentity(claims, "Cookies", "fullName", "role")),
                             authProperties);
 
                     // transfer cart data in session into User's cart
                     var cartList = HttpContext.Session.GetJson<CartListViewModel>("cart");
 
+                    // if cart in db not empty, override it
                     if (cartList != null)
                     {
                         foreach (Cart c in user.Carts)
@@ -80,7 +86,7 @@ namespace pwned_shop.Controllers
                         db.SaveChanges();
                     }
 
-                    // get cartCount from user's cart data
+                    // get cartCount and save in Session
                     int cartCount = user.Carts.Sum(c => c.Qty);
                     HttpContext.Session.SetInt32("cartCount", cartCount);
 
@@ -113,7 +119,8 @@ namespace pwned_shop.Controllers
 
         [HttpPost]
         public IActionResult Register([FromForm] UserRegDetails user)
-        {   //If there are no existing users with same email address, create new user object and add to database.
+        {   
+            //If there are no existing users with same email address, create new user object and add to database.
             //Returns success page. Otherwise redirect to home.
             User test = db.Users.FirstOrDefault(x => x.Email==user.Email);
             if (test == null)

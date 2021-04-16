@@ -41,7 +41,7 @@
         <div class="bottomnav">
             @if (User.Identity.IsAuthenticated)
             {
-                <a class="helloname">Hello, @User.FindFirst("fullName").Value</a>
+                <a class="helloname">Hello, @User.Identity.Name</a>
             }
             else
             {
