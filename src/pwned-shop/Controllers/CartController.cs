@@ -263,12 +263,14 @@ namespace pwned_shop.Controllers
                 {
                     var cartList = HttpContext.Session.GetJson<CartListViewModel>("cart");
 
-                    // for debugging, to delete
-                    Debug.WriteLine(cartList.RemoveFromCart(new Cart { ProductId = productId }));
+                    if (cartList != null)
+                    {
+                        // for debugging, to delete
+                        Debug.WriteLine(cartList.RemoveFromCart(new Cart { ProductId = productId }));
 
-                    // update "cart" Session data
-                    HttpContext.Session.SetJson("cart", cartList);
-
+                        // update "cart" Session data
+                        HttpContext.Session.SetJson("cart", cartList);
+                    }
                     // get latest "cartCount" and set to Session data
                     cartCount = cartList.CartCount;
                 }
@@ -276,9 +278,12 @@ namespace pwned_shop.Controllers
                 {
                     string userId = User.FindFirst("userId").Value;
                     var cart = db.Carts.FirstOrDefault(c => c.ProductId == productId && c.UserId == userId);
-                    db.Carts.Remove(cart);
 
-                    db.SaveChanges();
+                    if (cart != null)
+                    {
+                        db.Carts.Remove(cart);
+                        db.SaveChanges();
+                    }
 
                     // get latest "cartCount" and add to Session data
                     cartCount = db.Users.FirstOrDefault(u => u.Id == userId).Carts.Sum(c => c.Qty);
@@ -291,12 +296,8 @@ namespace pwned_shop.Controllers
                 Debug.WriteLine(ex.Message);
                 _logger.LogError(ex, $"Error removing from cart for prod Id {productId}");
 
-                return Json(new
-                {
-                    success = false
-                });
+                return RedirectToAction("Index");
             }
-
             return RedirectToAction("Index");
         }
     }
