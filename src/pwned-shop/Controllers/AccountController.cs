@@ -12,7 +12,6 @@ using pwned_shop.BindingModels;
 using pwned_shop.ViewModels;
 using pwned_shop.Models;
 using pwned_shop.Data;
-using pwned_shop.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace pwned_shop.Controllers
