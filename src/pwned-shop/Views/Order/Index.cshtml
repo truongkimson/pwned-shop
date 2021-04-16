@@ -1,52 +1,78 @@
-﻿@using pwned_shop.Models
-
+﻿@using pwned_shop.ViewModels
 @{
     ViewData["Title"] = "Purchase History";
-    List<OrderDetail> pastPurchases = (List<OrderDetail>)ViewData["pastPurchases"];
-    IEnumerable<int> orderIds = pastPurchases.Select(x => x.OrderId).Distinct();
+    /* List<OrderDetail> pastPurchases = (List<OrderDetail>)ViewData["pastPurchases"];
+    IEnumerable<int> orderIds = pastPurchases.Select(x => x.OrderId).Distinct();*/
+
+    var orders = (List<OrderViewModel>)ViewData["OVMList"];
+    var c = orders.GroupBy(o => new
+    {
+        o.ImgURL,
+        o.ProductName,
+        o.ProductDesc,
+        o.Timestamp
+    });
 }
 
-<table id="mainframe">
-    @foreach (int orderId in orderIds)
-    {
+<h1 class="sc-heading">Purchase History</h1>
+<br>
 
-        List<OrderDetail> listing = pastPurchases.FindAll(x => x.OrderId == orderId).ToList();
 
-        <tr>
-            <td class="listing" style="padding-bottom: 1%;">
-                <img src=@listing[0].Product.ImgURL class="image" />
-                <div id="pdt-name">@listing[0].Product.ProductName</div>
-                <div id="pdt-descr">@listing[0].Product.ProductDesc</div>
-                <input type="button" name="button" class="button" value="Download" />
-            </td>
-
-            <td style="width: 60%;">
-
-                <table>
+<div class="container-fluid">
+    <div>
+        <div>
+            <table>
+                <thead class="cart-table-heading-row">
                     <tr>
-                        <td>Purchased On:&nbsp;</td>
-                        <td>@listing[0].Order.Timestamp.ToLongDateString()</td>
+                        <th width="25%">Product Details</th>
+                        <th></th>
+                        <th width="25%">Purchase Details</th>
                     </tr>
+                </thead>
+
+                <tbody>
                     <tr>
-                        <td>Quantity:&nbsp;</td>
-                        <td>@listing.Count()</td>
+                        <td><div class="cart-body-padding"></div></td>
                     </tr>
-                    <tr>
-                        <td>Activation Code:&nbsp;</td>
-                        <td>
-                            <form>
-                                <select id="select">
-                                    @foreach (OrderDetail item in listing)
-                                    {
-                                        <option value="@item.ActivationCode">@item.ActivationCode</option>
-                                    }
-                                </select>
-                            </form>
-                        </td>
-                    </tr>
-                </table>
-            </td>
-            <td class="td-filler"></td>
-        </tr>
-    }
-</table>
+
+                    @foreach (var dud in c)
+                    {
+                        <tr style="background-color:#f2f2f2;">
+                            <td class="cart-product-images">
+                                <div><img src=@dud.Key.ImgURL class="image" /></div>
+                            </td>
+                            
+                            <td style="text-align: left; vertical-align: middle">
+                                <div class="cart-pro-details">
+                                    <p class="cart-product-name">@dud.Key.ProductName</p>
+                                    <p class="cart-product-des">@dud.Key.ProductDesc</p>
+                                    <br />
+                                    <p class="cart-product-des">Activation Code:&nbsp;
+                                    <select id="activation">
+                                        @foreach (var activationCode in dud)
+                                        {
+                                            <option>@activationCode.ActivationCode</option>
+                                        }
+                                    </select></p>
+                                </div>
+                            </td>
+                            
+                            <td style="text-align: left; vertical-align: middle">
+                                <div class="cart-pro-details">
+                                    <p class="cart-product-name">Purchased On:&nbsp; @dud.Key.Timestamp.ToLongDateString()</p>
+                                    <p class="cart-product-name">Quantity:&nbsp; @dud.Count()</p>
+                                    <br />
+                                    <input type="button" name="button" class="button" style="margin-left:10px" value="Download" />
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><div class="cart-body-padding"></div></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
