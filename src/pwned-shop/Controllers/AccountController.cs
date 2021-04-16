@@ -124,29 +124,40 @@ namespace pwned_shop.Controllers
         {   
             //If there are no existing users with same email address, create new user object and add to database.
             //Returns success page. Otherwise redirect to home.
-            User test = db.Users.FirstOrDefault(x => x.Email==user.Email);
-            if (test == null)
-            {
-                var result = PasswordHasher.CreateHash(user.Password);
-                User newUser = new User();
-                newUser.Id = ShortGuid.Shorten(Guid.NewGuid());
-                newUser.FirstName = user.FirstName;
-                newUser.LastName = user.LastName;
-                newUser.Email = user.Email;
-                newUser.PasswordHash = result[0];
-                newUser.Salt = result[1];
-                newUser.DOB = Convert.ToDateTime(user.DOB);
-                newUser.Address = user.Address;
-                db.Users.Add(newUser);
-                db.SaveChanges();
-                return View("Success");
 
+            User test = db.Users.FirstOrDefault(x => x.Email==user.Email);
+            ValidateRegistration test2 = new ValidateRegistration();
+            if (test2.ValidateDOB(user.DOB) && test2.ValidateEmail(user.Email))
+            {
+                if (test == null)
+                {
+                    var result = PasswordHasher.CreateHash(user.Password);
+                    User newUser = new User();
+                    newUser.Id = ShortGuid.Shorten(Guid.NewGuid());
+                    newUser.FirstName = user.FirstName;
+                    newUser.LastName = user.LastName;
+                    newUser.Email = user.Email;
+                    newUser.PasswordHash = result[0];
+                    newUser.Salt = result[1];
+                    newUser.DOB = Convert.ToDateTime(user.DOB);
+                    newUser.Address = user.Address;
+                    db.Users.Add(newUser);
+                    db.SaveChanges();
+                    return View("Success");
+
+                }
+                else
+                {
+                    ViewData["Error"] = "Error: Account creation failed because email has already been used.";
+                    return View("Register");
+                }
             }
             else
-            {   
-                ViewData["Error"] = "AccountCreationFail()";
+            {
+                ViewData["Error"] = "Error: Incorrect data was given.";
                 return View("Register");
             }
+
             
         }
 

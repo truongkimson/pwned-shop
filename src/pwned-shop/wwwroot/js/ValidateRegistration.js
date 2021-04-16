@@ -1,13 +1,9 @@
 ﻿window.onload = function ()
 {
-    if (document.getElementById("error") != null)
-    { AccountCreationFail()}
+
 }
 
-function AccountCreationFail()
-{
-    alert("Account creation failed because the email has already been used.");
-}
+
 function ValidateForm()
 {
     if ((ValidateEmail() == false) || (ValidatePassword() == false) || (ValidateFirstName() == false) || (ValidateLastName() == false) || (ValidateDOB() == false))
@@ -63,11 +59,14 @@ function ValidateForm()
             return false;
         }
     }
-    function ValidateDOB() {
+    function ValidateDOB()
+    {
         var c = document.forms["myForm"]["DOB"].value;
-        if (c == "") {
+        if (c == "")
+        {
             alert("Date of Birth must be filled out");
             return false;
         }
+
     }
 

@@ -6,10 +6,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@if (ViewData["Error"] != null)
-{
-    <p id="error"></p>
-}
+
 <div class="container">
     <div class="col-md-8 mx-auto">
         <div class="card login-logout-tab col-md">
@@ -77,6 +74,9 @@
                                     </div>
                                     <div class="form-group">
                                         <button type="submit" class="btn btn-danger btn-block btn-lg">Register</button>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <p id="error" style="color:red;"><b>@ViewData["Error"]</b></p>
                                     </div>
                                 </form>
                             </section>
