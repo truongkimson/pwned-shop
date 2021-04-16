@@ -69,14 +69,16 @@ namespace pwned_shop.Controllers
                     // transfer cart data in session into User's cart
                     var cartList = HttpContext.Session.GetJson<CartListViewModel>("cart");
 
-                    // if cart in db not empty, override it
+                    // if cart in Session not empty, override db Cart data
                     if (cartList != null)
                     {
+                        // remove existing db Cart data
                         foreach (Cart c in user.Carts)
                         {
                             db.Carts.Remove(c);
                         }
 
+                        // populate new Cart data from Session into db
                         foreach (Cart c in cartList.List)
                         {
                             c.UserId = user.Id;

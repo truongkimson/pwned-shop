@@ -94,62 +94,68 @@ namespace pwned_shop.Controllers
         [Authorize]
         public IActionResult Checkout()
         {
-            // TODO: convert current shopping cart to a successful order
-            // Show activation codes
-            //ViewData["codes"] = ActivationCodeGenerator.GetCode();
             List<Order> newOrderList = new List<Order>();
             List<OrderDetail> newOrderDetailsList = new List<OrderDetail>();
             int i = 0;
 
             //generate orderId
             //Add order and orderdetal data into database after purchase.
-            var LatestOrderId = db.Orders.Max(o => o.Id);
-            var newOrderId = LatestOrderId + 1;
+            var newOrderId = ShortGuid.Shorten(Guid.NewGuid());
             //test
             Debug.WriteLine("this is the checkout");
             List<Cart> userCart = new List<Cart>();
-            string userId1 = User.FindFirst("userId").Value;
-            string userId = userId1;
+            string userId = User.FindFirst("userId").Value;
+
             userCart = db.Users.FirstOrDefault(u => u.Id == userId).Carts.ToList();
 
             //While we are adding order and orderdetail data into the database, we will populate the view data as well for the reciept
             
             List<CheckOutViewModel> recieptList = new List<CheckOutViewModel>();
 
-            Order newOrder = new Order();
-            newOrder.UserId = userId;
-            newOrder.Id = newOrderId;
-            newOrder.Timestamp = DateTime.Now;
+            Order newOrder = new Order()
+            {
+                UserId = userId,
+                Id = newOrderId,
+                Timestamp = DateTime.Now
+            };
+
             db.Orders.Add(newOrder);
             db.SaveChanges();
+
             Debug.WriteLine(newOrder.Id);
             Debug.WriteLine(newOrder);
+
             foreach (var cartItem in userCart)
             {
-                while(i<cartItem.Qty)
+                while (i < cartItem.Qty)
                 {
                     //Populate OrderDetail & add to database
-                    OrderDetail newOrderDetail = new OrderDetail();
-                    string activation = Guid.NewGuid().ToString();
-                    newOrderDetail.ActivationCode = activation;
-                    newOrderDetail.OrderId = newOrderId;
-                    newOrderDetail.ProductId = cartItem.ProductId;
-                    i++;
+                    OrderDetail newOrderDetail = new OrderDetail()
+                    {
+                        ActivationCode = Guid.NewGuid().ToString(),
+                        OrderId = newOrderId,
+                        ProductId = cartItem.ProductId
+                    };
+                    
                     db.OrderDetails.Add(newOrderDetail);
                     db.SaveChanges();
+
                     Debug.WriteLine(newOrderDetail);
                     Debug.WriteLine(newOrderDetail.ActivationCode);
 
                     //populate the checkoutviewmodel
-                    CheckOutViewModel reciept = new CheckOutViewModel();
-                    reciept.ImgURL = cartItem.Product.ImgURL;
-                    reciept.ProductName = cartItem.Product.ProductName;
-                    reciept.ProductDesc = cartItem.Product.ProductDesc;
-                    reciept.ActivationCode = activation;
-                    reciept.Qty = cartItem.Qty;
-                    reciept.UnitPrice = cartItem.Product.UnitPrice;
-
+                    CheckOutViewModel reciept = new CheckOutViewModel()
+                    {
+                        ImgURL = cartItem.Product.ImgURL,
+                        ProductName = cartItem.Product.ProductName,
+                        ProductDesc = cartItem.Product.ProductDesc,
+                        ActivationCode = newOrderDetail.ActivationCode,
+                        Qty = cartItem.Qty,
+                        UnitPrice = cartItem.Product.UnitPrice
+                    };
+                    
                     recieptList.Add(reciept);
+                    i++;
                 }
                 i = 0;
             }

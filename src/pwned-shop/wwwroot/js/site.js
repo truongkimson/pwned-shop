@@ -16,6 +16,10 @@ function addToCart(elem) {
     let cartBadge = document.getElementById("lblCartCount");
     let productId = elem.getAttribute("product-id");
 
+    if (productId == null) {
+        return;
+    }
+
     let xhr = new XMLHttpRequest();
 
     xhr.open("POST", `/Cart/AddToCart?productId=${productId}`);

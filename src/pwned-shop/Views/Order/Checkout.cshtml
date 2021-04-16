@@ -64,8 +64,8 @@
 
                             <td class="cart-pro-details">
                                 <div>
-                                    <p class="cart-product-name">@item.First().ProductName</p>
-                                    <p class="cart-product-des">@item.First().ProductDesc</p>
+                                    <p class="cart-product-name">@item.Key.ProductName</p>
+                                    <p class="cart-product-des">@item.Key.ProductDesc</p>
                                     <br />
                                     <p class="cart-product-name">Activation Code:&nbsp;
                                     <select id="activation">
@@ -80,7 +80,7 @@
 
                             <td class="cart-unit-price" style="text-align:center">S  @item.Key.UnitPrice.ToString("C")</td>
 
-                            <td class="cart-subtotal" style="text-align:center">>@item.Key.Qty</td>
+                            <td class="cart-subtotal" style="text-align:center">@item.Key.Qty</td>
 
                             <td class="cart-subtotal" style="text-align:center">S @((item.Key.Qty * item.Key.UnitPrice).ToString("C"))</td>
                         </tr>
