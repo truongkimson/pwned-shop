@@ -9,8 +9,7 @@ namespace pwned_shop.Models
     public class Review
     {
         [Required]
-        [MaxLength(5)]
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         [Required]
         [MaxLength(5)]
         public int ProductId { get; set; }

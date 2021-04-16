@@ -4,13 +4,20 @@
     ViewData["Title"] = "Checkout";
 
     var reciept = (List<CheckOutViewModel>)ViewData["RecieptView"];
-    var c = reciept.GroupBy(o => o.ProductName);
+    var c = reciept.GroupBy(o => new
+    {
+        o.ProductName,
+        o.ProductDesc,
+        o.Qty,
+        o.UnitPrice,
+        o.ImgURL
+    });
 
     float totalPrice = 0;
 
     foreach (var r in c)
     {
-        totalPrice += (r.First().UnitPrice * r.Count());
+        totalPrice += (r.Key.UnitPrice * r.Key.Qty);
     }
 }
 
@@ -52,13 +59,13 @@
                     {
                         <tr style="background-color:#f2f2f2;">
                             <td class="cart-product-images">
-                                <div><img src=@item.First().ImgURL></div>
+                                <div><img src=@item.Key.ImgURL></div>
                             </td>
 
                             <td style="text-align: left; vertical-align: middle">
                                 <div class="cart-pro-details">
-                                    <p class="cart-product-name">@item.First().ProductName</p>
-                                    <p class="cart-product-des">@item.First().ProductDesc</p>
+                                    <p class="cart-product-name">@item.Key.ProductName</p>
+                                    <p class="cart-product-des">@item.Key.ProductDesc</p>
                                     <br />
                                     <p class="cart-product-des">Activation Code:&nbsp;
                                     <select id="activation">
@@ -70,11 +77,11 @@
                                 </div>
                             </td>
 
-                            <td class="cart-unit-price">S @item.First().UnitPrice.ToString("C")</td>
+                            <td class="cart-unit-price">S @item.Key.UnitPrice.ToString("C")</td>
 
-                            <td class="cart-subtotal text-center">@item.Count()</td>
+                            <td class="cart-subtotal text-center">@item.Key.Qty</td>
 
-                            <td class="cart-subtotal">S @((item.Count() * item.First().UnitPrice).ToString("C"))</td>
+                            <td class="cart-subtotal">S @((item.Key.Qty * item.Key.UnitPrice).ToString("C"))</td>
                         </tr>
 
                         <tr>
