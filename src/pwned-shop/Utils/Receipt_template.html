@@ -1,0 +1,47 @@
+﻿<html>
+<head>
+    <meta charset="utf-8" />
+</head>
+<body>
+    <h1>
+        Thank you for your purchase, biatch!
+        <br />
+    </h1>
+    <br />
+    <br />
+    <table>
+        <thead>
+            <tr>
+                <th width="60%">Product Details</th>
+                <th style="text-align:center" width="12%">Price</th>
+                <th style="text-align:center" width="10%">Quantity</th>
+                <th style="text-align:center" width="10%">Sub-Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in @Model.List)
+            {
+            <tr style="background-color:#f2f2f2;">
+                <td>
+                    <p>@item.ProductName</p>
+                    <br />
+                    <p>Activation Code:</p>
+                        @foreach (var code in item.ActivationCodes)
+                        {
+                            <p>@code</p>
+                        }
+                </td>
+                <td style="text-align:center">S @item.UnitPrice</td>
+                <td style="text-align:center">@item.Qty</td>
+                <td style="text-align:center">S @(item.Qty * item.UnitPrice)</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+    <br />
+    <br />
+    <div>
+        <p class="cart-total-amt" id="cart-total">Total Amount: S @Model.TotalPrice</p>
+    </div>
+</body>
+</html>
