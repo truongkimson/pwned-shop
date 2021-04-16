@@ -21,9 +21,11 @@ namespace pwned_shop.Data
         public DbSet<Rating> Ratings { get; set; }
         public DbSet<Discount> Discounts { get; set; }
         public DbSet<Review> Reviews { get; set; }
+        public DbSet<Cart> Carts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<User>().HasIndex(u => u.Email).IsUnique();
             modelBuilder.Entity<Review>().HasKey(r => new { r.UserId, r.ProductId });
             modelBuilder.Entity<Product>()
                         .HasOne(p => p.Rating)
@@ -34,6 +36,8 @@ namespace pwned_shop.Data
                         .WithMany(d => d.Orders)
                         .HasForeignKey(o => o.PromoCode)
                         .IsRequired(false);
+            modelBuilder.Entity<Cart>().HasKey(c => new { c.UserId, c.ProductId });
+            modelBuilder.Entity<Cart>().HasIndex(c => c.UserId);
         }
     }
 }

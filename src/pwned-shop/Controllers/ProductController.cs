@@ -9,9 +9,6 @@ using pwned_shop.Data;
 
 namespace pwned_shop.Controllers
 {
-
-
-
     public class ProductController : Controller
     {
         private readonly PwnedShopDb db;
@@ -22,24 +19,24 @@ namespace pwned_shop.Controllers
 
         public IActionResult Index()
         {
-            ViewData["products"] = db.Products.ToList();
+            ViewData["Products"] = db.Products.ToList();
             return View();
         }
 
         [HttpPost]
         public IActionResult Search(string searchText)
         {
-            // TODO: retrieve list of products from db based on provided query
-            // Clean up query to prevent SQL injection? is it necessary for EF Core?
+            if (searchText == null)
+                return RedirectToAction("Index");
 
             var inter = (from u in db.Products.AsEnumerable()
                          where u.ProductName.ToLower().Contains(searchText.ToLower())
                          select u).ToList();
 
-            ViewData["Trial"] = inter;
+            ViewData["Products"] = inter;
             ViewData["Searched"] = searchText;
 
-            return View();
+            return View("Index");
         }
 
         public IActionResult Detail(string productId)

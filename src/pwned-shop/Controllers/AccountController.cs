@@ -9,6 +9,8 @@ using System.Security.Claims;
 using System.Diagnostics;
 using pwned_shop.Utils;
 using pwned_shop.BindingModels;
+using pwned_shop.ViewModels;
+using pwned_shop.Models;
 using pwned_shop.Data;
 using pwned_shop.Models;
 using Microsoft.EntityFrameworkCore;
@@ -28,6 +30,7 @@ namespace pwned_shop.Controllers
         public IActionResult Login(string returnUrl)
         {
             ViewData["returnUrl"] = returnUrl;
+            
             return View();
         }
 
@@ -44,7 +47,7 @@ namespace pwned_shop.Controllers
                     {
                         new Claim("email", user.Email),
                         new Claim("role", "Member"),
-                        new Claim("fullName", user.FirstName + user.LastName),
+                        new Claim("fullName", user.FirstName + " " + user.LastName),
                         new Claim("userId", user.Id.ToString())
                     };
 
@@ -58,6 +61,29 @@ namespace pwned_shop.Controllers
                     await HttpContext.SignInAsync(new ClaimsPrincipal(
                         new ClaimsIdentity(claims, "Cookies", "username", "role")),
                             authProperties);
+
+                    // transfer cart data in session into User's cart
+                    var cartList = HttpContext.Session.GetJson<CartListViewModel>("cart");
+
+                    if (cartList != null)
+                    {
+                        foreach (Cart c in user.Carts)
+                        {
+                            db.Carts.Remove(c);
+                        }
+
+                        foreach (Cart c in cartList.List)
+                        {
+                            c.UserId = user.Id;
+                            db.Carts.Add(c);
+                        }
+
+                        db.SaveChanges();
+                    }
+
+                    // get cartCount from user's cart data
+                    int cartCount = user.Carts.Sum(c => c.Qty);
+                    HttpContext.Session.SetInt32("cartCount", cartCount);
 
                     return Redirect(returnUrl == null ? "/" : returnUrl);
                 }
@@ -77,6 +103,7 @@ namespace pwned_shop.Controllers
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync();
+            HttpContext.Session.Clear();
             return RedirectToAction("Index", "Product");
         }
 

@@ -18,25 +18,24 @@ namespace pwned_shop
         {
             var host = CreateHostBuilder(args).Build();
 
-            CreateDbIfNotExists(host);
+            CreateDb(host);
 
             host.Run();
         }
 
-        private static void CreateDbIfNotExists(IHost host)
+        private static void CreateDb(IHost host)
         {
             using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
                 try
                 {
-                    var context = services.GetRequiredService<PwnedShopDb>();
-                    DbInitializer.Initialize(context);
+                    var db = services.GetRequiredService<PwnedShopDb>();
+                    DbInitializer.Initialize(db);
                 }
                 catch (Exception ex)
                 {
-                    var logger = services.GetRequiredService<ILogger<Program>>();
-                    logger.LogError(ex, "An error occurred creating the DB.");
+                    Debug.WriteLine("Error creating db: " + ex);
                 }
             }
         }

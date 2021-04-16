@@ -36,5 +36,6 @@ namespace pwned_shop.Models
 
         public virtual ICollection<Order> Orders { get; set; }
         public virtual ICollection<Review> Reviews { get; set; }
+        public virtual ICollection<Cart> Carts { get; set; }
     }
 }
