@@ -6,7 +6,7 @@
 
 function ValidateForm()
 {
-    if ((ValidateEmail() == false) || (ValidatePassword() == false) || (ValidateFirstName() == false) || (ValidateLastName() == false) || (ValidateDOB() == false))
+    if ((ValidateFirstName() == false) || (ValidateLastName() == false) || (ValidateEmail() == false) || (ValidatePassword() == false) || (ValidateDOB() == false))
     {
         return false;
     }
@@ -52,10 +52,12 @@ function ValidateForm()
             return false;
         }
     }
-    function ValidatePassword() {
+    function ValidatePassword()
+    {
         var b = document.forms["myForm"]["Password"].value;
-        if (b == "") {
-            alert("Password must be filled out");
+        if ((b.length < 8)|| (b.indexOf(" ") != -1))
+        {
+            alert("Password must contain at least 8 characters (only alphanumeric or special characters like %!?$ are allowed)");
             return false;
         }
     }

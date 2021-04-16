@@ -29,5 +29,21 @@ namespace pwned_shop.Utils
             }
             return output;
         }
+        public bool ValidatePassword(string password)
+        {
+            bool output = true;            
+            foreach (char x in password)
+            { 
+                if (Char.IsWhiteSpace(x))
+                {
+                    output = false;
+                }  
+            }
+            if ((password.Length)<8 )
+            {
+                output = false;
+            }
+            return output;
+        }
     }
 }

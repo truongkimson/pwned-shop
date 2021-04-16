@@ -127,7 +127,7 @@ namespace pwned_shop.Controllers
 
             User test = db.Users.FirstOrDefault(x => x.Email==user.Email);
             ValidateRegistration test2 = new ValidateRegistration();
-            if (test2.ValidateDOB(user.DOB) && test2.ValidateEmail(user.Email))
+            if (test2.ValidateDOB(user.DOB) && test2.ValidateEmail(user.Email) && test2.ValidatePassword(user.Password))
             {
                 if (test == null)
                 {
