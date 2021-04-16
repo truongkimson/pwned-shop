@@ -9,7 +9,7 @@ namespace pwned_shop.Models
     public class OrderDetail
     {
         [Required]
-        public int OrderId { get; set; }
+        public string OrderId { get; set; }
         [Required]
         public int ProductId { get; set; }
         [Key]

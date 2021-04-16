@@ -14,7 +14,7 @@ namespace pwned_shop.Models
         [Key]
         [Required]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int Id { get; set; }
+        public string Id { get; set; }
         [Required]
         [MaxLength(30)]
         public string FirstName { get; set; }
@@ -30,7 +30,7 @@ namespace pwned_shop.Models
         [Required]
         public DateTime DOB { get; set; }
         [Required]
-        [MaxLength(25)]
+        [MaxLength(30)]
         public string Email { get; set; }
         [MaxLength(60)]
         public string Address { get; set; }

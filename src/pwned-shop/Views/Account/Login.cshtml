@@ -1,8 +1,9 @@
 ﻿@{
     ViewData["Title"] = "Log In";
+    var returnUrl = (string)ViewData["returnUrl"];
 }
 
-<form class="col-sm-4 mx-auto" asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["returnUrl"]" method="POST">
+<form class="col-sm-4 mx-auto" asp-controller="Account" asp-action="Login" asp-route-returnurl="@returnUrl" method="POST">
     <div class="alert-danger">@TempData["error"]</div>
     <div class="form-group">
         <label for="exampleInputEmail1">Email address</label>

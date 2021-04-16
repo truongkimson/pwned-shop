@@ -42,7 +42,7 @@ namespace pwned_shop.Controllers
             }
             else
             {
-                var userId = Convert.ToInt32(User.FindFirst("userId").Value);
+                string userId = User.FindFirst("userId").Value;
                 var user = db.Users.FirstOrDefault(u => u.Id == userId);
 
                 List<Cart> cartList = user.Carts.ToList();
@@ -126,7 +126,7 @@ namespace pwned_shop.Controllers
             // else user is logged in, update cart data in SQL db Cart table
             else
             {
-                int userId = Convert.ToInt32(User.FindFirst("userId").Value);
+                string userId = User.FindFirst("userId").Value;
                 var cart = db.Carts.FirstOrDefault(c => c.ProductId == productId && c.UserId == userId);
 
                 // update cart item's qty if exists, otherwise add new Cart object
@@ -208,7 +208,7 @@ namespace pwned_shop.Controllers
             // else user is logged in, update cart data in SQL db Cart table
             else
             {
-                int userId = Convert.ToInt32(User.FindFirst("userId").Value);
+                string userId = User.FindFirst("userId").Value;
                 var cart = db.Carts.FirstOrDefault(c => c.ProductId == productId && c.UserId == userId);
 
                 // check if cart item for this product exists
@@ -259,7 +259,7 @@ namespace pwned_shop.Controllers
             }
             else
             {
-                int userId = Convert.ToInt32(User.FindFirst("userId").Value);
+                string userId = User.FindFirst("userId").Value;
                 var cart = db.Carts.FirstOrDefault(c => c.ProductId == productId && c.UserId == userId);
                 db.Carts.Remove(cart);
 

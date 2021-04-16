@@ -1,6 +1,6 @@
 ﻿@using System.Security.Claims;
 @using Microsoft.AspNetCore.Http;
-@{ 
+@{
     int? cartCount = @Context.Session.GetInt32("cartCount") == 0 ? null : @Context.Session.GetInt32("cartCount");
 }
 
@@ -51,12 +51,13 @@
                 <li class="bottomitem">
                     <a class="nav-link" asp-area="" asp-controller="Cart" asp-action="Index">
                         <i class="fa" style="font-size:24px"><i class="fa fa-cart-plus"></i></i>
-                            <span class="badge badge-dark" id="lblCartCount">@cartCount</span></a>
+                        <span class="badge badge-dark" id="lblCartCount">@cartCount</span>
+                    </a>
                 </li>
                 <li>
                     <a class="nav-link" asp-area="" asp-controller="Order" asp-action="Index">My Purchases <i class="fas fa-shopping-bag"></i></a>
                 </li>
-          
+
                 <li>
                     @if (User.Identity.IsAuthenticated)
                     {
@@ -66,7 +67,12 @@
                     {
                         <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Login">Log In <i class="fas fa-sign-in-alt" style="vertical-align: middle;"></i></a>
                     }
-
+                </li>
+                <li>
+                    @if (!User.Identity.IsAuthenticated)
+                    {
+                        <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
+                    }
                 </li>
             </ul>
         </div>
@@ -87,6 +93,6 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    @RenderSection("Scripts", required: false)
+    @RenderSection("scripts", required: false)
 </body>
 </html>
