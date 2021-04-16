@@ -17,9 +17,9 @@ namespace pwned_shop.Controllers
     public class CartController : Controller
     {
         private readonly PwnedShopDb db;
-        private readonly ILogger _logger;
+        private readonly ILogger<CartController> _logger;
 
-        public CartController(PwnedShopDb db, ILogger logger)
+        public CartController(PwnedShopDb db, ILogger<CartController> logger)
         {
             this.db = db;
             _logger = logger;
