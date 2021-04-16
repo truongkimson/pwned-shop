@@ -12,9 +12,9 @@ namespace pwned_shop.Models
         [Key]
         [Required]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int Id { get; set; }
+        public string Id { get; set; }
         [Required]
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         [Required]
         public DateTime Timestamp { get; set; }
         [MaxLength(8)]

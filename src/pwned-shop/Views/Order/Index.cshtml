@@ -5,7 +5,7 @@
     IEnumerable<int> orderIds = pastPurchases.Select(x => x.OrderId).Distinct();*/
 
     var orders = (List<OrderViewModel>)ViewData["OVMList"];
-    var c = orders.GroupBy(o => new
+    var c = orders.OrderByDescending(o => o.Timestamp).GroupBy(o => new
     {
         o.ImgURL,
         o.ProductName,

@@ -7,7 +7,7 @@ namespace pwned_shop.Models
 {
     public class Cart
     {
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         public int ProductId { get; set; }
         public int Qty { get; set; }
 

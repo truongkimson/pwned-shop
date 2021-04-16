@@ -28,7 +28,7 @@ namespace pwned_shop.Controllers
             ViewData["UserId"] = User;
 
             string userId1 = User.FindFirst("userId").Value;
-            int userId = int.Parse(userId1);
+            string userId = userId1;
             User user = db.Users.FirstOrDefault(u => u.Id == userId);
             List<OrderViewModel> ListOfOVM = new List<OrderViewModel>();
 
@@ -109,7 +109,7 @@ namespace pwned_shop.Controllers
             Debug.WriteLine("this is the checkout");
             List<Cart> userCart = new List<Cart>();
             string userId1 = User.FindFirst("userId").Value;
-            int userId = int.Parse(userId1);
+            string userId = userId1;
             userCart = db.Users.FirstOrDefault(u => u.Id == userId).Carts.ToList();
 
             //While we are adding order and orderdetail data into the database, we will populate the view data as well for the reciept

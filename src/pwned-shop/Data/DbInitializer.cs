@@ -27,7 +27,7 @@ namespace pwned_shop.Data
                 var row = rows[i];
                 User u = new User()
                 {
-                    Id = Convert.ToInt32(row[0]),
+                    Id = row[0],
                     FirstName = row[1],
                     LastName = row[2],
                     PasswordHash = row[3],
@@ -100,8 +100,8 @@ namespace pwned_shop.Data
                 var row = rows[i];
                 Order o = new Order()
                 {
-                    Id = Convert.ToInt32(row[0]),
-                    UserId = Convert.ToInt32(row[1]),
+                    Id = row[0],
+                    UserId = row[1],
                     Timestamp = DateTime.Parse(row[2], new CultureInfo("en-SG")),
                     PromoCode = row[3] == "" ? null : row[3]
                 };
@@ -115,7 +115,7 @@ namespace pwned_shop.Data
                 var row = rows[i];
                 OrderDetail od = new OrderDetail()
                 {
-                    OrderId = Convert.ToInt32(row[0]),
+                    OrderId = row[0],
                     ProductId = Convert.ToInt32(row[1]),
                     ActivationCode = row[2],
                     GiftTo = row[3]
@@ -131,7 +131,7 @@ namespace pwned_shop.Data
                 var row = rows[i];
                 Review r = new Review()
                 {
-                    UserId = Convert.ToInt32(row[0]),
+                    UserId = row[0],
                     ProductId = Convert.ToInt32(row[1]),
                     ReviewDate = DateTime.ParseExact(row[2], dateFormat, null),
                     Content = row[3],

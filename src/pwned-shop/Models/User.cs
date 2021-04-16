@@ -13,7 +13,8 @@ namespace pwned_shop.Models
     {
         [Key]
         [Required]
-        public int Id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public string Id { get; set; }
         [Required]
         [MaxLength(30)]
         public string FirstName { get; set; }
