@@ -8,6 +8,8 @@
 <div><img src="~/bannerImg/offersbanner.png" style="width:100%;"></div>
 <br>
 <a class="continue-shopping" style="float:right;" asp-area="" asp-controller="Product" asp-action="Index">Continue Shopping</a>
+<br />
+<br />
 <h1 class="sc-heading">Shopping Cart</h1>
 
 <br>
@@ -18,11 +20,12 @@
             <table>
                 <thead class="cart-table-heading-row">
                     <tr>
-                        <th width="25%">Product Details</th>
-                        <th></th>
-                        <th width="5%">Price</th>
-                        <th width="8%">Quantity</th>
-                        <th width="5%">Total</th>
+                        <th width="28%">Product Details</th>
+                        <th width="40%"></th>
+                        <th style="text-align:center" width="10%">Price</th>
+                        <th style="text-align:center" width="6%">Quantity</th>
+                        <th style="text-align:center" width="10%">Total</th>
+                        <th width="6%"></th>
                     </tr>
                 </thead>
 
@@ -33,31 +36,31 @@
 
                     @foreach (var item in cartList)
                     {
-                        <tr style="background-color:#f2f2f2;">
+                        <tr class="cart-orderline" style="background-color:#f2f2f2;">
                             <td class="cart-product-images">
-                                <div><img src=@item.Product.ImgURL></div>
+                                <img src=@item.Product.ImgURL>
                             </td>
 
-                            <td style="text-align: left; vertical-align: middle">
-                                <div class="cart-pro-details">
+                            <td class="cart-pro-details">
+                                <div>
                                     <p class="cart-product-name">@item.Product.ProductName</p>
                                     <p class="cart-product-des">@item.Product.ProductDesc</p>
                                 </div>
-
-                                <form asp-action="RemoveFromCart" asp-controller="Cart" asp-route-productid="@item.ProductId">
-                                    <button class="remove-item" product-id="@item.ProductId"><i class="fa fa-trash"></i> Remove item</button>
-                                </form>
                             </td>
 
-                            <td class="cart-unit-price">S @item.Product.UnitPrice.ToString("C")</td>
+                            <td class="cart-unit-price" style="text-align:center">S @item.Product.UnitPrice.ToString("C")</td>
 
                             <td>
-                                <div>
-                                    <input class="qty" min="1" name="" value="@item.Qty" type="number" product-id="@item.ProductId" onchange="updateCart(this)">
-                                </div>
+                                <input class="qty" style="text-align:center" min="1" name="" value="@item.Qty" type="number" product-id="@item.ProductId" onchange="updateCart(this)">
                             </td>
 
-                            <td class="cart-subtotal" id="cart-subtotal-@item.ProductId">S @((item.Qty * item.Product.UnitPrice).ToString("C"))</td>
+                            <td style="text-align:center" class="cart-subtotal" id="cart-subtotal-@item.ProductId">S @((item.Qty * item.Product.UnitPrice).ToString("C"))</td>
+
+                            <td>
+                                <form asp-action="RemoveFromCart" asp-controller="Cart" asp-route-productid="@item.ProductId">
+                                    <button class="remove-item" product-id="@item.ProductId"><i class="fa fa-trash"></i></button>
+                                </form>
+                            </td>
                         </tr>
 
                         <tr>
@@ -71,12 +74,12 @@
         <br />
         <br />
 
-        <div>
-            <div class="text-right">
-                <p class="cart-total-amt" id="cart-total">Please pay: S @totalPrice</p>
-                <a asp-area="" asp-controller="Order" asp-action="Checkout"><input type="button" class="checkout-button" value="CHECKOUT"></a>
-                <br />
-                <br />
+        <div class="row-viewcart">
+            <div class="row-viewcart">
+                <div class="cart-checkout">
+                    <p class="cart-total-amt" id="cart-total">Please pay: S @totalPrice</p>
+                    <div><a asp-area="" asp-controller="Order" asp-action="Checkout"><input type="button" class="addcart-button" value="CHECK OUT"></a></div>
+                </div>
             </div>
         </div>
     </div>

@@ -16,17 +16,17 @@
 
 <h1 class="sc-heading">Purchase History</h1>
 <br>
-
-
 <div class="container-fluid">
     <div>
         <div>
             <table>
                 <thead class="cart-table-heading-row">
                     <tr>
-                        <th width="25%">Product Details</th>
-                        <th></th>
-                        <th width="25%">Purchase Details</th>
+                        <th width="28%" >Product Details</th>
+                        <th width="40%"></th>
+                        <th style="text-align:center" width="6%">Quantity</th>
+                        <th style="text-align:center" width="20%">Purchased Date</th>
+                        <th width="6%"></th>
                     </tr>
                 </thead>
 
@@ -37,17 +37,17 @@
 
                     @foreach (var dud in c)
                     {
-                        <tr style="background-color:#f2f2f2;">
+                        <tr class="cart-orderline" style="background-color:#f2f2f2;">
                             <td class="cart-product-images">
-                                <div><img src=@dud.Key.ImgURL class="image" /></div>
+                                <img src=@dud.Key.ImgURL class="image" />
                             </td>
                             
-                            <td style="text-align: left; vertical-align: middle">
-                                <div class="cart-pro-details">
+                            <td class="cart-pro-details">
+                                <div>
                                     <p class="cart-product-name">@dud.Key.ProductName</p>
                                     <p class="cart-product-des">@dud.Key.ProductDesc</p>
                                     <br />
-                                    <p class="cart-product-des">Activation Code:&nbsp;
+                                    <p class="cart-product-name">Activation Code:&nbsp;
                                     <select id="activation">
                                         @foreach (var activationCode in dud)
                                         {
@@ -56,14 +56,15 @@
                                     </select></p>
                                 </div>
                             </td>
+
+                            <td><p class="cart-product-name" style="text-align:center">@dud.Count()</p></td>
                             
-                            <td style="text-align: left; vertical-align: middle">
-                                <div class="cart-pro-details">
-                                    <p class="cart-product-name">Purchased On:&nbsp; @dud.Key.Timestamp.ToLongDateString()</p>
-                                    <p class="cart-product-name">Quantity:&nbsp; @dud.Count()</p>
-                                    <br />
-                                    <input type="button" name="button" class="button" style="margin-left:10px" value="Download" />
-                                </div>
+                            <td style="text-align: center">
+                                <p class="cart-product-name">@dud.Key.Timestamp.ToLongDateString()</p>
+                            </td>
+
+                            <td style="padding-right:25px;">
+                                <input type="button" name="button" class="button" style="margin-left:10px" value="Download" />
                             </td>
                         </tr>
 

@@ -59,108 +59,110 @@ namespace pwned_shop.Controllers
         [HttpPost]
         public IActionResult UpdateCart([FromBody] CartUpdate cu)
         {
-            int productId; int qty;
-            try
-            {
-                productId = cu.ProductId; qty = cu.Qty;
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-                return Json( new
-                {
-                    success = false
-                });
-            }
-
-            if (qty <= 0)
-                return Json(new
-                {
-                    success = false
-                });
-
             int cartCount;
             float subTotal;
             float total = 0;
 
-            // if user is not logged in, update cart data in Session State as a Jsonified dict
-            if (!User.Identity.IsAuthenticated)
+            try
             {
-                var cartList = HttpContext.Session.GetJson<CartListViewModel>("cart");
+                int productId; int qty;
+                productId = cu.ProductId; qty = cu.Qty;
 
-                // check if "cart" exists in Session data
-                if (cartList != null)
+                if (qty <= 0)
+                    return Json(new
+                    {
+                        success = false
+                    });
+
+                // if user is not logged in, update cart data in Session State as a Jsonified dict
+                if (!User.Identity.IsAuthenticated)
                 {
-                    // update cart item qty if cart item exists, otherwise add new cart item
-                    cartList.UpdateCart(new Cart { ProductId = productId, Qty = qty });
+                    var cartList = HttpContext.Session.GetJson<CartListViewModel>("cart");
+
+                    // check if "cart" exists in Session data
+                    if (cartList != null)
+                    {
+                        // update cart item qty if cart item exists, otherwise add new cart item
+                        cartList.UpdateCart(new Cart { ProductId = productId, Qty = qty });
+                    }
+                    // create new cratList Dict if there isn't one in session
+                    else
+                    {
+                        cartList = new CartListViewModel();
+                        cartList.UpdateCart(new Cart { ProductId = productId, Qty = qty });
+                    }
+
+                    // update "cart" Session data
+                    HttpContext.Session.SetJson("cart", cartList);
+
+                    // get latest "cartCount" and set to Session data
+                    cartCount = cartList.CartCount;
+                    HttpContext.Session.SetInt32("cartCount", cartCount);
+
+                    // for debugging, to delete
+                    foreach (Cart c in cartList.List)
+                    {
+                        Debug.WriteLine($"Prod: {c.ProductId} - {c.Qty}");
+                    }
+                    Debug.WriteLine("Cart count: " + cartCount);
+
+                    subTotal = db.Products.FirstOrDefault(p => p.Id == productId).UnitPrice * qty;
+
+                    foreach (Cart c in cartList.List)
+                    {
+                        var unitPrice = db.Products.FirstOrDefault(p => p.Id == c.ProductId).UnitPrice;
+                        total += unitPrice * c.Qty;
+                    }
                 }
-                // create new cratList Dict if there isn't one in session
+                // else user is logged in, update cart data in SQL db Cart table
                 else
                 {
-                    cartList = new CartListViewModel();
-                    cartList.UpdateCart(new Cart { ProductId = productId, Qty = qty });
+                    string userId = User.FindFirst("userId").Value;
+                    var cart = db.Carts.FirstOrDefault(c => c.ProductId == productId && c.UserId == userId);
+
+                    // update cart item's qty if exists, otherwise add new Cart object
+                    if (cart != null)
+                    {
+                        cart.Qty = qty;
+                    }
+                    else
+                    {
+                        cart = new Cart() { UserId = userId, ProductId = productId, Qty = qty };
+                        db.Carts.Add(cart);
+                    }
+                    db.SaveChanges();
+
+                    // get latest "cartCount" and set to Session data
+                    cartCount = db.Users.FirstOrDefault(u => u.Id == userId).Carts.Sum(c => c.Qty);
+                    HttpContext.Session.SetInt32("cartCount", cartCount);
+
+                    // for debugging, to delete
+                    foreach (Cart c in db.Users.FirstOrDefault(u => u.Id == userId).Carts)
+                    {
+                        Debug.WriteLine($"Prod: {c.ProductId} - {c.Qty}");
+                    }
+                    Debug.WriteLine("Cart count: " + cartCount);
+
+                    subTotal = cart.Product.UnitPrice * qty;
+
+                    foreach (Cart c in db.Users.FirstOrDefault(u => u.Id == userId).Carts)
+                    {
+                        total += c.Product.UnitPrice * c.Qty;
+                    }
                 }
 
-                // update "cart" Session data
-                HttpContext.Session.SetJson("cart", cartList);
-
-                // get latest "cartCount" and set to Session data
-                cartCount = cartList.CartCount;
                 HttpContext.Session.SetInt32("cartCount", cartCount);
-
-                // for debugging, to delete
-                foreach (Cart c in cartList.List)
-                {
-                    Debug.WriteLine($"Prod: {c.ProductId} - {c.Qty}");
-                }
-                Debug.WriteLine("Cart count: " + cartCount);
-
-                subTotal = db.Products.FirstOrDefault(p => p.Id == productId).UnitPrice * qty;
-
-                foreach(Cart c in cartList.List)
-                {
-                    var unitPrice = db.Products.FirstOrDefault(p => p.Id == c.ProductId).UnitPrice;
-                    total += unitPrice * c.Qty;
-                }
             }
-            // else user is logged in, update cart data in SQL db Cart table
-            else
+            catch (Exception ex)
             {
-                string userId = User.FindFirst("userId").Value;
-                var cart = db.Carts.FirstOrDefault(c => c.ProductId == productId && c.UserId == userId);
-
-                // update cart item's qty if exists, otherwise add new Cart object
-                if (cart != null)
+                Debug.WriteLine(ex.Message);
+                _logger.LogError(ex, $"Error updating cart for {cu}");
+                return Json(new
                 {
-                    cart.Qty = qty;
-                }
-                else
-                {
-                    cart = new Cart() { UserId = userId, ProductId = productId, Qty = qty };
-                    db.Carts.Add(cart);
-                }
-                db.SaveChanges();
-
-                // get latest "cartCount" and set to Session data
-                cartCount = db.Users.FirstOrDefault(u => u.Id == userId).Carts.Sum(c => c.Qty);
-                HttpContext.Session.SetInt32("cartCount", cartCount);
-
-                // for debugging, to delete
-                foreach (Cart c in db.Users.FirstOrDefault(u => u.Id == userId).Carts)
-                {
-                    Debug.WriteLine($"Prod: {c.ProductId} - {c.Qty}");
-                }
-                Debug.WriteLine("Cart count: " + cartCount);
-
-                subTotal = cart.Product.UnitPrice * qty;
-
-                foreach (Cart c in db.Users.FirstOrDefault(u => u.Id == userId).Carts)
-                {
-                    total += c.Product.UnitPrice * c.Qty;
-                }
+                    success = false
+                });
             }
 
-            HttpContext.Session.SetInt32("cartCount", cartCount);
             return Json(new
             {
                 success = true,
@@ -174,105 +176,130 @@ namespace pwned_shop.Controllers
         public IActionResult AddToCart(int productId)
         {
             int cartCount;
-            
-            // if user is not logged in, update cart data in Session State as
-            // a Jsonified CartList object
-            if (!User.Identity.IsAuthenticated)
-            {
-                var cartList = HttpContext.Session.GetJson<CartListViewModel>("cart");
 
-                // check if "cart" exists in Session data
-                if (cartList != null)
+            try
+            {
+                // if user is not logged in, update cart data in Session State as
+                // a Jsonified CartList object
+                if (!User.Identity.IsAuthenticated)
                 {
-                    cartList.AddToCart(new Cart { ProductId = productId, Qty = 1 });
+                    var cartList = HttpContext.Session.GetJson<CartListViewModel>("cart");
+
+                    // check if "cart" exists in Session data
+                    if (cartList != null)
+                    {
+                        cartList.AddToCart(new Cart { ProductId = productId, Qty = 1 });
+                    }
+                    // create new new CartList object if there isn't one in session
+                    else
+                    {
+                        cartList = new CartListViewModel();
+                        cartList.AddToCart(new Cart { ProductId = productId, Qty = 1 });
+                    }
+
+                    // update "cart" Session data
+                    HttpContext.Session.SetJson("cart", cartList);
+                    // get latest "cartCount"
+                    cartCount = cartList.CartCount;
+
+                    // for debugging, to delete
+                    foreach (Cart c in cartList.List)
+                    {
+                        Debug.WriteLine($"Prod: {c.ProductId} - {c.Qty}");
+                    }
+                    Debug.WriteLine("Cart count: " + cartCount);
                 }
-                // create new new CartList object if there isn't one in session
+                // else user is logged in, update cart data in SQL db Cart table
                 else
                 {
-                    cartList = new CartListViewModel();
-                    cartList.AddToCart(new Cart { ProductId = productId, Qty = 1 });
+                    string userId = User.FindFirst("userId").Value;
+                    var cart = db.Carts.FirstOrDefault(c => c.ProductId == productId && c.UserId == userId);
+
+                    // check if cart item for this product exists
+                    if (cart != null)
+                    {
+                        cart.Qty += 1;
+                    }
+                    // create new Cart object if cart item doesnt exist
+                    else
+                    {
+                        cart = new Cart() { UserId = userId, ProductId = productId, Qty = 1 };
+                        db.Carts.Add(cart);
+                    }
+                    db.SaveChanges();
+
+                    // get latest "cartCount"
+                    cartCount = db.Users.FirstOrDefault(u => u.Id == userId).Carts.Sum(c => c.Qty);
+
+                    // for debugging, to delete
+                    foreach (var c in db.Users.FirstOrDefault(u => u.Id == userId).Carts)
+                    {
+                        Debug.WriteLine($"Prod: {c.ProductId} - {c.Qty}");
+                    }
+                    Debug.WriteLine("Cart count: " + cartCount);
                 }
 
-                // update "cart" Session data
-                HttpContext.Session.SetJson("cart", cartList);
-                // get latest "cartCount"
-                cartCount = cartList.CartCount;
-
-                // for debugging, to delete
-                foreach (Cart c in cartList.List)
-                {
-                    Debug.WriteLine($"Prod: {c.ProductId} - {c.Qty}");
-                }
-                Debug.WriteLine("Cart count: " + cartCount);
+                HttpContext.Session.SetInt32("cartCount", cartCount);
             }
-            // else user is logged in, update cart data in SQL db Cart table
-            else
+            catch (Exception ex)
             {
-                string userId = User.FindFirst("userId").Value;
-                var cart = db.Carts.FirstOrDefault(c => c.ProductId == productId && c.UserId == userId);
+                Debug.WriteLine(ex.Message);
+                _logger.LogError(ex, $"Error adding to cart for prod Id {productId}");
 
-                // check if cart item for this product exists
-                if (cart != null)
+                return Json(new
                 {
-                    cart.Qty += 1;
-                }
-                // create new Cart object if cart item doesnt exist
-                else
-                {
-                    cart = new Cart() { UserId = userId, ProductId = productId, Qty = 1 };
-                    db.Carts.Add(cart);
-                }
-                db.SaveChanges();
-
-                // get latest "cartCount"
-                cartCount = db.Users.FirstOrDefault(u => u.Id == userId).Carts.Sum(c => c.Qty);
-                
-                // for debugging, to delete
-                foreach (var c in db.Users.FirstOrDefault(u => u.Id == userId).Carts)
-                {
-                    Debug.WriteLine($"Prod: {c.ProductId} - {c.Qty}");
-                }
-                Debug.WriteLine("Cart count: " + cartCount);
+                    success = false
+                });
             }
-
-            HttpContext.Session.SetInt32("cartCount", cartCount);
             return Json(new { success = true, cartCount = cartCount });
         }
 
         public IActionResult RemoveFromCart(int productId)
         {
-            int cartCount;
-            if (!User.Identity.IsAuthenticated)
+            try
             {
-                var cartList = HttpContext.Session.GetJson<CartListViewModel>("cart");
+                int cartCount;
+                if (!User.Identity.IsAuthenticated)
+                {
+                    var cartList = HttpContext.Session.GetJson<CartListViewModel>("cart");
 
                 // for debugging, to delete
                 int remove = cartList.RemoveFromCart(new Cart { ProductId = productId });
                 Debug.WriteLine(remove);
                 _logger.LogInformation(remove.ToString());
 
-                // update "cart" Session data
-                HttpContext.Session.SetJson("cart", cartList);
+                    // update "cart" Session data
+                    HttpContext.Session.SetJson("cart", cartList);
 
-                // get latest "cartCount" and set to Session data
-                cartCount = cartList.CartCount;
+                    // get latest "cartCount" and set to Session data
+                    cartCount = cartList.CartCount;
+                }
+                else
+                {
+                    string userId = User.FindFirst("userId").Value;
+                    var cart = db.Carts.FirstOrDefault(c => c.ProductId == productId && c.UserId == userId);
+                    db.Carts.Remove(cart);
+
+                    db.SaveChanges();
+
+                    // get latest "cartCount" and add to Session data
+                    cartCount = db.Users.FirstOrDefault(u => u.Id == userId).Carts.Sum(c => c.Qty);
+                }
+
+                HttpContext.Session.SetInt32("cartCount", cartCount);
             }
-            else
+            catch (Exception ex)
             {
-                string userId = User.FindFirst("userId").Value;
-                var cart = db.Carts.FirstOrDefault(c => c.ProductId == productId && c.UserId == userId);
-                db.Carts.Remove(cart);
+                Debug.WriteLine(ex.Message);
+                _logger.LogError(ex, $"Error removing from cart for prod Id {productId}");
 
-                db.SaveChanges();
-
-                // get latest "cartCount" and add to Session data
-                cartCount = db.Users.FirstOrDefault(u => u.Id == userId).Carts.Sum(c => c.Qty);
+                return Json(new
+                {
+                    success = false
+                });
             }
 
-            HttpContext.Session.SetInt32("cartCount", cartCount);
             return RedirectToAction("Index");
         }
-
- 
     }
 }
