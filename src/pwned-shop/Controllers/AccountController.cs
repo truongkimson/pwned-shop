@@ -88,13 +88,13 @@ namespace pwned_shop.Controllers
                 else
                 {
                     TempData["error"] = "Invalid password";
-                    return RedirectToAction("Login");
+                    return RedirectToAction("Login", new { returnUrl = returnUrl });
                 }
             }
             else
             {
                 TempData["error"] = "Invalid account";
-                return RedirectToAction("Login");
+                return RedirectToAction("Login", new { returnUrl = returnUrl });
             }
         }
 
