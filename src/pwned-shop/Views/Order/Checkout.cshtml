@@ -34,11 +34,11 @@
             <table>
                 <thead class="cart-table-heading-row">
                     <tr>
-                        <th width="25%">Product Details</th>
-                        <th></th>
-                        <th width="5%">Price</th>
-                        <th width="8%">Quantity</th>
-                        <th width="5%">Sub-Total</th>
+                        <th width="28%">Product Details</th>
+                        <th width="40%"></th>
+                        <th style="text-align:center" width="12%">Price</th>
+                        <th style="text-align:center" width="10%">Quantity</th>
+                        <th style="text-align:center" width="10%">Sub-Total</th>
                     </tr>
                 </thead>
 
@@ -50,31 +50,32 @@
                     @foreach (var item in c)
 
                     {
-                        <tr style="background-color:#f2f2f2;">
+                        <tr class="cart-orderline" style="background-color:#f2f2f2;">
                             <td class="cart-product-images">
-                                <div><img src=@item.First().ImgURL></div>
+                                <img src=@item.First().ImgURL>
                             </td>
 
-                            <td style="text-align: left; vertical-align: middle">
-                                <div class="cart-pro-details">
+                            <td class="cart-pro-details">
+                                <div>
                                     <p class="cart-product-name">@item.First().ProductName</p>
                                     <p class="cart-product-des">@item.First().ProductDesc</p>
                                     <br />
-                                    <p class="cart-product-des">Activation Code:&nbsp;
+                                    <p class="cart-product-name">Activation Code:&nbsp;
                                     <select id="activation">
                                         @foreach (var subItem in item)
                                         {
                                             <option>@subItem.ActivationCode</option>
                                             }
-                                    </select></p>
+                                    </select>
+                                    </p>
                                 </div>
                             </td>
 
-                            <td class="cart-unit-price">S @item.First().UnitPrice.ToString("C")</td>
+                            <td class="cart-unit-price" style="text-align:center">S @item.First().UnitPrice.ToString("C")</td>
 
-                            <td class="cart-subtotal text-center">@item.Count()</td>
+                            <td class="cart-subtotal" style="text-align:center">@item.Count()</td>
 
-                            <td class="cart-subtotal">S @((item.Count() * item.First().UnitPrice).ToString("C"))</td>
+                            <td class="cart-subtotal" style="text-align:center">S @((item.Count() * item.First().UnitPrice).ToString("C"))</td>
                         </tr>
 
                         <tr>
@@ -85,12 +86,14 @@
             </table>
         </div>
         <br />
-        <div>
-            <div class="text-right">
-                <p class="cart-total-amt" id="cart-total">Total Amount: S @totalPrice.ToString("C")</p>
-                <br />
-                <br />
+        <br />
+        <div class="row-viewcart">
+            <div class="row-viewcart">
+                <div class="cart-checkout">
+                    <p class="cart-total-amt" id="cart-total">Total Amount: S @totalPrice.ToString("C")</p>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
