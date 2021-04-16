@@ -1,4 +1,6 @@
 ﻿@{
+    ViewData["Title"] = "Cart";
+
     var cartList = (List<Cart>)ViewData["cartList"];
     var totalPrice = cartList.Sum(c => c.Product.UnitPrice * c.Qty).ToString("C");
 }

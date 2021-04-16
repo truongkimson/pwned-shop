@@ -45,7 +45,7 @@ namespace pwned_shop.Controllers
                     {
                         new Claim("email", user.Email),
                         new Claim("role", "Member"),
-                        new Claim("fullName", user.FirstName + user.LastName),
+                        new Claim("fullName", user.FirstName + " " + user.LastName),
                         new Claim("userId", user.Id.ToString())
                     };
 
