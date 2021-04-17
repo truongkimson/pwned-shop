@@ -167,8 +167,8 @@ namespace pwned_shop.Controllers
             {
                 success = true,
                 cartCount = cartCount,
-                subTotal = subTotal.ToString("C"),
-                total = total.ToString("C")
+                subTotal = subTotal.ToString("S$ 0,0.00"),
+                total = total.ToString("S$ 0,0.00")
             });
         }
 
