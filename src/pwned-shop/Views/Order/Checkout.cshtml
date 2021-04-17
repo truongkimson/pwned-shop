@@ -18,7 +18,7 @@
 
     foreach (var r in c)
     {
-        totalPrice += (r.Key.UnitPrice * r.Key.Qty * (1- r.Key.Discount));
+        totalPrice += (r.Key.UnitPrice * r.Key.Qty * (1 - r.Key.Discount));
     }
 }
 
@@ -31,7 +31,7 @@
     <h1 class="sc-heading">
         Thank you for your purchase!
         <br />
-        Enjoy Gaming <img src="~/bannerImg/video-game-resize.png" style="height: 100%"; />
+        Enjoy Gaming <img src="~/bannerImg/video-game-resize.png" style="height: 100%" ; />
     </h1>
 </center>
 <br>
@@ -42,11 +42,11 @@
             <table>
                 <thead class="cart-table-heading-row">
                     <tr>
-                        <th width="28%">Product Details</th>
-                        <th width="40%"></th>
-                        <th style="text-align:center" width="12%">Price</th>
-                        <th style="text-align:center" width="10%">Quantity</th>
-                        <th style="text-align:center" width="10%">Sub-Total</th>
+                        <th width="29%">Product Details</th>
+                        <th width="46%"></th>
+                        <th style="text-align:center" width="7%">Price</th>
+                        <th style="text-align:center" width="7%">Quantity</th>
+                        <th style="text-align:center" width="11%">Total</th>
                     </tr>
                 </thead>
 
@@ -59,42 +59,46 @@
 
                     {
                         <tr class="cart-orderline" style="background-color:#f2f2f2;">
-                            <td class="cart-product-images">
-                                <img src=@item.Key.ImgURL>
-                            </td>
+                    <td class="cart-product-images">
+                        <img src=@item.Key.ImgURL>
+                    </td>
 
-                            <td class="cart-pro-details">
-                                <div>
-                                    <p class="cart-product-name">@item.Key.ProductName</p>
-                                    <p class="cart-product-des">@item.Key.ProductDesc</p>
-                                    <br />
-                                    <p class="cart-product-name">Activation Code:&nbsp;
-                                    <select id="activation">
-                                        @foreach (var subItem in item)
-                                        {
-                                            <option>@subItem.ActivationCode</option>
-                                            }
-                                    </select>
-                                    </p>
-                                </div>
-                            </td>
+                    <td class="cart-pro-details">
+                        <div style="margin: 0 0 0 15px;">
+                            <p class="cart-product-name">@item.Key.ProductName</p>
+                            <p class="cart-product-des">@item.Key.ProductDesc</p>
+                            <br />
+                            <p class="cart-product-name">
+                                Activation Code:&nbsp;
+                                <select id="activation">
+                                    @foreach (var subItem in item)
+                                    {
+                                        <option>@subItem.ActivationCode</option>
+                                    }
+                                </select>
+                            </p>
+                        </div>
+                    </td>
 
-                            <td class="cart-unit-price" style="text-align:center">
-                                @if (item.Key.Discount != 0)
-                                {
-                                    @:<p style="color:red"> <strike>S  @((item.Key.UnitPrice).ToString("C"))</strike></p> <br />
-                                    @:S  @((item.Key.UnitPrice * (1 - item.Key.Discount)).ToString("C"))
-                                }
-                                else
-                                {
-                                    @:S  @((item.Key.UnitPrice * (1 - item.Key.Discount)).ToString("C"))
-                                }
-                            </td>
+                    @if (item.Key.Discount != 0)
+                    {
+                        <td class="cart-unit-price" style="text-align:center">
+                            <p class="cart-new-price">S @((item.Key.UnitPrice * (1 - item.Key.Discount)).ToString("C"))</p>
+                            <p class="cart-cancelled-price"><strike>S @((item.Key.UnitPrice).ToString("C"))</strike></p>
+                        </td>
+                    }
 
-                            <td class="cart-subtotal" style="text-align:center">@item.Key.Qty</td>
+                    else
+                    {
+                        <td class="cart-unit-price" style="text-align:center">
+                            S @((item.Key.UnitPrice * (1 - item.Key.Discount)).ToString("C"))
+                        </td>
+                    }
 
-                            <td class="cart-subtotal" style="text-align:center">S @((item.Key.Qty * item.Key.UnitPrice * (1-item.Key.Discount) ).ToString("C"))</td>
-                        </tr>
+                    <td class="cart-subtotal" style="text-align:center">@item.Key.Qty</td>
+
+                    <td class="cart-subtotal" style="text-align:center">S @((item.Key.Qty * item.Key.UnitPrice * (1-item.Key.Discount) ).ToString("C"))</td>
+                </tr>
 
                         <tr>
                             <td><div class="cart-body-padding"></div></td>

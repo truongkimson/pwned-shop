@@ -2,10 +2,7 @@
     ViewData["Title"] = "Cart";
 
     var cartList = (List<Cart>)ViewData["cartList"];
-    var totalPrice = cartList.Sum(c => c.Product.UnitPrice * c.Qty * (1-c.Product.Discount)).ToString("C");
-    
-
-
+    var totalPrice = cartList.Sum(c => c.Product.UnitPrice * c.Qty * (1 - c.Product.Discount)).ToString("C");
 }
 
 <div><img src="~/bannerImg/offersbanner.png" style="width:100%;"></div>
@@ -24,11 +21,11 @@
                 <thead class="cart-table-heading-row">
                     <tr>
                         <th width="28%">Product Details</th>
-                        <th width="40%"></th>
-                        <th style="text-align:center" width="10%">Price</th>
+                        <th width="45%"></th>
+                        <th style="text-align:center" width="6%">Price</th>
                         <th style="text-align:center" width="6%">Quantity</th>
                         <th style="text-align:center" width="10%">Total</th>
-                        <th width="6%"></th>
+                        <th width="5%"></th>
                     </tr>
                 </thead>
 
@@ -39,45 +36,45 @@
 
                     @foreach (var item in cartList)
                     {
-                <tr class="cart-orderline" style="background-color:#f2f2f2;">
-                    <td class="cart-product-images">
-                        <img src=@item.Product.ImgURL>
-                    </td>
+                        <tr class="cart-orderline" style="background-color:#f2f2f2;">
+                            <td class="cart-product-images">
+                                <img src=@item.Product.ImgURL>
+                            </td>
 
-                    <td class="cart-pro-details">
-                        <div>
-                            <p class="cart-product-name">@item.Product.ProductName</p>
-                            <p class="cart-product-des">@item.Product.ProductDesc</p>
-                        </div>
-                    </td>
+                            <td class="cart-pro-details">
+                                <div style="margin: 0 0 0 15px;">
+                                    <p class="cart-product-name">@item.Product.ProductName</p>
+                                    <p class="cart-product-des">@item.Product.ProductDesc</p>
+                                </div>
+                            </td>
 
-                    @if (item.Product.Discount != 0)
-                    {
-                        <td class="cart-unit-price" style="text-align:center">
-                            <p style="color:red"> <strike>S @((item.Product.UnitPrice).ToString("C"))</strike></p> <br />
-                            S @((item.Product.UnitPrice * (1 - item.Product.Discount)).ToString("C"))
-                        </td>
-                    }
-                    else
-                    {
-                        <td class="cart-unit-price" style="text-align:center">
-                            S @((item.Product.UnitPrice * (1 - item.Product.Discount)).ToString("C"))
-                        </td>
-                    }
+                            @if (item.Product.Discount != 0)
+                            {
+                                <td class="cart-unit-price" style="text-align:center">
+                                    <p class="cart-new-price">S @((item.Product.UnitPrice * (1 - item.Product.Discount)).ToString("C"))</p>
+                                    <p class="cart-cancelled-price"><strike>S @((item.Product.UnitPrice).ToString("C"))</strike></p>
+                                </td>
+                            }
 
+                            else
+                            {
+                                <td class="cart-unit-price" style="text-align:center">
+                                    S @((item.Product.UnitPrice * (1 - item.Product.Discount)).ToString("C"))
+                                </td>
+                            }
 
-                    <td>
-                        <input class="qty" style="text-align:center" min="1" name="" value="@item.Qty" type="number" product-id="@item.ProductId" onchange="updateCart(this)">
-                    </td>
+                            <td>
+                                <input class="qty" style="text-align:center" min="1" name="" value="@item.Qty" type="number" product-id="@item.ProductId" onchange="updateCart(this)">
+                            </td>
 
-                    <td style="text-align:center" class="cart-subtotal" id="cart-subtotal-@item.ProductId">S @(((item.Qty * item.Product.UnitPrice * (1 - item.Product.Discount))).ToString("C"))</td>
+                            <td style="text-align:center" class="cart-subtotal" id="cart-subtotal-@item.ProductId">S @((item.Qty * item.Product.UnitPrice * (1-item.Product.Discount) ).ToString("C"))</td>
 
-                    <td>
-                        <form asp-action="RemoveFromCart" asp-controller="Cart" asp-route-productid="@item.ProductId">
-                            <button class="remove-item" product-id="@item.ProductId"><i class="fa fa-trash"></i></button>
-                        </form>
-                    </td>
-                </tr>
+                            <td>
+                                <form asp-action="RemoveFromCart" asp-controller="Cart" asp-route-productid="@item.ProductId">
+                                    <button class="remove-item" product-id="@item.ProductId"><i class="fa fa-trash"></i></button>
+                                </form>
+                            </td>
+                        </tr>
 
                         <tr>
                             <td><div class="cart-body-padding"></div></td>
@@ -100,3 +97,6 @@
         </div>
     </div>
 </div>
+
+
+

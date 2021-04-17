@@ -55,16 +55,17 @@
                         <h1 class="gamename">@game.ProductName</h1>
                         <h2 class="gamedes">@game.ProductDesc</h2>
                     </div>
+                    <div class="gallery-pricing">
                     @if (game.Discount != 0)
                     {
-                        <div class="priceDiscount">S@((game.UnitPrice).ToString("C")) </div>
-                        <div class="price">S@((game.UnitPrice * (1-game.Discount)).ToString("C")) </div>
+                        <div class="new-price">S@((game.UnitPrice * (1-game.Discount)).ToString("C"))</div>
+                        <div class="cancelled-price"><s>S@((game.UnitPrice).ToString("C"))</s></div>
                     }
                     else
                     {
-                        <div class="price"> <br /> S@((game.UnitPrice).ToString("C")) </div>
+                        <div class="price">S@((game.UnitPrice).ToString("C"))</div>
                     }
-
+                     </div>
                     <div><input type="button" class="addcart-button" value="Add to Cart" product-id="@game.Id" qty="1"></div>
                 </div>
             </div>
