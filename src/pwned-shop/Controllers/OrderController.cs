@@ -66,6 +66,7 @@ namespace pwned_shop.Controllers
                     temp.ProductDesc = od.Product.ProductDesc;
                     temp.Timestamp = o.Timestamp;
                     temp.ActivationCode = od.ActivationCode;
+                    
 
                     ListOfOVM.Add(temp);
                 }
@@ -151,7 +152,9 @@ namespace pwned_shop.Controllers
                         ProductDesc = cartItem.Product.ProductDesc,
                         ActivationCode = newOrderDetail.ActivationCode,
                         Qty = cartItem.Qty,
-                        UnitPrice = cartItem.Product.UnitPrice
+                        UnitPrice = cartItem.Product.UnitPrice,
+                        Discount = cartItem.Product.Discount
+                        
                     };
                     
                     recieptList.Add(reciept);

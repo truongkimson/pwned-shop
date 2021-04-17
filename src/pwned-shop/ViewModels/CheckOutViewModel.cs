@@ -13,5 +13,6 @@ namespace pwned_shop.ViewModels
         public string ActivationCode { get; set; }
         public int Qty { get; set; }
         public float UnitPrice { get; set; }
+        public float Discount { get; set; }
     }
 }

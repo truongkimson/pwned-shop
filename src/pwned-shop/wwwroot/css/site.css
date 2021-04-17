@@ -82,8 +82,8 @@ a.helloname {
     box-shadow: 0px 2px 2px 2px rgba(0, 0, 0, 0.15);
     width: 350px;
     max-width: 350px;
-    height: 470px;
-    max-height: 470px;
+    height: 510px;
+    max-height: 510px;
 }
 
 .emptycart {
@@ -125,8 +125,8 @@ a.helloname {
 }
 
 .gamedes {
-    height: 115px;
-    max-height: 115px;
+    height: 120px;
+    max-height: 120px;
     margin: -10px 10px 0px 10px;
 }
 
@@ -135,6 +135,14 @@ a.helloname {
     font-weight: bold;
     font-size: 24px;
     text-align: center;
+}
+
+.priceDiscount {
+    color: #ff1919;
+    font-weight: bold;
+    font-size: 24px;
+    text-align: center;
+    text-decoration: line-through;
 }
 
 .addcart-button, .checkout-button {

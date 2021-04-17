@@ -10,14 +10,15 @@
         o.ProductDesc,
         o.Qty,
         o.UnitPrice,
-        o.ImgURL
+        o.ImgURL,
+        o.Discount
     });
 
     float totalPrice = 0;
 
     foreach (var r in c)
     {
-        totalPrice += (r.Key.UnitPrice * r.Key.Qty);
+        totalPrice += (r.Key.UnitPrice * r.Key.Qty * (1- r.Key.Discount));
     }
 }
 
@@ -78,11 +79,21 @@
                                 </div>
                             </td>
 
-                            <td class="cart-unit-price" style="text-align:center">S  @item.Key.UnitPrice.ToString("C")</td>
+                            <td class="cart-unit-price" style="text-align:center">
+                                @if (item.Key.Discount != 0)
+                                {
+                                    @:<p style="color:red"> <strike>S  @((item.Key.UnitPrice).ToString("C"))</strike></p> <br />
+                                    @:S  @((item.Key.UnitPrice * (1 - item.Key.Discount)).ToString("C"))
+                                }
+                                else
+                                {
+                                    @:S  @((item.Key.UnitPrice * (1 - item.Key.Discount)).ToString("C"))
+                                }
+                            </td>
 
                             <td class="cart-subtotal" style="text-align:center">@item.Key.Qty</td>
 
-                            <td class="cart-subtotal" style="text-align:center">S @((item.Key.Qty * item.Key.UnitPrice).ToString("C"))</td>
+                            <td class="cart-subtotal" style="text-align:center">S @((item.Key.Qty * item.Key.UnitPrice * (1-item.Key.Discount) ).ToString("C"))</td>
                         </tr>
 
                         <tr>
