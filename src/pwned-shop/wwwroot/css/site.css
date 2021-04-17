@@ -19,23 +19,11 @@ ul {
     float: right;
 }
 
-ul.navbottom a.nav-link {
-    font-size: 18px;
-}
-
 ul.navbottom {
     margin: 5px;
 }
 
-ul.nav a.nav-link:hover {
-    color: #FFFFFF;
-}
-
-ul.navbottom a.nav-link:hover {
-    color: #333333;
-}
-
-li {
+li, a.helloname {
     float: left;
 }
 
@@ -45,14 +33,20 @@ a {
     font-weight: bold;
 }
 
+a.nav-link:hover {
+    color: #333333;
+}
+
 a.nav-link {
     font-size: 24px;
 }
 
-a.helloname {
+ul.navbottom a.nav-link, a.helloname {
     font-size: 18px;
+}
+
+a.helloname {
     margin: 12px 0px 0px 10px;
-    float: left;
 }
 
 .row, .row-viewcart {
@@ -71,13 +65,6 @@ a.helloname {
     flex-basis: 25%;
 }
 
-.cart-checkout {
-    width: 450px;
-    max-width: 450px;
-    height: 200px;
-    max-height: 200px;
-}
-
 .product-card {
     box-shadow: 0px 2px 2px 2px rgba(0, 0, 0, 0.15);
     width: 350px;
@@ -93,10 +80,17 @@ a.helloname {
     max-height: 500px;
 }
 
+.cart-checkout {
+    width: 450px;
+    max-width: 450px;
+    height: 200px;
+    max-height: 200px;
+}
+
 .product-images {
     padding: 15px 10px 0px 12px ;
     height: 160px;
-    width: 200px;
+    width: 335px;
     display: flex;
     flex-flow: nowrap;
     object-fit: contain;
@@ -107,21 +101,22 @@ a.helloname {
     max-height: 180px;
 }
 
-.gamename {
+.gamename, .gamedes, .price, .empty-sc-text {
     color: #000000;
+    font-family: Arial;
+    text-align: center;
+}
+
+.gamename {
     font-weight: bold;
     font-size: 24px;
-    text-align: center;
     padding: 8px;
     margin: 6px;
 }
 
 .gamedes, .empty-sc-text {
-    color: #000000;
     font-size: 18px;
-    text-align: center;
     line-height: normal;
-    font-family:Arial;
 }
 
 .gamedes {
@@ -131,46 +126,32 @@ a.helloname {
 }
 
 .price {
-    color: #000000;
     font-weight: bold;
     font-size: 24px;
-    text-align: center;
 }
 
 .addcart-button, .checkout-button {
-    color: white;
-    border: none;
     background-color: #C10000;
+    border: none;
+    outline: none;
     text-align: center;
     cursor: pointer;
     font-family: Arial;
     color: #FFFFFF;
     font-weight: bold;
-    outline: none;
+    font-size: 24px;
+    height: 66px;
 }
 
 .addcart-button {
     width: 80%;
-    height: 66px;
-    font-size: 24px;
 }
 
 .checkout-button {
     width: 20%;
-    height: 60px;
-    font-size: 24px;
 }
 
-.qty {
-    width: 40%;
-    margin: 0 20px;
-    border: 2px solid;
-    border-color: #8c8c8c;
-    text-align: center;
-
-}
-
-.addcart-button:hover, .submitpromocode-button:hover, .checkout-button:hover {
+.addcart-button:hover, .checkout-button:hover {
     opacity: 0.5;
     border: none;
     outline: none;
@@ -220,37 +201,36 @@ body {
 
 input[class="searchInput"] {
     width: 95%;
-    border: 3px solid #000000;
     height: 60px;
+    border: 3px solid #000000;
     border-radius: 80px;
     outline: 0px;
 }
 
 input[placeholder="Search title..."] {
-    text-align: left;
     font-family: Arial;
     font-size: 24px;
-    padding: 14px 70px;
     color: #000000;
+    text-align: left;
+    padding: 14px 70px;
     background-image: url(/bannerImg/searchicon.png);
     background-repeat: no-repeat;
     background-position: 30px 14px;
 }
 
+.sc-heading, a.continue-shopping, .cart-table-heading-row, .cart-total-amt {
+    color: #000000;
+    font-family: Arial;
+    font-weight: bold;
+}
 
 .sc-heading {
-    color: #000000;
-    font-weight: bold;
     font-size: 36px;
-    font-family: Arial;
     margin: 30px 0px 0px 10px;
 }
 
 a.continue-shopping {
-    color: #000000;
-    font-weight: bold;
     font-size: 18px;
-    font-family: Arial;
     text-decoration: underline;
     padding-right: 30px;
 }
@@ -264,25 +244,30 @@ a.continue-shopping {
     border-bottom: 3px solid;
     border-top: 3px solid;
     border-color: #000000;
-    color: #000000;
-    font-weight: bold;
     font-size: 24px;
-    font-family: Arial;
 }
 
 .cart-orderline {
     height: 280px;
-    max-height:280px;
+    max-height: 280px;
 }
 
 .cart-body-padding {
     padding: 12px;
 }
 
-.cart-product-name, .cart-product-des {
+.cart-product-name, .cart-product-des, .cart-subtotal, .cart-unit-price {
     color: #000000;
     font-size: 18px;
     font-family: Arial;
+}
+
+.cart-product-name, .cart-subtotal, .cart-unit-price {
+    font-weight: bold;
+}
+
+.cart-unit-price {
+    margin: 0 0 0 10px;
 }
 
 .cart-product-images {
@@ -291,10 +276,6 @@ a.continue-shopping {
     display: flex;
     flex-flow: nowrap;
     vertical-align: middle;
-}
-
-.cart-product-name {
-    font-weight: bold;
 }
 
 .cart-pro-details {
@@ -314,15 +295,12 @@ a.continue-shopping {
     opacity: 0.5;
 }
 
-.cart-subtotal, .cart-unit-price {
-    font-size: 18px;
-    font-weight: bold;
-    font-family: Arial;
-    color: #000000;
-}
-
-.cart-unit-price {
-    margin: 0 0 0 10px;
+.qty {
+    width: 40%;
+    margin: 0 20px;
+    border: 2px solid;
+    border-color: #8c8c8c;
+    text-align: center;
 }
 
 table {
@@ -336,9 +314,6 @@ th {
 }
 
 .cart-total-amt {
-    color: #000000;
-    font-weight: bold;
     font-size: 24px;
-    font-family: Arial;
     text-align: center;
 }
