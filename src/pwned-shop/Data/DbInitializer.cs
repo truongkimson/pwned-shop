@@ -69,7 +69,8 @@ namespace pwned_shop.Data
                     CatTags = row[3],
                     UnitPrice = (float)Convert.ToDouble(row[4]),
                     ESRBRating = row[5],
-                    ImgURL = row[6]
+                    ImgURL = row[6],
+                    Discount = (float)Convert.ToDouble(row[7])
                 };
 
                 db.Products.Add(p);
