@@ -69,8 +69,8 @@ a.helloname {
     box-shadow: 0px 2px 2px 2px rgba(0, 0, 0, 0.15);
     width: 350px;
     max-width: 350px;
-    height: 470px;
-    max-height: 470px;
+    height: 500px;
+    max-height: 500px;
 }
 
 .emptycart {
@@ -97,12 +97,23 @@ a.helloname {
 }
 
 .product-info {
-    height: 180px;
-    max-height: 180px;
+    height: 170px;
+    max-height: 170px;
 }
 
-.gamename, .gamedes, .price, .empty-sc-text {
+.gallery-pricing {
+    height: 70px;
+    max-height: 70px;
+}
+
+.gamename, .gamedes, .price, .cancelled-price, .empty-sc-text {
     color: #000000;
+    font-family: Arial;
+    text-align: center;
+}
+
+.new-price {
+    color: #C10000;
     font-family: Arial;
     text-align: center;
 }
@@ -120,14 +131,19 @@ a.helloname {
 }
 
 .gamedes {
-    height: 115px;
-    max-height: 115px;
+    height: 150px;
+    max-height: 150px;
     margin: -10px 10px 0px 10px;
 }
 
-.price {
+.price, .new-price {
     font-weight: bold;
     font-size: 24px;
+}
+
+.cancelled-price {
+    font-weight: bold;
+    font-size: 18px;
 }
 
 .addcart-button, .checkout-button {
@@ -262,11 +278,24 @@ a.continue-shopping {
     font-family: Arial;
 }
 
-.cart-product-name, .cart-subtotal, .cart-unit-price {
+.cart-cancelled-price, .cart-new-price {
+    font-size: 16px;
+    font-family: Arial;
+}
+
+.cart-cancelled-price {
+    color: #000000;
+}
+
+.cart-new-price {
+    color: #C10000;
+}
+
+.cart-product-name, .cart-subtotal, .cart-unit-price, .cart-new-price, .cart-cancelled-price {
     font-weight: bold;
 }
 
-.cart-unit-price {
+.cart-unit-price, .cart-new-price, .cart-cancelled-price {
     margin: 0 0 0 10px;
 }
 
