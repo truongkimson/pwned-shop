@@ -23,7 +23,8 @@ namespace pwned_shop.Utils
         public bool ValidateDOB(DateTime dob)
         {
             bool output = false;
-            if ((DateTime.Compare(dob, DateTime.Now)) < 0)
+            DateTime minimum = DateTime.Now.AddYears(-100);
+            if (((DateTime.Compare(dob, DateTime.Now)) < 0)&&((DateTime.Compare(minimum,dob)) < 0))
             {
                 output = true;
             }
