@@ -4,6 +4,7 @@ using System.IO;
 using System.Text;
 using System.Linq;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using RestSharp;
 using RestSharp.Authenticators;
 using RazorLight;
@@ -17,11 +18,12 @@ namespace pwned_shop.Utils
         const string DOMAIN = "sandboxdeb1de62d19e452eb9100de85568a874.mailgun.org";
         const string API_KEY = "344631cfe5180a4e8b35f23409c68980-a09d6718-29580a08";
 
-        public async static void SendReceipt(string email, Receipt receipt)
+        public async static Task<IRestResponse> SendReceipt(string email, Receipt receipt)
         {
             string template = File.ReadAllText("Utils/Receipt_template.html", System.Text.Encoding.UTF8);
             const string key = "templateKey";
 
+            // mock model for testing
             //var receipt1 = new Receipt
             //{
             //    OrderId = "fj32lkj322443sd",
@@ -52,13 +54,10 @@ namespace pwned_shop.Utils
 
             string msg = await engine.CompileRenderStringAsync(key, template, receipt);
 
-            Debug.WriteLine(msg);
-            Console.WriteLine(SendEmail(msg, email));
-            Console.WriteLine(SendEmail(msg, "hanzh93@gmail.com"));
-
+            return await SendEmail(msg, email);
         }
 
-        public static IRestResponse SendEmail(string html, string email)
+        public async static Task<IRestResponse> SendEmail(string html, string email)
         {
             RestClient client = new RestClient();
             client.BaseUrl = new Uri("https://api.mailgun.net/v3");
@@ -74,7 +73,7 @@ namespace pwned_shop.Utils
             //request.AddParameter("text", "Gotcha, bitch!");
             request.AddParameter("html", html);
             request.Method = Method.POST;
-            return client.Execute(request);
+            return await client.ExecuteAsync(request);
         }
     }
 

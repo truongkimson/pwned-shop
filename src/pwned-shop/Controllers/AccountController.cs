@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,10 +20,12 @@ namespace pwned_shop.Controllers
     public class AccountController : Controller
     {
         private readonly PwnedShopDb db;
+        private readonly ILogger<AccountController> _logger;
 
-        public AccountController(PwnedShopDb db)
+        public AccountController(PwnedShopDb db, ILogger<AccountController> logger)
         {
             this.db = db;
+            _logger = logger;
         }
 
 
@@ -44,8 +47,10 @@ namespace pwned_shop.Controllers
                 string pwdHash = PasswordHasher.Hash(login.Password, user.Salt);
                 if (pwdHash == user.PasswordHash)
                 {
-                    // declare claims
-                    var claims = new List<Claim>
+                    try
+                    {
+                        // declare claims
+                        var claims = new List<Claim>
                     {
                         new Claim("email", user.Email),
                         new Claim("role", "Member"),
@@ -53,46 +58,56 @@ namespace pwned_shop.Controllers
                         new Claim("userId", user.Id.ToString())
                     };
 
-                    // configure authentication
-                    var authProperties = new AuthenticationProperties
-                    {
-                        IsPersistent = true,
-                        AllowRefresh = true,
-                        ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(5) // authentication ticket expiry
-                    };
-
-                    // sign in with new Identity, authentication name: "Cookies", User.Identity.Name is "fullName"
-                    await HttpContext.SignInAsync(new ClaimsPrincipal(
-                        new ClaimsIdentity(claims, "Cookies", "fullName", "role")),
-                            authProperties);
-
-                    // transfer cart data in session into User's cart
-                    var cartList = HttpContext.Session.GetJson<CartListViewModel>("cart");
-
-                    // if cart in Session not empty, override db Cart data
-                    if (cartList != null)
-                    {
-                        // remove existing db Cart data
-                        foreach (Cart c in user.Carts)
+                        // configure authentication
+                        var authProperties = new AuthenticationProperties
                         {
-                            db.Carts.Remove(c);
+                            IsPersistent = true,
+                            AllowRefresh = true,
+                            ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(5) // authentication ticket expiry
+                        };
+
+                        // sign in with new Identity, authentication name: "Cookies", User.Identity.Name is "fullName"
+                        await HttpContext.SignInAsync(new ClaimsPrincipal(
+                            new ClaimsIdentity(claims, "Cookies", "fullName", "role")),
+                                authProperties);
+
+                        // transfer cart data in session into User's cart
+                        var cartList = HttpContext.Session.GetJson<CartListViewModel>("cart");
+
+                        // if cart in Session not empty, override db Cart data
+                        if (cartList != null)
+                        {
+                            // remove existing db Cart data
+                            foreach (Cart c in user.Carts)
+                            {
+                                db.Carts.Remove(c);
+                            }
+
+                            // populate new Cart data from Session into db
+                            foreach (Cart c in cartList.List)
+                            {
+                                c.UserId = user.Id;
+                                db.Carts.Add(c);
+                            }
+
+                            db.SaveChanges();
                         }
 
-                        // populate new Cart data from Session into db
-                        foreach (Cart c in cartList.List)
-                        {
-                            c.UserId = user.Id;
-                            db.Carts.Add(c);
-                        }
+                        // get cartCount and save in Session
+                        int cartCount = user.Carts.Sum(c => c.Qty);
+                        HttpContext.Session.SetInt32("cartCount", cartCount);
 
-                        db.SaveChanges();
+                        return Redirect(returnUrl == null ? "/" : returnUrl);
                     }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine("Error occured during login: " + ex.Message);
+                        _logger.LogError(ex, "Error occured during login");
 
-                    // get cartCount and save in Session
-                    int cartCount = user.Carts.Sum(c => c.Qty);
-                    HttpContext.Session.SetInt32("cartCount", cartCount);
-
-                    return Redirect(returnUrl == null ? "/" : returnUrl);
+                        TempData["error"] = "Something went wrong";
+                        return RedirectToAction("Login", new { returnUrl = returnUrl });
+                    }
+                    
                 }
                 else
                 {

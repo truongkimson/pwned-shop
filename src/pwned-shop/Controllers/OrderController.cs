@@ -93,7 +93,7 @@ namespace pwned_shop.Controllers
         }
 
         [Authorize]
-        public IActionResult Checkout()
+        public async Task<IActionResult> Checkout()
         {
             List<Order> newOrderList = new List<Order>();
             List<OrderDetail> newOrderDetailsList = new List<OrderDetail>();
@@ -187,7 +187,11 @@ namespace pwned_shop.Controllers
                 });
             }
 
-            EmailReceipt.SendReceipt("throwawaygarbage6969@outlook.com", receipt);
+            var emailStatus = await EmailReceipt.SendReceipt(db.Users.FirstOrDefault(u => u.Id == userId).Email, receipt);
+            if (!emailStatus.IsSuccessful)
+            {
+                Debug.WriteLine("Email receipt unsuccessful");
+            }
 
             //Clearing the Cart table in database after purchase
            foreach (var cartDelete in userCart)
