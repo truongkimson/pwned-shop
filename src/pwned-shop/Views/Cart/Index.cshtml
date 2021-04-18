@@ -49,7 +49,7 @@
                             <td class="cart-unit-price" style="text-align:center">S @item.Product.UnitPrice.ToString("C")</td>
 
                             <td>
-                                <input class="qty" style="text-align:center" min="1" name="" value="@item.Qty" type="number" product-id="@item.ProductId" onchange="updateCart(this)">
+                                <input class="qty" style="text-align:center" min="1" name="" value="@item.Qty" type="number" onkeydown="return false" product-id="@item.ProductId" onchange="updateCart(this)">
                             </td>
 
                             <td style="text-align:center" class="cart-subtotal" id="cart-subtotal-@item.ProductId">S @((item.Qty * item.Product.UnitPrice).ToString("C"))</td>
