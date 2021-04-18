@@ -3,22 +3,13 @@
 @{
     ViewData["Title"] = "Checkout";
 
-    var reciept = (List<CheckOutViewModel>)ViewData["RecieptView"];
-    var c = reciept.GroupBy(o => new
-    {
-        o.ProductName,
-        o.ProductDesc,
-        o.Qty,
-        o.UnitPrice,
-        o.ImgURL,
-        o.Discount
-    });
+    var receiptView = (IEnumerable<IGrouping<string, CheckOutViewModel>>)ViewData["RecieptView"];
 
     float totalPrice = 0;
 
-    foreach (var r in c)
+    foreach (var r in receiptView)
     {
-        totalPrice += (r.Key.UnitPrice * r.Key.Qty * (1 - r.Key.Discount));
+        totalPrice += (r.First().UnitPrice * r.First().Qty) * (1 - r.First().Discount);
     }
 }
 
@@ -55,18 +46,18 @@
                         <td><div class="cart-body-padding"></div></td>
                     </tr>
 
-                    @foreach (var item in c)
+                    @foreach (var item in receiptView)
 
                     {
                         <tr class="cart-orderline" style="background-color:#f2f2f2;">
                     <td class="cart-product-images">
-                        <img src=@item.Key.ImgURL>
+                        <img src=@item.First().ImgURL>
                     </td>
 
                     <td class="cart-pro-details">
                         <div style="margin: 0 0 0 15px;">
-                            <p class="cart-product-name">@item.Key.ProductName</p>
-                            <p class="cart-product-des">@item.Key.ProductDesc</p>
+                            <p class="cart-product-name">@item.First().ProductName</p>
+                            <p class="cart-product-des">@item.First().ProductDesc</p>
                             <br />
                             <p class="cart-product-name">
                                 Activation Code:&nbsp;
@@ -80,24 +71,24 @@
                         </div>
                     </td>
 
-                    @if (item.Key.Discount != 0)
+                    @if (item.First().Discount != 0)
                     {
                         <td class="cart-unit-price" style="text-align:center">
-                            <p class="cart-new-price">S @((item.Key.UnitPrice * (1 - item.Key.Discount)).ToString("C"))</p>
-                            <p class="cart-cancelled-price"><strike>S @((item.Key.UnitPrice).ToString("C"))</strike></p>
+                            <p class="cart-new-price">@((item.First().UnitPrice * (1 - item.First().Discount)).ToString("S$ 0,0.00"))</p>
+                            <p class="cart-cancelled-price"><strike>@((item.First().UnitPrice).ToString("S$ 0,0.00"))</strike></p>
                         </td>
                     }
 
                     else
                     {
                         <td class="cart-unit-price" style="text-align:center">
-                            S @((item.Key.UnitPrice * (1 - item.Key.Discount)).ToString("C"))
+                            @((item.First().UnitPrice * (1 - item.First().Discount)).ToString("S$ 0,0.00"))
                         </td>
                     }
 
-                    <td class="cart-subtotal" style="text-align:center">@item.Key.Qty</td>
+                    <td class="cart-subtotal" style="text-align:center">@item.First().Qty</td>
 
-                    <td class="cart-subtotal" style="text-align:center">S @((item.Key.Qty * item.Key.UnitPrice * (1-item.Key.Discount) ).ToString("C"))</td>
+                    <td class="cart-subtotal" style="text-align:center">@((item.First().Qty * item.First().UnitPrice * (1-item.First().Discount) ).ToString("S$ 0,0.00"))</td>
                 </tr>
 
                         <tr>
@@ -112,7 +103,7 @@
         <div class="row-viewcart">
             <div class="row-viewcart">
                 <div class="cart-checkout">
-                    <p class="cart-total-amt" id="cart-total">Total Amount: S @totalPrice.ToString("C")</p>
+                    <p class="cart-total-amt" id="cart-total">Total Amount: @totalPrice.ToString("S$ 0,0.00")</p>
                 </div>
             </div>
         </div>
