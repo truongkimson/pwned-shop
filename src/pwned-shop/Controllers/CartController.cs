@@ -106,13 +106,17 @@ namespace pwned_shop.Controllers
                     }
                     Debug.WriteLine("Cart count: " + cartCount);
 
-                    subTotal = db.Products.FirstOrDefault(p => p.Id == productId).UnitPrice * qty;
+                    var prod = db.Products.FirstOrDefault(p => p.Id == productId);
+
+                    subTotal = (prod.UnitPrice * qty) * (1 - prod.Discount);
+                    //db.Products.FirstOrDefault(p => p.Id == productId).UnitPrice * qty;
 
                     foreach (Cart c in cartList.List)
                     {
-                        var unitPrice = db.Products.FirstOrDefault(p => p.Id == c.ProductId).UnitPrice;
-                        total += unitPrice * c.Qty;
-                    }
+                        var unitPrice = prod.UnitPrice;
+                        var discount = prod.Discount;
+                        total += unitPrice * c.Qty * (1 - discount);
+                    } 
                 }
                 // else user is logged in, update cart data in SQL db Cart table
                 else
@@ -143,11 +147,11 @@ namespace pwned_shop.Controllers
                     }
                     Debug.WriteLine("Cart count: " + cartCount);
 
-                    subTotal = cart.Product.UnitPrice * qty;
+                    subTotal = cart.Product.UnitPrice * qty * (1- cart.Product.Discount);
 
                     foreach (Cart c in db.Users.FirstOrDefault(u => u.Id == userId).Carts)
                     {
-                        total += c.Product.UnitPrice * c.Qty;
+                        total += c.Product.UnitPrice * c.Qty * (1 - cart.Product.Discount);
                     }
                 }
 
@@ -167,8 +171,8 @@ namespace pwned_shop.Controllers
             {
                 success = true,
                 cartCount = cartCount,
-                subTotal = subTotal.ToString("C"),
-                total = total.ToString("C")
+                subTotal = subTotal.ToString("S$ 0,0.00"),
+                total = total.ToString("S$ 0,0.00")
             });
         }
 
@@ -176,9 +180,10 @@ namespace pwned_shop.Controllers
         public IActionResult AddToCart(int productId)
         {
             int cartCount;
-
+            Debug.WriteLine("to test add to cart");
             try
             {
+                Debug.WriteLine("test add to cart");
                 // if user is not logged in, update cart data in Session State as
                 // a Jsonified CartList object
                 if (!User.Identity.IsAuthenticated)
@@ -263,14 +268,14 @@ namespace pwned_shop.Controllers
                 {
                     var cartList = HttpContext.Session.GetJson<CartListViewModel>("cart");
 
-                // for debugging, to delete
-                int remove = cartList.RemoveFromCart(new Cart { ProductId = productId });
-                Debug.WriteLine(remove);
-                _logger.LogInformation(remove.ToString());
+                    if (cartList != null)
+                    {
+                        // for debugging, to delete
+                        Debug.WriteLine(cartList.RemoveFromCart(new Cart { ProductId = productId }));
 
-                    // update "cart" Session data
-                    HttpContext.Session.SetJson("cart", cartList);
-
+                        // update "cart" Session data
+                        HttpContext.Session.SetJson("cart", cartList);
+                    }
                     // get latest "cartCount" and set to Session data
                     cartCount = cartList.CartCount;
                 }
@@ -278,9 +283,12 @@ namespace pwned_shop.Controllers
                 {
                     string userId = User.FindFirst("userId").Value;
                     var cart = db.Carts.FirstOrDefault(c => c.ProductId == productId && c.UserId == userId);
-                    db.Carts.Remove(cart);
 
-                    db.SaveChanges();
+                    if (cart != null)
+                    {
+                        db.Carts.Remove(cart);
+                        db.SaveChanges();
+                    }
 
                     // get latest "cartCount" and add to Session data
                     cartCount = db.Users.FirstOrDefault(u => u.Id == userId).Carts.Sum(c => c.Qty);
@@ -293,12 +301,8 @@ namespace pwned_shop.Controllers
                 Debug.WriteLine(ex.Message);
                 _logger.LogError(ex, $"Error removing from cart for prod Id {productId}");
 
-                return Json(new
-                {
-                    success = false
-                });
+                return RedirectToAction("Index");
             }
-
             return RedirectToAction("Index");
         }
     }

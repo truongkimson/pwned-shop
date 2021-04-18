@@ -66,6 +66,7 @@ namespace pwned_shop.Controllers
                     temp.ProductDesc = od.Product.ProductDesc;
                     temp.Timestamp = o.Timestamp;
                     temp.ActivationCode = od.ActivationCode;
+                    
 
                     ListOfOVM.Add(temp);
                 }
@@ -92,7 +93,7 @@ namespace pwned_shop.Controllers
         }
 
         [Authorize]
-        public IActionResult Checkout()
+        public async Task<IActionResult> Checkout()
         {
             List<Order> newOrderList = new List<Order>();
             List<OrderDetail> newOrderDetailsList = new List<OrderDetail>();
@@ -151,7 +152,9 @@ namespace pwned_shop.Controllers
                         ProductDesc = cartItem.Product.ProductDesc,
                         ActivationCode = newOrderDetail.ActivationCode,
                         Qty = cartItem.Qty,
-                        UnitPrice = cartItem.Product.UnitPrice
+                        UnitPrice = cartItem.Product.UnitPrice,
+                        Discount = cartItem.Product.Discount
+                        
                     };
                     
                     recieptList.Add(reciept);
@@ -160,8 +163,35 @@ namespace pwned_shop.Controllers
                 i = 0;
             }
 
+            var receiptView = recieptList.GroupBy(o => o.ProductName);
+
             //mapping the orderviewmodel into to the view using viewdata
-            ViewData["RecieptView"] = recieptList;
+            ViewData["RecieptView"] = receiptView;
+
+            // create Receipt model and pass it to EmailReceipt.SendReceipt
+            var receipt = new Receipt
+            {
+                OrderId = newOrderId
+            };
+
+            foreach (var group in receiptView)
+            {
+                List<string> activationCodes = group.Select(g => g.ActivationCode).ToList();
+
+                receipt.ReceiptItems.Add(new ReceiptItem
+                {
+                    ProductName = group.First().ProductName,
+                    ActivationCodes = activationCodes,
+                    UnitPrice = group.First().UnitPrice,
+                    Qty = group.First().Qty
+                });
+            }
+
+            var emailStatus = await EmailReceipt.SendReceipt(db.Users.FirstOrDefault(u => u.Id == userId).Email, receipt);
+            if (!emailStatus.IsSuccessful)
+            {
+                Debug.WriteLine("Email receipt unsuccessful");
+            }
 
             //Clearing the Cart table in database after purchase
            foreach (var cartDelete in userCart)
@@ -173,9 +203,6 @@ namespace pwned_shop.Controllers
             //Remove cart session data
             HttpContext.Session.Remove("cart");
             HttpContext.Session.Remove("cartCount");
-
-
-
 
             return View();
         }

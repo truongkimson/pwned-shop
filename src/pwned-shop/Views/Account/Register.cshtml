@@ -6,10 +6,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@if (ViewData["Error"] != null)
-{
-    <p id="error"></p>
-}
+
 <div class="container">
     <div class="col-md-8 mx-auto">
         <div class="card login-logout-tab col-md">
@@ -31,6 +28,9 @@
                                 <div style="padding:30px;">
                                 </div>
                                 <form asp-controller="Account" class="col mx-auto" onsubmit="return ValidateForm()" name="myForm" asp-action="Register" method="POST">
+                                    <div class="col-md-12">
+                                    <p id="error" style="color:red"><b>@ViewData["Error"]</b></p>
+                                    </div>
                                     <div style="padding:20px "> </div>
                                     <div style="margin:10px;"><h4>Create a new account</h4></div>
                                     <div style="padding:10px "> </div>

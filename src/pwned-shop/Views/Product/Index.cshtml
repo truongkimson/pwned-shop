@@ -6,16 +6,52 @@
 
     var products = (List<Product>)ViewData["Products"];
     var searched = (string)ViewData["Searched"];
+    bool hotDeals = ViewData["hotdeals"] == null ? false : (bool)ViewData["hotdeals"];
+
+
 }
 
 @{
     ViewData["Title"] = "Games";
 }
 
+<script>
+    function myFunction() {
+        var x = document.getElementById("snackbar");
+        x.className = "show";
+        setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
+    }
+</script>
+
+<style>
+#snackbar {
+  visibility: hidden;
+  min-width: 350px;
+  margin-left: -125px;
+  background-color: #000000;
+  color: #ffffff;
+  text-align: center;
+  border-radius: 2px;
+  padding: 16px;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  bottom: 30px;
+  font-size: 17px;
+}
+
+#snackbar.show {
+  visibility: visible;
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+</style>
+
 <div><img src="~/bannerImg/offersbanner.png" style="width:100%;"></div>
 <br />
 @if (searched == null)
 {
+    
     <div><img src="~/bannerImg/gallerybanner.png" style="width: 100%"></div>
 }
 <br>
@@ -32,6 +68,13 @@
         You have searched for <b>"@searched" </b>
     </h3>
 }
+@if (hotDeals == true)
+{
+    <h3 style="margin: 5px 0 0 60px ;">
+        Do not miss today's Smoking Hot Deals!!!'
+    </h3>
+}
+
 <br>
 <div class="row">
     @foreach (var game in products)
@@ -44,8 +87,19 @@
                         <h1 class="gamename">@game.ProductName</h1>
                         <h2 class="gamedes">@game.ProductDesc</h2>
                     </div>
-                    <div class="price">S$@game.UnitPrice </div>
-                    <div><input type="button" class="addcart-button" value="Add to Cart" product-id="@game.Id" qty="1"></div>
+                    <div class="gallery-pricing">
+                        @if (game.Discount != 0)
+                        {
+                            <div class="new-price">S@((game.UnitPrice * (1-game.Discount)).ToString("C"))</div>
+                            <div class="cancelled-price"><s>S@((game.UnitPrice).ToString("C"))</s></div>
+                        }
+                        else
+                        {
+                            <div class="price">S@((game.UnitPrice).ToString("C"))</div>
+                        }
+                    </div>
+                    <div><input type="button" class="addcart-button" value="Add to Cart" product-id="@game.Id" qty="1" onclick="myFunction()"></div>
+                    <div id="snackbar">Added into cart successfully</div>
                 </div>
             </div>
         </div>
