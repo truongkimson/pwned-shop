@@ -268,8 +268,9 @@ namespace pwned_shop.Controllers
 
                     if (cartList != null)
                     {
+                        var removeStatus = cartList.RemoveFromCart(new Cart { ProductId = productId });
                         // for debugging, to delete
-                        //Debug.WriteLine("Remove {0}", cartList.RemoveFromCart(new Cart { ProductId = productId }));
+                        //Debug.WriteLine("Remove {0}", removeStatus);
 
                         // update "cart" Session data
                         HttpContext.Session.SetJson("cart", cartList);
