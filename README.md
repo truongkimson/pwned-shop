@@ -17,8 +17,8 @@ Email: dprice@msn.com
 Password: HelloBY90
 
 # App database
-The app is configured to delete and generate a new db every time
-the app is run, for the purpose of testing.
+The app is configured to delete and generate a new db every time the app is run,
+to ensure consistency across test runs.
 
 If you want to disable this, proceed to comment out this line in Data/DbInitializer.cs
 16             db.Database.EnsureDeleted();
