@@ -42,17 +42,13 @@ namespace pwned_shop.Controllers
             mockCart2.UserId = userId;
             mockCart2.ProductId = 4;
             mockCart2.Qty = 2;
-           
-            Debug.WriteLine("Test for mock data" + mockCart1.ProductId);
 
-            //db.Carts.Add(mockCart1);
-            //db.Carts.Add(mockCart2);
-            //db.SaveChanges();
-            
-            foreach (var test1 in db.Carts)
-            {
-                Debug.WriteLine(test1.ProductId);
-            }
+            //Debug.WriteLine("Test for mock data" + mockCart1.ProductId);
+
+            //foreach (var test1 in db.Carts)
+            //{
+            //    Debug.WriteLine(test1.ProductId);
+            //}
 
             //Extracting the data and including it into a list of objectviewmodel.
             foreach (Order o in user.Orders)
@@ -66,15 +62,15 @@ namespace pwned_shop.Controllers
                     temp.ProductDesc = od.Product.ProductDesc;
                     temp.Timestamp = o.Timestamp;
                     temp.ActivationCode = od.ActivationCode;
-                    
+
 
                     ListOfOVM.Add(temp);
                 }
             }
 
-            //grouping the list by 
+            //grouping the list by
             List<OrderViewModel> ListOfOVM2 = new List<OrderViewModel>();
-            var q = ListOfOVM.GroupBy(o => new 
+            var q = ListOfOVM.GroupBy(o => new
             {
                 o.ImgURL ,
                 o.ProductName,
@@ -102,15 +98,14 @@ namespace pwned_shop.Controllers
             //generate orderId
             //Add order and orderdetal data into database after purchase.
             var newOrderId = ShortGuid.Shorten(Guid.NewGuid());
-            //test
-            Debug.WriteLine("this is the checkout");
+
             List<Cart> userCart = new List<Cart>();
             string userId = User.FindFirst("userId").Value;
 
             userCart = db.Users.FirstOrDefault(u => u.Id == userId).Carts.ToList();
 
             //While we are adding order and orderdetail data into the database, we will populate the view data as well for the reciept
-            
+
             List<CheckOutViewModel> recieptList = new List<CheckOutViewModel>();
 
             Order newOrder = new Order()
@@ -123,8 +118,8 @@ namespace pwned_shop.Controllers
             db.Orders.Add(newOrder);
             db.SaveChanges();
 
-            Debug.WriteLine(newOrder.Id);
-            Debug.WriteLine(newOrder);
+            //Debug.WriteLine(newOrder.Id);
+            //Debug.WriteLine(newOrder);
 
             foreach (var cartItem in userCart)
             {
@@ -137,12 +132,12 @@ namespace pwned_shop.Controllers
                         OrderId = newOrderId,
                         ProductId = cartItem.ProductId
                     };
-                    
+
                     db.OrderDetails.Add(newOrderDetail);
                     db.SaveChanges();
 
-                    Debug.WriteLine(newOrderDetail);
-                    Debug.WriteLine(newOrderDetail.ActivationCode);
+                    //Debug.WriteLine(newOrderDetail);
+                    //Debug.WriteLine(newOrderDetail.ActivationCode);
 
                     //populate the checkoutviewmodel
                     CheckOutViewModel reciept = new CheckOutViewModel()
@@ -154,9 +149,9 @@ namespace pwned_shop.Controllers
                         Qty = cartItem.Qty,
                         UnitPrice = cartItem.Product.UnitPrice,
                         Discount = cartItem.Product.Discount
-                        
+
                     };
-                    
+
                     recieptList.Add(reciept);
                     i++;
                 }
@@ -183,7 +178,8 @@ namespace pwned_shop.Controllers
                     ProductName = group.First().ProductName,
                     ActivationCodes = activationCodes,
                     UnitPrice = group.First().UnitPrice,
-                    Qty = group.First().Qty
+                    Qty = group.First().Qty,
+                    Discount = group.First().Discount
                 });
             }
 
@@ -206,6 +202,5 @@ namespace pwned_shop.Controllers
 
             return View();
         }
-    } 
+    }
 }
-

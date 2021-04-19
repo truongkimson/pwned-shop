@@ -101,7 +101,7 @@ namespace pwned_shop.Controllers
                     }
                     catch (Exception ex)
                     {
-                        Debug.WriteLine("Error occured during login: " + ex.Message);
+                        //Debug.WriteLine("Error occured during login: " + ex.Message);
                         _logger.LogError(ex, "Error occured during login");
 
                         TempData["error"] = "Something went wrong";
@@ -137,8 +137,8 @@ namespace pwned_shop.Controllers
         [HttpPost]
         public IActionResult Register([FromForm] UserRegDetails user)
         {   
-            //If there are no existing users with same email address, create new user object and add to database.
-            //Returns success page. Otherwise redirect to home.
+            // If there are no existing users with same email address, create new user object and add to database.
+            // Returns success page. Otherwise redirect to home.
 
             User test = db.Users.FirstOrDefault(x => x.Email==user.Email);
             ValidateRegistration test2 = new ValidateRegistration();
