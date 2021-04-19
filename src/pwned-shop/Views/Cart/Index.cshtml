@@ -2,7 +2,7 @@
     ViewData["Title"] = "Cart";
 
     var cartList = (List<Cart>)ViewData["cartList"];
-    var totalPrice = cartList.Sum(c => c.Product.UnitPrice * c.Qty * (1 - c.Product.Discount)).ToString("S$ 0,0.00");
+    var totalPrice = cartList.Sum(c => c.Product.UnitPrice * c.Qty * (1 - c.Product.Discount)).ToString("S$ 0.00");
 }
 
 <div><img src="~/bannerImg/offersbanner.png" style="width:100%;"></div>
@@ -49,15 +49,15 @@
                             @if (item.Product.Discount != 0)
                             {
                                 <td class="cart-unit-price" style="text-align:center">
-                                    <p class="cart-new-price">@((item.Product.UnitPrice * (1 - item.Product.Discount)).ToString("S$ 0,0.00"))</p>
-                                    <p class="cart-cancelled-price"><strike>@((item.Product.UnitPrice).ToString("S$ 0,0.00"))</strike></p>
+                                    <p class="cart-new-price">@((item.Product.UnitPrice * (1 - item.Product.Discount)).ToString("S$ 0.00"))</p>
+                                    <p class="cart-cancelled-price"><strike>@((item.Product.UnitPrice).ToString("S$ 0.00"))</strike></p>
                                 </td>
                             }
 
                             else
                             {
                                 <td class="cart-unit-price" style="text-align:center">
-                                    @((item.Product.UnitPrice * (1 - item.Product.Discount)).ToString("S$ 0,0.00"))
+                                    @((item.Product.UnitPrice * (1 - item.Product.Discount)).ToString("S$ 0.00"))
                                 </td>
                             }
 
@@ -65,7 +65,7 @@
                                 <input class="qty" style="text-align:center" min="1" name="" value="@item.Qty" type="number" onkeydown="return false" product-id="@item.ProductId" onchange="updateCart(this)">
                             </td>
 
-                            <td style="text-align:center" class="cart-subtotal" id="cart-subtotal-@item.ProductId">@((item.Qty * item.Product.UnitPrice * (1-item.Product.Discount) ).ToString("S$ 0,0.00"))</td>
+                            <td style="text-align:center" class="cart-subtotal" id="cart-subtotal-@item.ProductId">@((item.Qty * item.Product.UnitPrice * (1-item.Product.Discount) ).ToString("S$ 0.00"))</td>
 
                             <td>
                                 <form asp-action="RemoveFromCart" asp-controller="Cart" asp-route-productid="@item.ProductId">

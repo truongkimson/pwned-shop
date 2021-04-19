@@ -74,21 +74,21 @@
                     @if (item.First().Discount != 0)
                     {
                         <td class="cart-unit-price" style="text-align:center">
-                            <p class="cart-new-price">@((item.First().UnitPrice * (1 - item.First().Discount)).ToString("S$ 0,0.00"))</p>
-                            <p class="cart-cancelled-price"><strike>@((item.First().UnitPrice).ToString("S$ 0,0.00"))</strike></p>
+                            <p class="cart-new-price">@((item.First().UnitPrice * (1 - item.First().Discount)).ToString("S$ 0.00"))</p>
+                            <p class="cart-cancelled-price"><strike>@((item.First().UnitPrice).ToString("S$ 0.00"))</strike></p>
                         </td>
                     }
 
                     else
                     {
                         <td class="cart-unit-price" style="text-align:center">
-                            @((item.First().UnitPrice * (1 - item.First().Discount)).ToString("S$ 0,0.00"))
+                            @((item.First().UnitPrice * (1 - item.First().Discount)).ToString("S$ 0.00"))
                         </td>
                     }
 
                     <td class="cart-subtotal" style="text-align:center">@item.First().Qty</td>
 
-                    <td class="cart-subtotal" style="text-align:center">@((item.First().Qty * item.First().UnitPrice * (1-item.First().Discount) ).ToString("S$ 0,0.00"))</td>
+                    <td class="cart-subtotal" style="text-align:center">@((item.First().Qty * item.First().UnitPrice * (1-item.First().Discount) ).ToString("S$ 0.00"))</td>
                 </tr>
 
                         <tr>
@@ -103,7 +103,7 @@
         <div class="row-viewcart">
             <div class="row-viewcart">
                 <div class="cart-checkout">
-                    <p class="cart-total-amt" id="cart-total">Total Amount: @totalPrice.ToString("S$ 0,0.00")</p>
+                    <p class="cart-total-amt" id="cart-total">Total Amount: @totalPrice.ToString("S$ 0.00")</p>
                 </div>
             </div>
         </div>

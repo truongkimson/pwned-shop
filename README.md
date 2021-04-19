@@ -2,6 +2,15 @@
 
 Pwned Shop is an online shopping website which sells Steam games.
 
+# MacOS SQL server configuration
+
+If you're using MacOS, please change ConnectionString "DbConn" under appsettings.json
+according to your current configuration.
+
+ConnectionString to a SQL server running on Docker should look something like this
+
+"DbConn": "Server=localhost,<port>; Database=PwnedShopDb; User Id=<your-user-id>; Password=<your-password>;"
+
 # User account
 Please use the following user account to test features
 Email: dprice@msn.com
