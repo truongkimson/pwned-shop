@@ -19,5 +19,16 @@ Currently, we're using a developer account on MailGun to send out receipt emails
 Developer account is meant for testing so only emails registered with MailGun can
 receive receipt emails.
 
+Please use these credentials, which has been registered with MailGun to test email
+sending feature
+
+Pwned Shop User account:
+Email: pwnedshop_tester@outlook.sg
+Password: Kim6969$$$
+
+Outlook email account:
+Email: pwnedshop_tester@outlook.sg
+Password: Kim6969$$$
+
 If you would like to test this feature with your own email, please send your email
-to truongkimson@u.nus.edu 
+to truongkimson@u.nus.edu to register your email with MailGun.
