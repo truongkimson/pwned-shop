@@ -40,15 +40,9 @@ namespace pwned_shop.Controllers
             return View("Index");
         }
 
-        public IActionResult Detail(string productId)
-        {
-            // TODO: retrieve product details based on productId given in params
-            return Content("Not yet implemented");
-        }
-
         public IActionResult Discount()
         {
-            Debug.WriteLine("Testing the discount code");
+            //Debug.WriteLine("Testing the discount code");
             
             //Extracting the products that are on discount.
             var discount = db.Products.Where(u => u.Discount != 0).ToList();
@@ -58,10 +52,10 @@ namespace pwned_shop.Controllers
             ViewData["hotdeals"] = true;
             ViewData["Products"] = discount;
             //Testing what item is on discount
-            foreach (var x in discount)
-            {
-                Debug.WriteLine(x.ProductName);
-            }
+            //foreach (var x in discount)
+            //{
+            //    Debug.WriteLine(x.ProductName);
+            //}
 
             return View("Index");
         }

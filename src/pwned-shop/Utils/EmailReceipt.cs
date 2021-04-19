@@ -70,7 +70,6 @@ namespace pwned_shop.Utils
             request.AddParameter("from", $"PwnedShop-NoReply <receipt-no-reply@{DOMAIN}>");
             request.AddParameter("to", email);
             request.AddParameter("subject", "Pwned Shop - Purchase Receipt");
-            //request.AddParameter("text", "Gotcha, bitch!");
             request.AddParameter("html", html);
             request.Method = Method.POST;
             return await client.ExecuteAsync(request);
@@ -83,6 +82,7 @@ namespace pwned_shop.Utils
         public List<string> ActivationCodes { get; set; }
         public float UnitPrice { get; set; }
         public int Qty { get; set; }
+        public float Discount { get; set; }
     }
 
     public class Receipt
@@ -98,7 +98,7 @@ namespace pwned_shop.Utils
         {
             get
             {
-                return ReceiptItems.Sum(r => r.UnitPrice * r.Qty);
+                return ReceiptItems.Sum(r => r.UnitPrice*(1 - r.Discount) * r.Qty);
             }
         }
     }
