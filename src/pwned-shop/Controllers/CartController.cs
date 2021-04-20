@@ -67,7 +67,7 @@ namespace pwned_shop.Controllers
             {
                 int productId; int qty;
                 productId = cu.ProductId; qty = cu.Qty;
-
+                Debug.WriteLine($"Prod ID:{productId}, Qty: {qty}");
                 if (qty <= 0)
                     return Json(new
                     {
@@ -100,21 +100,21 @@ namespace pwned_shop.Controllers
                     HttpContext.Session.SetInt32("cartCount", cartCount);
 
                     // for debugging, to delete
-                    //foreach (Cart c in cartList.List)
-                    //{
-                    //    Debug.WriteLine($"Prod: {c.ProductId} - {c.Qty}");
-                    //}
-                    //Debug.WriteLine("Cart count: " + cartCount);
+                    foreach (Cart c in cartList.List)
+                    {
+                        Debug.WriteLine($"Prod: {c.ProductId} - {c.Qty}");
+                    }
+                    Debug.WriteLine("Cart count: " + cartCount);
 
                     var prod = db.Products.FirstOrDefault(p => p.Id == productId);
 
                     subTotal = (prod.UnitPrice * qty) * (1 - prod.Discount);
-                    //db.Products.FirstOrDefault(p => p.Id == productId).UnitPrice * qty;
 
                     foreach (Cart c in cartList.List)
                     {
-                        var unitPrice = prod.UnitPrice;
-                        var discount = prod.Discount;
+                        var currProd = db.Products.FirstOrDefault(p => p.Id == c.ProductId);
+                        var unitPrice = currProd.UnitPrice;
+                        var discount = currProd.Discount;
                         total += unitPrice * c.Qty * (1 - discount);
                     } 
                 }
@@ -151,7 +151,7 @@ namespace pwned_shop.Controllers
 
                     foreach (Cart c in db.Users.FirstOrDefault(u => u.Id == userId).Carts)
                     {
-                        total += c.Product.UnitPrice * c.Qty * (1 - cart.Product.Discount);
+                        total += c.Product.UnitPrice * c.Qty * (1 - c.Product.Discount);
                     }
                 }
 
@@ -171,8 +171,8 @@ namespace pwned_shop.Controllers
             {
                 success = true,
                 cartCount = cartCount,
-                subTotal = subTotal.ToString("S$ 0,0.00"),
-                total = total.ToString("S$ 0,0.00")
+                subTotal = subTotal.ToString("S$ 0.00"),
+                total = total.ToString("S$ 0.00")
             });
         }
 
@@ -268,8 +268,9 @@ namespace pwned_shop.Controllers
 
                     if (cartList != null)
                     {
+                        var removeStatus = cartList.RemoveFromCart(new Cart { ProductId = productId });
                         // for debugging, to delete
-                        //Debug.WriteLine("Remove {0}", cartList.RemoveFromCart(new Cart { ProductId = productId }));
+                        //Debug.WriteLine("Remove {0}", removeStatus);
 
                         // update "cart" Session data
                         HttpContext.Session.SetJson("cart", cartList);

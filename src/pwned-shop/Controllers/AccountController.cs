@@ -63,7 +63,7 @@ namespace pwned_shop.Controllers
                         {
                             IsPersistent = true,
                             AllowRefresh = true,
-                            ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(5) // authentication ticket expiry
+                            ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(20) // authentication ticket expiry
                         };
 
                         // sign in with new Identity, authentication name: "Cookies", User.Identity.Name is "fullName"
