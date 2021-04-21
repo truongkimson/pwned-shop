@@ -38,6 +38,7 @@ namespace pwned_shop
                 {
                     options.AccessDeniedPath = "/Account/Denied";
                     options.LoginPath = "/Account/Login";
+                    options.SlidingExpiration = true;
                 });
             services.AddSession();
         }
