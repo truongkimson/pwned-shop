@@ -1,6 +1,8 @@
 # pwned-shop
 
-Pwned Shop is an online shopping website which sells Steam games.
+Pwned Shop is an online shopping website which sells Steam games. The website is currently hosted on Azure App Service and can be accessed here<a href='https://pwned-shop.azurewebsites.net/'>here</a>
+
+The website might take around 5s to load since the instance is running on free plan.
 
 # MacOS SQL server configuration
 
@@ -9,10 +11,10 @@ according to your current configuration.
 
 ConnectionString to a SQL server running on Docker should look something like this
 
-"DbConn": "Server=localhost,<port>; Database=PwnedShopDb; User Id=<your-user-id>; Password=<your-password>;"
+"DbConn": "Server=localhost,[port]; Database=PwnedShopDb; User Id=<your-user-id>; Password=<your-password>;"
 
 # User account
-Please use the following user account to test features
+Please use the following user account to test website features. You can also register using any email account
 Email: dprice@msn.com
 Password: HelloBY90
 
