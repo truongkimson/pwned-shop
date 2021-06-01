@@ -15,8 +15,8 @@ namespace pwned_shop.Utils
 {
     public class EmailReceipt
     {
-        const string DOMAIN = "sandboxdeb1de62d19e452eb9100de85568a874.mailgun.org";
-        const string API_KEY = "344631cfe5180a4e8b35f23409c68980-a09d6718-29580a08";
+        const string DOMAIN = "";
+        const string API_KEY = "";
 
         public async static Task<IRestResponse> SendReceipt(string email, Receipt receipt)
         {
